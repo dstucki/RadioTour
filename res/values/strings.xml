@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hallo Florian, wie geht es dir so?</string>
+    <string name="app_name">RadioTour</string>
+
+</resources>
