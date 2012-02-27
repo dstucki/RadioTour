@@ -11,7 +11,7 @@
         android:label="@string/app_name" android:name=".application.RadioTour">
         <activity
             android:label="@string/app_name"
-            android:name=".activities.RadioTourActivity" >
+            android:name=".activities.DriverListActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
