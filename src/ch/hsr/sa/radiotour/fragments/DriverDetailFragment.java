@@ -31,9 +31,15 @@ public class DriverDetailFragment extends Fragment{
 	}
 
 	public void setDriver(BicycleRider item) {
-		TextView viewStartNr = (TextView) getView().findViewById(R.id.detailsText);
+		TextView viewStartNr = (TextView) getView().findViewById(R.id.driverStartNr);
 		viewStartNr.setText(item.getStartNr()+"");
 		TextView viewName = (TextView) getView().findViewById(R.id.driverName);
 		viewName.setText(item.getName());
+		TextView viewTeam = (TextView) getView().findViewById(R.id.driverTeam);
+		viewTeam.setText(item.getTeamName());
+		TextView viewTeamShort = (TextView) getView().findViewById(R.id.driverTeamShort);
+		viewTeamShort.setText(item.getTeamShort());
+		TextView viewCountry = (TextView) getView().findViewById(R.id.driverCountry);
+		viewCountry.setText(item.getCountry());
 	}
 }

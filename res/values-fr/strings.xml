@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RadioTour - Francais</string>
+    <string name="driver_name">Nom</string>
+    <string name="driver_team">Equipe </string>
+    <string name="driver_team_short">Equipe abréviation</string>
+    <string name="driver_country">Pays</string>
+    <string name="driver_start_nr">Dossard</string>
+    <string name="driver_detail_name">Detail cycliste </string>
+</resources>

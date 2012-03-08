@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hallo Florian, wie geht es dir so?</string>
-    <string name="app_name">RadioTour</string>
-
-    <string-array name="countries_array">
-        <item>Bahrain</item>
-        <item>Bangladesh</item>
-        <item>Barbados</item>
-        <item>Belarus</item>
-        <item>Belgium</item>
-        <item>Belize</item>
-        <item>Benin</item>
-    </string-array>
-
+    <string name="app_name">RadioTour - Deutsch</string>
+	<string name="driver_name">Name</string>
+	<string name="driver_team">Team</string>
+	<string name="driver_team_short">Team Kurz</string>
+	<string name="driver_country">Land</string>
+	<string name="driver_start_nr">Startnummer</string>
+	<string name="driver_detail_name">Detail Fahrer</string>
 </resources>

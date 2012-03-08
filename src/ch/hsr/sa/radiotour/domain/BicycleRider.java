@@ -74,7 +74,7 @@ public class BicycleRider {
 	}
 
 	public String toString() {
-		return name;
+		return startNr + "   " + name;
 	}
 
 }
