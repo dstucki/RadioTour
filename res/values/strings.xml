@@ -8,4 +8,11 @@
 	<string name="driver_country">Land</string>
 	<string name="driver_start_nr">Startnummer</string>
 	<string name="driver_detail_name">Detail Fahrer</string>
+	<string name="menu_race">Ren</string>
+	<string name="menu_special">Spe</string>
+	<string name="menu_virtual">Vir</string>
+	<string name="menu_driver">Fah</string>
+	<string name="menu_admin">Adm</string>
+	<string name="menu_log">Log</string>
+
 </resources>

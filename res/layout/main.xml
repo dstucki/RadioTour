@@ -6,16 +6,18 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:layout_width="300dip"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height=	"match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="ch.hsr.sa.radiotour.fragments.DriverListFragment" />
+        android:layout_weight="1.618"
+        class="ch.hsr.sa.radiotour.fragments.DriverPickerFragment" />
 
     <fragment
         android:id="@+id/detailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="ch.hsr.sa.radiotour.fragments.DriverDetailFragment" />
+        android:layout_weight="1"
+        class="ch.hsr.sa.radiotour.fragments.DriverGroupFragment" />
 
 </LinearLayout>

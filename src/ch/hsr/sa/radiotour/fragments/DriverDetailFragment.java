@@ -2,19 +2,18 @@ package ch.hsr.sa.radiotour.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
-public class DriverDetailFragment extends Fragment{
+public class DriverDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e("Test", "hello");
 	}
 
 	@Override
@@ -31,15 +30,37 @@ public class DriverDetailFragment extends Fragment{
 	}
 
 	public void setDriver(BicycleRider item) {
-		TextView viewStartNr = (TextView) getView().findViewById(R.id.driverStartNr);
-		viewStartNr.setText(item.getStartNr()+"");
+		TextView viewStartNr = (TextView) getView().findViewById(
+				R.id.driverStartNr);
+		viewStartNr.setText(item.getStartNr() + "");
 		TextView viewName = (TextView) getView().findViewById(R.id.driverName);
 		viewName.setText(item.getName());
 		TextView viewTeam = (TextView) getView().findViewById(R.id.driverTeam);
 		viewTeam.setText(item.getTeamName());
-		TextView viewTeamShort = (TextView) getView().findViewById(R.id.driverTeamShort);
+		TextView viewTeamShort = (TextView) getView().findViewById(
+				R.id.driverTeamShort);
 		viewTeamShort.setText(item.getTeamShort());
-		TextView viewCountry = (TextView) getView().findViewById(R.id.driverCountry);
+		TextView viewCountry = (TextView) getView().findViewById(
+				R.id.driverCountry);
 		viewCountry.setText(item.getCountry());
+	}
+
+	public void addDragListener(GroupingDragListener listner) {
+		getView().setOnDragListener(listner);
+		// TextView viewStartNr = (TextView) getView().findViewById(
+		// R.id.driverStartNr);
+		// viewStartNr.setOnDragListener(listner);
+		// TextView viewName = (TextView)
+		// getView().findViewById(R.id.driverName);
+		// viewName.setOnDragListener(listner);
+		// TextView viewTeam = (TextView)
+		// getView().findViewById(R.id.driverTeam);
+		// viewTeam.setOnDragListener(listner);
+		// TextView viewTeamShort = (TextView) getView().findViewById(
+		// R.id.driverTeamShort);
+		// viewTeamShort.setOnDragListener(listner);
+		// TextView viewCountry = (TextView) getView().findViewById(
+		// R.id.driverCountry);
+		// viewCountry.setOnDragListener(listner);
 	}
 }
