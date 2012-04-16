@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/startNr1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/startNr8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+
+</LinearLayout>

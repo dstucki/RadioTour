@@ -8,29 +8,91 @@
 package ch.hsr.sa.radiotour;
 
 public final class R {
-    public static final class array {
-        public static final int countries_array=0x7f050000;
-    }
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int create_new_group=0x7f020000;
+        public static final int drag_highlight_border=0x7f020001;
+        public static final int drag_unhighlight_border=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int working_group=0x7f020004;
     }
     public static final class id {
-        public static final int getBirthday=0x7f060004;
-        public static final int getCountry=0x7f060001;
-        public static final int getName=0x7f060003;
-        public static final int getStartNr=0x7f060000;
-        public static final int getTeam=0x7f060002;
-        public static final int imageView1=0x7f060005;
+        public static final int DetailsTitle=0x7f070004;
+        public static final int detailFragment=0x7f070002;
+        public static final int detailsTableLayout=0x7f070003;
+        public static final int driverCountry=0x7f07000a;
+        public static final int driverFragment=0x7f070000;
+        public static final int driverName=0x7f070007;
+        public static final int driverStartNr=0x7f070013;
+        public static final int driverStartNrTextView=0x7f070012;
+        public static final int driverTeam=0x7f07000d;
+        public static final int driverTeamShort=0x7f070010;
+        public static final int editTextTeamShort=0x7f07000f;
+        public static final int field=0x7f070018;
+        public static final int getBirthday=0x7f07001f;
+        public static final int getCountry=0x7f07001c;
+        public static final int getName=0x7f07001e;
+        public static final int getStartNr=0x7f07001b;
+        public static final int getTeam=0x7f07001d;
+        public static final int groupTableLayout=0x7f070014;
+        public static final int linearLayout1=0x7f07000e;
+        public static final int linearLayout2=0x7f070005;
+        public static final int linearLayout3=0x7f07000b;
+        public static final int linearLayout4=0x7f070008;
+        public static final int listFragment=0x7f070001;
+        public static final int menu_driver=0x7f070028;
+        public static final int newGroupBottom=0x7f07001a;
+        public static final int newGroupTop=0x7f070016;
+        public static final int startNr1=0x7f070020;
+        public static final int startNr2=0x7f070021;
+        public static final int startNr3=0x7f070022;
+        public static final int startNr4=0x7f070023;
+        public static final int startNr5=0x7f070024;
+        public static final int startNr6=0x7f070025;
+        public static final int startNr7=0x7f070026;
+        public static final int startNr8=0x7f070027;
+        public static final int tableRow5=0x7f070011;
+        public static final int tableRowField=0x7f070017;
+        public static final int tableRowGroup=0x7f070015;
+        public static final int tableRowGroup2=0x7f070019;
+        public static final int textView1=0x7f070006;
+        public static final int textView2=0x7f07000c;
+        public static final int textViewDriverCountry=0x7f070009;
     }
     public static final class layout {
-        public static final int driverlist=0x7f030000;
-        public static final int list_item=0x7f030001;
-        public static final int main=0x7f030002;
+        public static final int driver=0x7f030000;
+        public static final int driver_details=0x7f030001;
+        public static final int group_fragment=0x7f030002;
+        public static final int list_item=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int picklist_item=0x7f030005;
+    }
+    public static final class menu {
+        public static final int admin_menu=0x7f060000;
+        public static final int driver_menu=0x7f060001;
+        public static final int log_menu=0x7f060002;
+        public static final int race_menu=0x7f060003;
+        public static final int special_menu=0x7f060004;
+        public static final int virtual_menu=0x7f060005;
+    }
+    public static final class raw {
+        public static final int startliste=0x7f040000;
+        public static final int startlisteoneteam=0x7f040001;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
+        public static final int app_name=0x7f050000;
+        public static final int driver_country=0x7f050004;
+        public static final int driver_detail_name=0x7f050006;
+        public static final int driver_name=0x7f050001;
+        public static final int driver_start_nr=0x7f050005;
+        public static final int driver_team=0x7f050002;
+        public static final int driver_team_short=0x7f050003;
+        public static final int menu_admin=0x7f05000b;
+        public static final int menu_driver=0x7f05000a;
+        public static final int menu_log=0x7f05000c;
+        public static final int menu_race=0x7f050007;
+        public static final int menu_special=0x7f050008;
+        public static final int menu_virtual=0x7f050009;
     }
 }

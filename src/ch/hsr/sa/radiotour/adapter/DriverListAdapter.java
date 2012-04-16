@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import ch.hsr.sa.radiotour.domain.BicycleRider;
 
 public class DriverListAdapter extends ArrayAdapter<BicycleRider> {
 
-	private ArrayList<BicycleRider> riders;
+	private final ArrayList<BicycleRider> riders;
 
 	public DriverListAdapter(Context context, int resource,
 			int textViewResourceId, ArrayList<BicycleRider> objects) {
@@ -39,11 +38,9 @@ public class DriverListAdapter extends ArrayAdapter<BicycleRider> {
 			team.setText(rider.getTeamName());
 			TextView name = (TextView) v.findViewById(R.id.getName);
 			name.setText(rider.getName());
-			
-			TextView birthday = (TextView) v.findViewById(R.id.getBirthday);
-			birthday.setText(rider.getBirthday().toLocaleString());
+
 			TextView startNr = (TextView) v.findViewById(R.id.getStartNr);
-			startNr.setText(rider.getStartNr()+"");
+			startNr.setText(rider.getStartNr() + "");
 
 		}
 

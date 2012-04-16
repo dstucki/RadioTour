@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/groupTableLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TableRow
+        android:id="@+id/tableRowGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:background="@drawable/create_new_group"
+        android:onClick="onRowLayoutClick" >
+
+        <TextView
+            android:id="@+id/newGroupTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4px"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="4px"
+            android:text="Neue Gruppe"
+            android:textSize="20px" >
+        </TextView>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRowField"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10px"
+        android:background="@drawable/working_group"
+        android:onClick="onRowLayoutClick" >
+
+        <TextView
+            android:id="@+id/field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4px"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="4px"
+            android:text="Feld"
+            android:textSize="40px" >
+        </TextView>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRowGroup2"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10px"
+        android:background="@drawable/create_new_group"
+        android:onClick="onRowLayoutClick" >
+
+        <TextView
+            android:id="@+id/newGroupBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4px"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="4px"
+            android:text="Neue Gruppe"
+            android:textSize="20px" >
+        </TextView>
+    </TableRow>
+
+</TableLayout>
