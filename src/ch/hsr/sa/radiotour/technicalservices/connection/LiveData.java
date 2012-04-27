@@ -22,13 +22,14 @@ import org.json.JSONObject;
 
 public class LiveData extends Observable {
 	private final String URL = "http://bentele.me/radiotour/";
-	private String connectionState;
+	private ConnectionStatus connectionState;
 	private JSONObject jObject;
 	private final ScheduledExecutorService scheduler = Executors
 			.newScheduledThreadPool(1);
 
 	public void updateperiodically() {
 		final Runnable beeper = new Runnable() {
+			@Override
 			public void run() {
 				getNewLiveDataFromURL(URL);
 			};
@@ -40,14 +41,14 @@ public class LiveData extends Observable {
 	private void getNewLiveDataFromURL(String url) {
 		StringBuilder distance = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
-		HttpGet getdata = new HttpGet(URL);
+		HttpGet getdata = new HttpGet(url);
 		try {
 			HttpResponse response = client.execute(getdata);
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
 			// http 200 is "ok"
 			if (statusCode == 200) {
-				connectionState = "green";
+				connectionState = ConnectionStatus.GREEN;
 				HttpEntity entity = response.getEntity();
 				InputStream data = entity.getContent();
 				BufferedReader reader = new BufferedReader(
@@ -62,19 +63,20 @@ public class LiveData extends Observable {
 					e.printStackTrace();
 				}
 			} else {
-				connectionState = "red";
+				connectionState = ConnectionStatus.RED;
 				jObject = new JSONObject();
 			}
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			connectionState = ConnectionStatus.RED;
 		} catch (IOException e) {
-			e.printStackTrace();
+			connectionState = ConnectionStatus.RED;
+
 		}
 		setChanged();
 		notifyObservers(this);
 	}
 
-	public String getConnectionState() {
+	public ConnectionStatus getConnectionState() {
 		return connectionState;
 	}
 

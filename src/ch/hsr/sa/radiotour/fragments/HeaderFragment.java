@@ -15,6 +15,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 import ch.hsr.sa.radiotour.technicalservices.connection.LiveData;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
@@ -45,7 +46,8 @@ public class HeaderFragment extends Fragment implements Observer {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.header_fragment, container, false);
+		View view = inflater
+				.inflate(R.layout.header_fragment, container, false);
 
 		// Flo's Stuff
 
@@ -104,18 +106,19 @@ public class HeaderFragment extends Fragment implements Observer {
 		@Override
 		public void onClick(View v) {
 			stopWatchTimer.reset();
+			startstopwatch.setText(R.string.start);
 		}
 	};
-	private View view;
 
 	@Override
 	public void update(Observable observable, Object data) {
 		if (data instanceof GPSLocationListener) {
 			GPSLocationListener temp = (GPSLocationListener) data;
-			TextView speedo = (TextView) view.findViewById(R.id.speed_value);
+			TextView speedo = (TextView) getView().findViewById(
+					R.id.speed_value);
 			speedo.setText(temp.getSpeed());
-			TextView altitude = (TextView) view
-					.findViewById(R.id.altitude_value);
+			TextView altitude = (TextView) getView().findViewById(
+					R.id.altitude_value);
 			altitude.setText(temp.getAltitude());
 
 		} else if (data instanceof LiveData) {
@@ -123,18 +126,19 @@ public class HeaderFragment extends Fragment implements Observer {
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					ImageView connectionImage = (ImageView) view
+					ImageView connectionImage = (ImageView) getView()
 							.findViewById(R.id.img_connection);
-					String connectionState = livedata.getConnectionState();
-					if (connectionState == "red") {
+					ConnectionStatus connectionState = livedata
+							.getConnectionState();
+					if (connectionState == ConnectionStatus.RED) {
 						connectionImage.setImageResource(R.drawable.red);
-					} else if (connectionState == "green") {
+					} else if (connectionState == ConnectionStatus.GREEN) {
 						connectionImage.setImageResource(R.drawable.green);
-						TextView spitzefeld = (TextView) view
+						TextView spitzefeld = (TextView) getView()
 								.findViewById(R.id.spitzefeld_value);
 						spitzefeld.setText(livedata.getSpitzeFeld());
-						TextView spitzert = (TextView) view
-								.findViewById(R.id.spitzert_value);
+						TextView spitzert = (TextView) getView().findViewById(
+								R.id.spitzert_value);
 						spitzert.setText(livedata.getSpitzeRT());
 					}
 				}
