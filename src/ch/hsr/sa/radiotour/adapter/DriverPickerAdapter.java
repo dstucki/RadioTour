@@ -51,20 +51,15 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 				@Override
 				public boolean onLongClick(View v) {
 					final TextView textView = (TextView) v;
-					textView.performClick();
-					((RadioTourActivity) fragment.getActivity())
-							.getCheckedIntegers().add(
+					if (!((RadioTourActivity) fragment.getActivity())
+							.getCheckedIntegers().contains(
 									Integer.valueOf(textView.getText()
-											.toString()));
-					StringBuffer clipDataBuffer = new StringBuffer();
-					for (Integer i : ((RadioTourActivity) fragment
-							.getActivity()).getCheckedIntegers()) {
-						clipDataBuffer.append(i);
-						clipDataBuffer.append(";");
+											.toString()))) {
+						textView.performClick();
 					}
+
 					ClipData data = ClipData.newPlainText(textView.getText(),
 							textView.getText());
-
 					v.startDrag(data, new DragShadowBuilder(v),
 							((RadioTourActivity) fragment.getActivity())
 									.getCheckedIntegers(), 0);

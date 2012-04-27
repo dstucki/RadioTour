@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:stretchColumns="*" >
+
+    <TableRow android:background="@drawable/drag_unhighlight_border" >
+
+        <TextView
+            android:id="@+id/rang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/startnummer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/fahrername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/team"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="4"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/land"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="5"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/gruppen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="6"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/virtualRank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="7"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/timeBoni"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="8"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/timeOfficial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="9"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/handicapOfficial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22px" />
+    </TableRow>
+
+</TableLayout>

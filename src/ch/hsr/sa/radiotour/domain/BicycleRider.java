@@ -2,21 +2,40 @@ package ch.hsr.sa.radiotour.domain;
 
 import java.util.Date;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "Rider")
 public class BicycleRider {
+	@DatabaseField(id = true)
 	private int startNr;
+	@DatabaseField
 	private String name;
+	@DatabaseField
 	private String team;
+	@DatabaseField
 	private String teamShort;
+	@DatabaseField
 	private String country;
+	@DatabaseField
 	private String comment;
+	@DatabaseField
 	private Date official_time;
+	@DatabaseField
 	private Date official_deficit;
+	@DatabaseField
 	private Date virtual_deficit;
+	@DatabaseField
 	private boolean activ;
-	private String kategory;
+	@DatabaseField
+	private String category;
+	@DatabaseField
 	private String uci;
+	@DatabaseField
 	private int neo;
+	@DatabaseField
 	private String language;
+	@DatabaseField
 	private String url;
 
 	public BicycleRider() {
@@ -121,12 +140,12 @@ public class BicycleRider {
 		this.activ = activ;
 	}
 
-	public String getKategory() {
-		return kategory;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setKategory(String kategory) {
-		this.kategory = kategory;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getUci() {

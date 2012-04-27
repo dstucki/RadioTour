@@ -1,0 +1,96 @@
+#
+# generated on 2012/04/23 03:27:30
+#
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
+tableName=Rider
+# --table-fields-start--
+# --field-start--
+fieldName=startNr
+id=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=team
+# --field-end--
+# --field-start--
+fieldName=teamShort
+# --field-end--
+# --field-start--
+fieldName=country
+# --field-end--
+# --field-start--
+fieldName=comment
+# --field-end--
+# --field-start--
+fieldName=official_time
+# --field-end--
+# --field-start--
+fieldName=official_deficit
+# --field-end--
+# --field-start--
+fieldName=virtual_deficit
+# --field-end--
+# --field-start--
+fieldName=activ
+# --field-end--
+# --field-start--
+fieldName=category
+# --field-end--
+# --field-start--
+fieldName=uci
+# --field-end--
+# --field-start--
+fieldName=neo
+# --field-end--
+# --field-start--
+fieldName=language
+# --field-end--
+# --field-start--
+fieldName=url
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.Group
+tableName=Group
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=driverNumbers
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=isField
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=handicapTime
+dataPersister=DATE
+# --field-end--
+# --field-start--
+fieldName=orderNumber
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.Team
+tableName=Team
+# --table-fields-start--
+# --field-start--
+fieldName=driverNumbers
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

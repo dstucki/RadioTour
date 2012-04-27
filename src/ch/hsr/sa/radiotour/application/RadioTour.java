@@ -2,15 +2,19 @@ package ch.hsr.sa.radiotour.application;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Team;
 
 public class RadioTour extends Application {
 	private final LinkedHashMap<Integer, BicycleRider> riders = new LinkedHashMap<Integer, BicycleRider>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
+	private final LinkedList<Group> groups = new LinkedList<Group>();
 
 	public RadioTour() {
 		super();
@@ -19,6 +23,10 @@ public class RadioTour extends Application {
 
 	public ArrayList<BicycleRider> getRiders() {
 		return new ArrayList<BicycleRider>(riders.values());
+	}
+
+	public ArrayList<Integer> getRiderNumbers() {
+		return new ArrayList<Integer>(riders.keySet());
 	}
 
 	public Map<Integer, BicycleRider> getRidersAsMap() {
@@ -37,4 +45,11 @@ public class RadioTour extends Application {
 		teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
 	}
 
+	public void add(int index, Group group) {
+		groups.add(index, group);
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
 }

@@ -1,69 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/groupTableLayout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:scrollbars="none" >
 
-    <TableRow
-        android:id="@+id/tableRowGroup"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10px"
-        android:background="@drawable/create_new_group"
-        android:onClick="onRowLayoutClick" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-        <TextView
-            android:id="@+id/newGroupTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4px"
-            android:layout_marginLeft="4px"
-            android:layout_marginRight="10px"
-            android:layout_marginTop="4px"
-            android:text="Neue Gruppe"
-            android:textSize="20px" >
-        </TextView>
-    </TableRow>
+        <TableLayout
+            android:id="@+id/groupTableLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="vertical" >
 
-    <TableRow
-        android:id="@+id/tableRowField"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="10px"
-        android:background="@drawable/working_group"
-        android:onClick="onRowLayoutClick" >
+            <TableRow
+                android:id="@+id/tableRowGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:background="@drawable/create_new_group"
+                android:onClick="onRowLayoutClick" >
 
-        <TextView
-            android:id="@+id/field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4px"
-            android:layout_marginLeft="4px"
-            android:layout_marginRight="10px"
-            android:layout_marginTop="4px"
-            android:text="Feld"
-            android:textSize="40px" >
-        </TextView>
-    </TableRow>
+                <TextView
+                    android:id="@+id/newGroupTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4px"
+                    android:layout_marginLeft="4px"
+                    android:layout_marginRight="10px"
+                    android:layout_marginTop="4px"
+                    android:text="@string/new_group"
+                    android:textSize="20px" >
+                </TextView>
+            </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRowGroup2"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="10px"
-        android:background="@drawable/create_new_group"
-        android:onClick="onRowLayoutClick" >
+            <view
+                android:id="@+id/tableRowField"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="10px"
+                android:background="@drawable/working_group"
+                class="ch.hsr.sa.radiotour.views.GroupTableRow"
+                android:onClick="onRowLayoutClick" >
 
-        <TextView
-            android:id="@+id/newGroupBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4px"
-            android:layout_marginLeft="4px"
-            android:layout_marginRight="10px"
-            android:layout_marginTop="4px"
-            android:text="Neue Gruppe"
-            android:textSize="20px" >
-        </TextView>
-    </TableRow>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
 
-</TableLayout>
+                </LinearLayout>
+            </view>
+
+            <TableRow
+                android:id="@+id/tableRowGroup2"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="10px"
+                android:background="@drawable/create_new_group"
+                android:onClick="onRowLayoutClick" >
+
+                <TextView
+                    android:id="@+id/newGroupBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4px"
+                    android:layout_marginLeft="4px"
+                    android:layout_marginRight="10px"
+                    android:layout_marginTop="4px"
+                    android:text="@string/new_group"
+                    android:textSize="20px" >
+                </TextView>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</ScrollView>

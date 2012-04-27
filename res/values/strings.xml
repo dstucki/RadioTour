@@ -2,17 +2,38 @@
 <resources>
 
     <string name="app_name">RadioTour - Deutsch</string>
-	<string name="driver_name">Name</string>
-	<string name="driver_team">Team</string>
-	<string name="driver_team_short">Team Kurz</string>
-	<string name="driver_country">Land</string>
-	<string name="driver_start_nr">Startnummer</string>
-	<string name="driver_detail_name">Detail Fahrer</string>
-	<string name="menu_race">Ren</string>
-	<string name="menu_special">Spe</string>
-	<string name="menu_virtual">Vir</string>
-	<string name="menu_driver">Fah</string>
-	<string name="menu_admin">Adm</string>
-	<string name="menu_log">Log</string>
+    <string name="driver_name">Name</string>
+    <string name="driver_team">Team</string>
+    <string name="driver_team_short">Team Kurz</string>
+    <string name="driver_country">Land</string>
+    <string name="driver_start_nr">Startnummer</string>
+    <string name="driver_detail_name">Detail Fahrer</string>
+    <string name="menu_race">Ren</string>
+    <string name="menu_special">Spe</string>
+    <string name="menu_virtual">Vir</string>
+    <string name="menu_driver">Fah</string>
+    <string name="menu_admin">Adm</string>
+    <string name="menu_log">Log</string>
+    <string name="lb_time">Uhrzeit:</string>
+    <string name="top">Spitze</string>
+    <string name="new_group">Neue Gruppe</string>
+    <string name="field">Feld</string>
+    <string name="follower">Verfolger #</string>
+    <string name="detached">Abgehängt #</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
+    <string name="lb_stopwatch">Stoppuhr:</string>
+    <string name="lb_speed">Ø Geschwindigkeit:</string>
+    <string name="lb_spitzefeld">Spitze - Feld:</string>
+    <string name="lb_spitzert">Spitze - RadioTour:</string>
+    <string name="lb_emptyvalues">00:00 | 0.0 km</string>
+    <string name="lb_etappe">Etappe:</string>
+    <string name="lb_defaultspeed">0.0 km/h</string>
+    <string name="lb_defaultetappe">0</string>
+    <string name="lb_racetime">Rennzeit:</string>
+    <string name="lb_defaultaltitude">0 müM</string>
+    <string name="lb_connectionstate">Verbindung:</string>
+    <string name="desc_connectionimage">Verbindungsstatus</string>
 
 </resources>

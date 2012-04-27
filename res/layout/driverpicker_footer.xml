@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/clear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/drag_unhighlight_border"
+        android:gravity="center"
+        android:onClick="clearCheckedIntegersOnclick"
+        android:clickable="true"
+        android:text="x"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/arzt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/drag_unhighlight_border"
+        android:gravity="center"
+        android:text="arzt"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/aufgabe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/drag_unhighlight_border"
+        android:gravity="center"
+        android:text="aufgabe"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/miipmiip"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/drag_unhighlight_border"
+        android:gravity="center"
+        android:text="miipmiip"
+        android:textSize="22px" />
+
+    <TextView
+        android:id="@+id/miipmiipmiip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/drag_unhighlight_border"
+        android:gravity="center"
+        android:text="sali"
+        android:textSize="22px" />
+
+</LinearLayout>
