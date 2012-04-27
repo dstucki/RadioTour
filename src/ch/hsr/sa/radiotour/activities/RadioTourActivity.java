@@ -49,7 +49,6 @@ public class RadioTourActivity extends Activity implements Observer {
 				.beginTransaction();
 		fragmentTransaction.add(R.id.changeLayout, raceFragment);
 		fragmentTransaction.commit();
-
 	}
 
 	public void importDriverandTeams() {
