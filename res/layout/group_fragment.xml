@@ -22,7 +22,7 @@
                 android:id="@+id/tableRowGroup"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10px"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/create_new_group"
                 android:onClick="onRowLayoutClick" >
 
@@ -30,35 +30,29 @@
                     android:id="@+id/newGroupTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4px"
-                    android:layout_marginLeft="4px"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="4px"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/new_group"
-                    android:textSize="20px" >
+                    android:textSize="20dp" >
                 </TextView>
             </TableRow>
 
             <view
                 android:id="@+id/tableRowField"
                 android:layout_width="fill_parent"
-                android:layout_marginTop="10px"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/working_group"
                 class="ch.hsr.sa.radiotour.views.GroupTableRow"
-                android:onClick="onRowLayoutClick" >
+                android:onClick="onRowLayoutClick" android:padding="5dp">
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-
-                </LinearLayout>
             </view>
 
             <TableRow
                 android:id="@+id/tableRowGroup2"
                 android:layout_width="fill_parent"
-                android:layout_marginTop="10px"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/create_new_group"
                 android:onClick="onRowLayoutClick" >
 
@@ -66,12 +60,12 @@
                     android:id="@+id/newGroupBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4px"
-                    android:layout_marginLeft="4px"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="4px"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/new_group"
-                    android:textSize="20px" >
+                    android:textSize="20dp" >
                 </TextView>
             </TableRow>
         </TableLayout>
