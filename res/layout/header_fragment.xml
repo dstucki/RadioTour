@@ -14,6 +14,53 @@
         android:orientation="horizontal" >
 
         <LinearLayout
+            android:id="@+id/headeremptyspace"
+            android:layout_width="500dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/tabbar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tab_ren"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_ren"
+                    android:textSize="15dp"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/tab_spez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_spez"
+                    android:textSize="15dp"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/tab_vir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_vir"
+                    android:textSize="15dp"
+                    android:padding="5dp"/>
+                <TextView
+                    android:id="@+id/tab_adm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_adm"
+                    android:textSize="15dp"
+                    android:padding="5dp"/>
+                
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/tourinfo"
             android:layout_width="500dp"
             android:layout_height="wrap_content"
@@ -25,7 +72,7 @@
                 android:id="@+id/tourinfo_row1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/lb_spitzefeld"
@@ -48,8 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="@string/lb_connectionstate" />
-
+                    android:text="@string/lb_connectionstate" android:padding="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -57,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingRight="20dp" >
+                android:paddingRight="10dp" >
 
                 <TextView
                     android:id="@+id/spitzefeld_value"
@@ -81,8 +127,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:contentDescription="@string/desc_connectionimage"
-                    android:src="@drawable/red" android:padding="2dp"/>
-
+                    android:padding="5dp"
+                    android:src="@drawable/red" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,7 +171,7 @@
 
                 <TextView
                     android:id="@+id/speed_value"
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="#333333"
                     android:padding="5dp"
@@ -133,7 +179,7 @@
 
                 <TextView
                     android:id="@+id/altitude_value"
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="#333333"
                     android:padding="5dp"
@@ -141,19 +187,12 @@
 
                 <TextView
                     android:id="@+id/etappe_value"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_defaultetappe" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/headeremptyspace"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
         </LinearLayout>
 
         <LinearLayout
@@ -245,31 +284,6 @@
                     android:text="@string/lb_time" />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/tabbar"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tab1"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="Tab1" />
-
-        <TextView
-            android:id="@+id/tab2"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="Tab2" />
-
-        <TextView
-            android:id="@+id/tab3"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="Tab3" />
     </LinearLayout>
 
 </LinearLayout>

@@ -29,6 +29,7 @@ public class HeaderFragment extends Fragment implements Observer {
 	private Button reset;
 	private GPSLocationListener mGPS;
 	private LiveData updatedLiveData;
+	private TextView tabRen;
 
 	// end Flo's Stuff
 
@@ -51,6 +52,9 @@ public class HeaderFragment extends Fragment implements Observer {
 
 		// Flo's Stuff
 
+		tabRen = (TextView) view.findViewById(R.id.tab_ren);
+		tabRen.setOnClickListener(tabclicklistener);
+
 		stopWatchTimer = new Timer(
 				(Chronometer) view.findViewById(R.id.chrono_stopwatch));
 		racetimeTimer = new Timer(
@@ -58,7 +62,6 @@ public class HeaderFragment extends Fragment implements Observer {
 
 		startstopwatch = (Button) view
 				.findViewById(R.id.bt_stopwatch_start_stop);
-		Log.i(getClass().getSimpleName(), startstopwatch + "");
 		startstopwatch.setOnClickListener(stopWatchListener);
 		reset = (Button) view.findViewById(R.id.bt_stopwatch_reset);
 		reset.setOnClickListener(stopWatchResetListener);
@@ -78,6 +81,14 @@ public class HeaderFragment extends Fragment implements Observer {
 	}
 
 	// Flo's Stuff
+	View.OnClickListener tabclicklistener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Log.d(getClass().getSimpleName(), "Clicked");
+		}
+	};
+
 	View.OnClickListener racetimeListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
