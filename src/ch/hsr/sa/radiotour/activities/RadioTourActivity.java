@@ -44,6 +44,7 @@ public class RadioTourActivity extends Activity implements Observer {
 		super.onCreate(savedInstanceState);
 		importDriverandTeams();
 		setContentView(R.layout.base_activity);
+
 		raceFragment = new RaceFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
@@ -52,6 +53,11 @@ public class RadioTourActivity extends Activity implements Observer {
 	}
 
 	public void importDriverandTeams() {
+		RadioTour application = (RadioTour) getApplication();
+		application.getRiders().clear();
+		application.getGroups().clear();
+		application.getTeams().clear();
+
 		for (BicycleRider rider : getHelper().getBicycleRiderDao()
 				.queryForAll()) {
 			((RadioTour) getApplication()).add(rider);
@@ -108,82 +114,14 @@ public class RadioTourActivity extends Activity implements Observer {
 	}
 
 	// TODO: make nicer and smoother
-	public void onRowLayoutClick(TableRow tableRow, Object dragObject) {
-		if (dragObject == null && checkedIntegers.size() == 0) {
-			return;
-		}
-
-		if (hasToCreateNewGroup(tableRow)) {
-			tableRow = raceFragment.getGroupFragment().createNewGroup(
-					raceFragment.getGroupFragment().getTableRows()
-							.indexOf(tableRow));
-		}
-
-		GroupTableRow groupTableRow = (GroupTableRow) tableRow;
-		if (dragObject instanceof TextView) {
-			TextView textView = (TextView) dragObject;
-			((TableRow) textView.getParent()).removeView(textView);
-			if (raceFragment.getGroupFragment().getField() != groupTableRow) {
-				groupTableRow.addRider(Integer.valueOf(textView.getText()
-						.toString()));
-			}
-		}
-
-		else if (dragObject instanceof GroupTableRow) {
-			final GroupTableRow draggedTableRow = (GroupTableRow) dragObject;
-			if (groupTableRow == draggedTableRow) {
-				return;
-			}
-			clearCheckedIntegers();
-			if (groupTableRow == raceFragment.getGroupFragment().getField()) {
-				draggedTableRow.removeAllViews();
-				draggedTableRow.getGroup().getDriverNumbers().clear();
-				raceFragment.getGroupFragment().removeEmptyTableRows();
-			} else {
-				while (draggedTableRow.getChildCount() > 2) {
-					TextView temp = (TextView) draggedTableRow.getChildAt(2);
-					draggedTableRow.removeView(temp);
-					groupTableRow.addRider(Integer.valueOf(temp.getText()
-							.toString()));
-				}
-			}
-		} else {
-			for (Integer i : checkedIntegers) {
-				if (raceFragment.getGroupFragment().getField() == groupTableRow) {
-					raceFragment.getGroupFragment().getDragListener()
-							.handleDuplicates(i);
-				} else {
-					raceFragment.getGroupFragment().getDragListener()
-							.addTextView(groupTableRow, i);
-				}
-			}
-		}
+	public void onRowLayoutClick(TableRow tableRow, TreeSet<Integer> dragObject) {
+		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
 		clearCheckedIntegers();
-		raceFragment.getGroupFragment().removeEmptyTableRows();
-	}
-
-	private boolean hasToCreateNewGroup(TableRow row) {
-		return raceFragment.getGroupFragment().getTableRows().indexOf(row) % 2 == 0;
 	}
 
 	public void clearCheckedIntegersOnclick(View v) {
 		clearCheckedIntegers();
 	}
-
-	public void clearCheckedIntegers() {
-		checkedIntegers.clear();
-		for (TextView v : checkedViews) {
-			v.setBackgroundColor(Color.TRANSPARENT);
-			v.setTextColor(Color.WHITE);
-
-		}
-		checkedViews.clear();
-	}
-
-	// @Override
-	// public void update(Observable observable, Object data) {
-	// onRowLayoutClick((TableRow) data, null);
-	// }
 
 	private DatabaseHelper databaseHelper = null;
 
@@ -238,7 +176,17 @@ public class RadioTourActivity extends Activity implements Observer {
 		}
 	}
 
-	public void show(TextView v) {
+	private void clearCheckedIntegers() {
+		checkedIntegers.clear();
+		for (TextView v : checkedViews) {
+			v.setBackgroundColor(Color.TRANSPARENT);
+			v.setTextColor(Color.WHITE);
+
+		}
+		checkedViews.clear();
+	}
+
+	public void show(GroupTableRow v) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
 		if (prev != null) {
@@ -253,7 +201,7 @@ public class RadioTourActivity extends Activity implements Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		onRowLayoutClick((TableRow) data, null);
+		onRowLayoutClick((TableRow) data, checkedIntegers);
 	}
 }
 // end Flo's Stuff

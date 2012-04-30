@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:stretchColumns="*" >
 
-    <TableRow android:background="@drawable/drag_unhighlight_border" >
+    <TableRow >
 
         <TextView
             android:id="@+id/rang"

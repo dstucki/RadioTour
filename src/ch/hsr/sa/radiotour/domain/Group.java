@@ -10,6 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "Group")
 public class Group extends Observable implements Comparable<Group> {
+
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)

@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.technicalservices.listener;
 
+import java.util.TreeSet;
+
 import android.content.Context;
 import android.view.DragEvent;
 import android.view.View;
@@ -44,7 +46,7 @@ public class GroupingDragListener implements OnDragListener {
 			if (event.getResult()) {
 				if (v instanceof TableRow && v == actualLayout) {
 					((RadioTourActivity) ctx).onRowLayoutClick(actualLayout,
-							event.getLocalState());
+							(TreeSet<Integer>) event.getLocalState());
 				}
 				v.invalidate();
 			}

@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.fragments;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
@@ -28,11 +31,12 @@ public class DriverGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
 	private LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
+	private final HashMap<Integer, GroupTableRow> driverTableRow = new HashMap<Integer, GroupTableRow>();
 	private TableLayout.LayoutParams standardParams;
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
-	private TableRow newGroupExample;
-	private RuntimeExceptionDao<Group, Integer> databaseDao;
+	private RuntimeExceptionDao<Group, Integer> groupDatabaseDao;
+	private RuntimeExceptionDao<BicycleRider, Integer> riderDatabaseDao;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,12 +49,23 @@ public class DriverGroupFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		setDragListener();
 		setOnClickListener();
+		initializeDriverRowMap();
 		initializeTableRows();
 	}
 
+	private void initializeDriverRowMap() {
+		for (Integer i : ((RadioTour) getActivity().getApplication())
+				.getRiderNumbers()) {
+			driverTableRow.put(i, null);
+		}
+
+	}
+
 	private void initializeTableRows() {
-		databaseDao = ((RadioTourActivity) getActivity()).getHelper()
+		groupDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
 				.getGroupDao();
+		riderDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
+				.getBicycleRiderDao();
 
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup));
 		tableRows.add((GroupTableRow) getView()
@@ -61,8 +76,6 @@ public class DriverGroupFragment extends Fragment {
 		field.setGroup(fieldGroup);
 
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup2));
-		newGroupExample = (TableRow) getView()
-				.findViewById(R.id.tableRowGroup2);
 		standardParams = (TableLayout.LayoutParams) tableRows.get(0)
 				.getLayoutParams();
 		standardRowParams = (TableRow.LayoutParams) tableRows.get(0)
@@ -78,8 +91,12 @@ public class DriverGroupFragment extends Fragment {
 		int counter = 0;
 		for (Group g : ((RadioTour) getActivity().getApplication()).getGroups()) {
 			if (!g.isField()) {
-				GroupTableRow tempRow = (GroupTableRow) createNewGroup(counter);
+				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
+				for (int i : g.getDriverNumbers()) {
+					tempRow.addRider(i);
+					driverTableRow.put(i, tempRow);
+				}
 			}
 			counter += 2;
 		}
@@ -135,13 +152,12 @@ public class DriverGroupFragment extends Fragment {
 		this.tableRows = tableRows;
 	}
 
-	public TableRow createNewGroup(int indexOf) {
+	public GroupTableRow createNewGroup(int indexOf) {
 		TableLayout layout = (TableLayout) ((ScrollView) getView())
 				.findViewById(R.id.groupTableLayout);
 		GroupTableRow groupRow = createGroupRow();
 		TableRow newGroupRow = createNewGroupRow();
 		layout.addView(groupRow, indexOf);
-
 		tableRows.add(indexOf, groupRow);
 		layout.addView(newGroupRow, indexOf);
 		tableRows.add(indexOf, newGroupRow);
@@ -151,21 +167,6 @@ public class DriverGroupFragment extends Fragment {
 
 	private GroupTableRow createGroupRow() {
 		final GroupTableRow row = new GroupTableRow(getActivity());
-		// final TextView test = new TextView(getActivity());
-		// test.setOnLongClickListener(new OnLongClickListener() {
-		//
-		// @Override
-		// public boolean onLongClick(View v) {
-		// ClipData data = ClipData.newPlainText(test.getText(),
-		// test.getText());
-		// v.startDrag(data, new DragShadowBuilder(row), row, 0);
-		// return true;
-		// }
-		// });
-		// test.setText("Bestehende Gruppe");
-		// test.setTextSize(40);
-		// test.setLayoutParams(standardRowParams);
-		// row.addView(test);
 		row.setLayoutParams(standardParams);
 		row.setBackgroundResource(R.drawable.working_group);
 		row.setOnDragListener(dragListener);
@@ -187,20 +188,18 @@ public class DriverGroupFragment extends Fragment {
 		return row;
 	}
 
-	public void removeEmptyTableRows() {
-		for (int i = 0; i < tableRows.size(); i++) {
-			if (i % 2 == 1 && tableRows.get(i) != field) {
-				GroupTableRow tempRow = (GroupTableRow) tableRows.get(i);
-				if (tempRow.getChildCount() <= 2) {
-
-					TableLayout tableLayout = (TableLayout) getView()
-							.findViewById(R.id.groupTableLayout);
-					tableLayout.removeView(tempRow);
-					tableRows.remove(i);
-					tableLayout.removeView(tableRows.get(i));
-					tableRows.remove(i);
-					--i;
-				}
+	private void removeEmptyTableRows() {
+		GroupTableRow temp;
+		for (int i = 1; i < tableRows.size(); i += 2) {
+			temp = (GroupTableRow) tableRows.get(i);
+			if (temp.getGroup().getDriverNumbers().isEmpty() && temp != field) {
+				final TableLayout tableLayout = (TableLayout) getView()
+						.findViewById(R.id.groupTableLayout);
+				tableLayout.removeView(temp);
+				tableRows.remove(i);
+				tableLayout.removeView(tableRows.get(i));
+				tableRows.remove(i);
+				i -= 2;
 			}
 
 		}
@@ -240,8 +239,43 @@ public class DriverGroupFragment extends Fragment {
 		for (int i = 1; i < tableRows.size(); i += 2) {
 			Group gr = ((GroupTableRow) tableRows.get(i)).getGroup();
 			gr.setOrderNumber(i / 2);
-			databaseDao.create(gr);
+			groupDatabaseDao.create(gr);
+
+			for (int j : gr.getDriverNumbers()) {
+				BicycleRider temp = ((RadioTour) getActivity().getApplication())
+						.getRidersAsMap().get(j);
+				temp.setVirtual_deficit(gr.getHandicapTime());
+				riderDatabaseDao.createOrUpdate(temp);
+			}
 			((RadioTour) getActivity().getApplication()).getGroups().add(gr);
 		}
+		Log.i(getClass().getSimpleName(), ((RadioTour) getActivity()
+				.getApplication()).getGroups().size() + "");
+	}
+
+	private boolean hasToCreateNewGroup(TableRow row) {
+		return tableRows.indexOf(row) % 2 == 0;
+	}
+
+	public void moveDriverNr(TableRow destination, TreeSet<Integer> riderNumbers) {
+		if (riderNumbers == null || riderNumbers.isEmpty()) {
+			return;
+		}
+		if (hasToCreateNewGroup(destination)) {
+			destination = createNewGroup(tableRows.indexOf(destination));
+		}
+
+		final GroupTableRow groupTableRow = (GroupTableRow) destination;
+		if (destination != field) {
+			for (Integer i : riderNumbers) {
+				if (driverTableRow.get(i) != null) {
+					driverTableRow.get(i).removeRiderNr(i);
+					driverTableRow.put(i, null);
+				}
+				groupTableRow.addRider(i);
+				driverTableRow.put(i, groupTableRow);
+			}
+		}
+		removeEmptyTableRows();
 	}
 }

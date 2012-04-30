@@ -17,7 +17,6 @@
             android:id="@+id/tourinfo"
             android:layout_width="500dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/drag_unhighlight_border"
             android:orientation="horizontal"
             android:padding="5dp" >
 
@@ -25,7 +24,7 @@
                 android:id="@+id/tourinfo_row1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/lb_spitzefeld"
@@ -49,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="@string/lb_connectionstate" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +61,6 @@
                     android:id="@+id/spitzefeld_value"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_emptyvalues" />
 
@@ -71,7 +68,6 @@
                     android:id="@+id/spitzert_value"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_emptyvalues" />
 
@@ -81,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:contentDescription="@string/desc_connectionimage"
-                    android:src="@drawable/red" android:padding="2dp"/>
-
+                    android:padding="2dp"
+                    android:src="@drawable/red" />
             </LinearLayout>
 
             <LinearLayout
@@ -127,7 +123,6 @@
                     android:id="@+id/speed_value"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_defaultspeed" />
 
@@ -135,7 +130,6 @@
                     android:id="@+id/altitude_value"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_defaultaltitude" />
 
@@ -143,7 +137,6 @@
                     android:id="@+id/etappe_value"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:background="#333333"
                     android:padding="5dp"
                     android:text="@string/lb_defaultetappe" />
             </LinearLayout>
@@ -174,15 +167,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_racetime" android:paddingLeft="5dp"/>
+                    android:paddingLeft="5dp"
+                    android:text="@string/lb_racetime" />
 
                 <Chronometer
                     android:id="@+id/chrono_racetime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
                     android:paddingTop="2dp"
-                    android:textSize="20dp" android:paddingLeft="5dp"/>
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:id="@+id/racetime_buttons"
@@ -207,15 +202,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_stopwatch" android:paddingLeft="5dp"/>
+                    android:paddingLeft="5dp"
+                    android:text="@string/lb_stopwatch" />
 
                 <Chronometer
                     android:id="@+id/chrono_stopwatch"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
                     android:paddingTop="2dp"
-                    android:textSize="20dp" android:paddingLeft="5dp"/>
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:id="@+id/stopwatch_buttons"
@@ -257,18 +254,24 @@
             android:id="@+id/tab1"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="ontestButtonClick"
             android:text="Tab1" />
 
         <TextView
             android:id="@+id/tab2"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="ontestButtonClick1"
             android:text="Tab2" />
 
         <TextView
             android:id="@+id/tab3"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="ontestButtonClick2"
             android:text="Tab3" />
     </LinearLayout>
 

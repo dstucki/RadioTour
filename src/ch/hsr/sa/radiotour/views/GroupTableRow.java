@@ -1,11 +1,15 @@
 package ch.hsr.sa.radiotour.views;
 
+import java.util.Date;
+import java.util.TreeSet;
+
 import android.content.ClipData;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
@@ -37,13 +41,14 @@ public class GroupTableRow extends TableRow {
 	private void createUI() {
 		description = new TextView(context);
 		time = new TextView(context);
-		time.setText("0:00:00");
+		time.setText(getHandicapAsString());
 		time.setClickable(true);
+		// time.setLayoutParams(getTextViewMargins());
 		time.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				((RadioTourActivity) context).show(time);
+				((RadioTourActivity) context).show(GroupTableRow.this);
 			}
 		});
 
@@ -54,7 +59,7 @@ public class GroupTableRow extends TableRow {
 				ClipData data = ClipData.newPlainText(description.getText(),
 						description.getText());
 				return v.startDrag(data, new DragShadowBuilder(
-						GroupTableRow.this), GroupTableRow.this, 0);
+						GroupTableRow.this), group.getDriverNumbers(), 0);
 			}
 		});
 
@@ -62,6 +67,13 @@ public class GroupTableRow extends TableRow {
 
 		this.addView(time);
 		this.addView(description);
+	}
+
+	public LinearLayout.LayoutParams getTextViewMargins() {
+		LinearLayout.LayoutParams myParams = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		myParams.setMargins(5, 5, 5, 5);
+		return myParams;
 	}
 
 	public void changeDescription(String description) {
@@ -85,39 +97,57 @@ public class GroupTableRow extends TableRow {
 			changeDescription(context.getString(R.string.field));
 			this.description.setLongClickable(false);
 		}
-		for (int i : group.getDriverNumbers()) {
-			addRider(i);
-		}
+		time.setText(getHandicapAsString());
 	}
 
-	public void addRider(Integer riderNr) {
-		final TextView txtViewToAdd = new TextView(context);
-		txtViewToAdd.setId(riderNr);
-		txtViewToAdd.setText(riderNr + "");
-		txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-		txtViewToAdd.setMinimumWidth(40);
-		txtViewToAdd.setGravity(Gravity.RIGHT);
-		LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
-		layoutParams.setMargins(3, 3, 3, 3);
-		// txtViewToAdd.setBackgroundColor(Color.RED);
-		txtViewToAdd.setLayoutParams(layoutParams);
+	public String getHandicapAsString() {
+		final Date date = group.getHandicapTime();
+		if (date == null) {
+			return "0:00:00";
+		}
+		final StringBuilder tempString = new StringBuilder();
+		tempString.append(date.getHours());
+		tempString.append(":");
+		tempString.append(date.getMinutes());
+		tempString.append(":");
+		tempString.append(date.getSeconds());
+		return tempString.toString();
+	}
 
-		addView(txtViewToAdd);
+	public void addRider(final Integer riderNr) {
 		group.getDriverNumbers().add(riderNr);
-		invalidate();
-		txtViewToAdd.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public boolean onLongClick(View v) {
-				final TextView textView = (TextView) v;
-				ClipData data = ClipData.newPlainText(textView.getText(),
-						textView.getText());
-				v.startDrag(data, new DragShadowBuilder(txtViewToAdd),
-						txtViewToAdd, 0);
-				return true;
-			}
-		});
+		if (!group.isField()) {
+			final TextView txtViewToAdd = new TextView(context);
+			txtViewToAdd.setId(riderNr);
+			txtViewToAdd.setText(riderNr + "");
+			txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+			txtViewToAdd.setMinimumWidth(40);
+			txtViewToAdd.setGravity(Gravity.RIGHT);
+			LayoutParams layoutParams = new LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			layoutParams.setMargins(3, 3, 3, 3);
+			// txtViewToAdd.setBackgroundColor(Color.RED);
+			txtViewToAdd.setLayoutParams(layoutParams);
+
+			addView(txtViewToAdd);
+			invalidate();
+			txtViewToAdd.setOnLongClickListener(new OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View v) {
+					final TextView textView = (TextView) v;
+					ClipData data = ClipData.newPlainText(textView.getText(),
+							textView.getText());
+					TreeSet<Integer> localState = new TreeSet<Integer>();
+					localState.add(riderNr);
+					v.startDrag(data, new DragShadowBuilder(txtViewToAdd),
+							localState, 0);
+					return true;
+				}
+			});
+
+		}
 
 	}
 
@@ -126,5 +156,21 @@ public class GroupTableRow extends TableRow {
 		super.removeView(view);
 		group.getDriverNumbers().remove(
 				Integer.valueOf(((TextView) view).getText().toString()));
+	}
+
+	public void setHandicapTime(int hour, int minute, int seconds) {
+		group.setHandicapTime(new Date(0, 0, 0, hour, minute, seconds));
+		time.setText(getHandicapAsString());
+	}
+
+	public void removeRiderNr(Integer driverNr) {
+		group.removeDriverNumber(driverNr);
+		for (int i = 2; i < getChildCount(); i++) {
+			if (((TextView) getChildAt(i)).getText().toString()
+					.equals(driverNr + "")) {
+				removeViewAt(i);
+			}
+		}
+
 	}
 }
