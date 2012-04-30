@@ -35,5 +35,9 @@
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verbindung:</string>
     <string name="desc_connectionimage">Verbindungsstatus</string>
+    <string name="tab_ren">Rennen</string>
+    <string name="tab_vir">Virtuelles Klassement</string>
+    <string name="tab_spez">Spezialklassement</string>
+    <string name="tab_adm">Admin</string>
 
 </resources>

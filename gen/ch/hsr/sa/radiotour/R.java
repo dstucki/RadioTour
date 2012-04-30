@@ -22,15 +22,15 @@ public final class R {
     }
     public static final class id {
         public static final int DetailsTitle=0x7f060003;
-        public static final int altitude_value=0x7f060037;
+        public static final int altitude_value=0x7f06003d;
         public static final int arzt=0x7f060014;
         public static final int aufgabe=0x7f060015;
-        public static final int bt_racetime_start_stop=0x7f06003e;
-        public static final int bt_stopwatch_reset=0x7f060043;
-        public static final int bt_stopwatch_start_stop=0x7f060042;
+        public static final int bt_racetime_start_stop=0x7f060043;
+        public static final int bt_stopwatch_reset=0x7f060048;
+        public static final int bt_stopwatch_start_stop=0x7f060047;
         public static final int changeLayout=0x7f060001;
-        public static final int chrono_racetime=0x7f06003c;
-        public static final int chrono_stopwatch=0x7f060040;
+        public static final int chrono_racetime=0x7f060041;
+        public static final int chrono_stopwatch=0x7f060045;
         public static final int clear=0x7f060013;
         public static final int detailsTableLayout=0x7f060002;
         public static final int dismissButton=0x7f06001e;
@@ -41,7 +41,7 @@ public final class R {
         public static final int driverTeam=0x7f06000c;
         public static final int driverTeamShort=0x7f06000f;
         public static final int editTextTeamShort=0x7f06000e;
-        public static final int etappe_value=0x7f060038;
+        public static final int etappe_value=0x7f06003e;
         public static final int fahrername=0x7f06005b;
         public static final int getBirthday=0x7f06004d;
         public static final int getCountry=0x7f06004a;
@@ -53,18 +53,17 @@ public final class R {
         public static final int gruppen=0x7f06005e;
         public static final int handicapOfficial=0x7f060062;
         public static final int headerFragment=0x7f060000;
-        public static final int headeremptyspace=0x7f060039;
+        public static final int headeremptyspace=0x7f060028;
         public static final int hourPicker=0x7f060018;
         public static final int hourTextView=0x7f060019;
-        public static final int img_connection=0x7f060030;
+        public static final int img_connection=0x7f060036;
         public static final int land=0x7f06005d;
-        public static final int lb_altitude=0x7f060033;
-        public static final int lb_connectionstate=0x7f06002c;
-        public static final int lb_currentTime=0x7f060044;
-        public static final int lb_speed=0x7f060032;
-        public static final int lb_spitzefeld=0x7f06002a;
-        public static final int lb_spitzert=0x7f06002b;
-        public static final int lb_stage=0x7f060034;
+        public static final int lb_altitude=0x7f060039;
+        public static final int lb_connectionstate=0x7f060032;
+        public static final int lb_speed=0x7f060038;
+        public static final int lb_spitzefeld=0x7f060030;
+        public static final int lb_spitzert=0x7f060031;
+        public static final int lb_stage=0x7f06003a;
         public static final int linearLayout1=0x7f06000d;
         public static final int linearLayout2=0x7f060004;
         public static final int linearLayout3=0x7f06000a;
@@ -78,16 +77,16 @@ public final class R {
         public static final int newGroupTop=0x7f060022;
         public static final int pickerFragmentHolder=0x7f060057;
         public static final int raceLayout=0x7f060056;
-        public static final int racetime=0x7f06003b;
-        public static final int racetime_buttons=0x7f06003d;
+        public static final int racetime=0x7f060040;
+        public static final int racetime_buttons=0x7f060042;
         public static final int radiotourlayout=0x7f060026;
         public static final int rang=0x7f060059;
         public static final int saveButton=0x7f06001f;
         public static final int secondPicker=0x7f06001c;
         public static final int secondsTextView=0x7f06001d;
-        public static final int speed_value=0x7f060036;
-        public static final int spitzefeld_value=0x7f06002e;
-        public static final int spitzert_value=0x7f06002f;
+        public static final int speed_value=0x7f06003c;
+        public static final int spitzefeld_value=0x7f060034;
+        public static final int spitzert_value=0x7f060035;
         public static final int startNr1=0x7f06004e;
         public static final int startNr2=0x7f06004f;
         public static final int startNr3=0x7f060050;
@@ -97,12 +96,13 @@ public final class R {
         public static final int startNr7=0x7f060054;
         public static final int startNr8=0x7f060055;
         public static final int startnummer=0x7f06005a;
-        public static final int stopwatch=0x7f06003f;
-        public static final int stopwatch_buttons=0x7f060041;
-        public static final int tab1=0x7f060046;
-        public static final int tab2=0x7f060047;
-        public static final int tab3=0x7f060048;
-        public static final int tabbar=0x7f060045;
+        public static final int stopwatch=0x7f060044;
+        public static final int stopwatch_buttons=0x7f060046;
+        public static final int tab_adm=0x7f06002d;
+        public static final int tab_ren=0x7f06002a;
+        public static final int tab_spez=0x7f06002b;
+        public static final int tab_vir=0x7f06002c;
+        public static final int tabbar=0x7f060029;
         public static final int tableRow5=0x7f060010;
         public static final int tableRowField=0x7f060023;
         public static final int tableRowGroup=0x7f060021;
@@ -113,12 +113,12 @@ public final class R {
         public static final int textViewDriverCountry=0x7f060008;
         public static final int timeBoni=0x7f060060;
         public static final int timeOfficial=0x7f060061;
-        public static final int timing=0x7f06003a;
-        public static final int tourinfo=0x7f060028;
-        public static final int tourinfo_row1=0x7f060029;
-        public static final int tourinfo_row2=0x7f06002d;
-        public static final int tourinfo_row3=0x7f060031;
-        public static final int tourinfo_row4=0x7f060035;
+        public static final int timing=0x7f06003f;
+        public static final int tourinfo=0x7f06002e;
+        public static final int tourinfo_row1=0x7f06002f;
+        public static final int tourinfo_row2=0x7f060033;
+        public static final int tourinfo_row3=0x7f060037;
+        public static final int tourinfo_row4=0x7f06003b;
         public static final int virtualRank=0x7f06005f;
     }
     public static final class layout {
@@ -172,6 +172,10 @@ public final class R {
         public static final int reset=0x7f050015;
         public static final int start=0x7f050013;
         public static final int stop=0x7f050014;
+        public static final int tab_adm=0x7f050025;
+        public static final int tab_ren=0x7f050022;
+        public static final int tab_spez=0x7f050024;
+        public static final int tab_vir=0x7f050023;
         public static final int top=0x7f05000e;
     }
 }

@@ -38,7 +38,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	}
 
 	public void startLocationUpdates() {
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500l, 1,
+		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500l, 10,
 				this);
 	}
 
@@ -46,38 +46,43 @@ public class GPSLocationListener extends Observable implements LocationListener 
 		manager.removeUpdates(this);
 	}
 
+	@Override
 	public void onLocationChanged(Location newLocation) {
 		actualLocation = newLocation;
+		getGPSData();
 		setChanged();
 		notifyObservers(this);
 	}
 
+	@Override
 	public void onProviderEnabled(String provider) {
 	}
 
+	@Override
 	public void onProviderDisabled(String provider) {
 	}
 
+	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
 	public void getGPSData() {
 		if (actualLocation != null) {
 			if (actualLocation.hasAltitude()) {
-				altitude = actualLocation.getAltitude() + " MŸM";
+				altitude = ((int) actualLocation.getAltitude()) + " mŸM";
 			} else {
-				altitude = "No GPS Data";
+				altitude = "No GPS";
 			}
 			if (actualLocation.hasAccuracy() == true) {
 				accuracy = round(actualLocation.getAccuracy()) + " ";
 			} else {
-				accuracy = "No GPS Data";
+				accuracy = "No GPS";
 			}
 			if (actualLocation.hasSpeed()) {
 				float kmh = round((float) (actualLocation.getSpeed() * 3.6));
-				speed = kmh + "km/h";
+				speed = kmh + " km/h";
 			} else {
-				speed = "No GPS Data";
+				speed = "No GPS";
 			}
 		}
 	}
