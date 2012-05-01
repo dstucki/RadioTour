@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Startnr.:" />
+
+        <EditText
+            android:id="@+id/edittxt_startnr"
+            android:layout_width="300dp"
+            android:editable="false"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Name:" />
+
+        <EditText
+            android:id="@+id/edittxt_name"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Team:" />
+
+        <EditText
+            android:id="@+id/edittxt_team"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Team kurz:" />
+
+        <EditText
+            android:id="@+id/edittxt_team_short"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Land: " />
+
+        <Spinner
+            android:id="@+id/spinner_country"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Geburtstag:" />
+
+        <EditText
+            android:id="@+id/edittxt_day"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Status:" />
+
+        <RadioGroup
+            android:id="@+id/rg_status"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rdbtn_active"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Aktiv"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/rdbtn_out"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Ausgeschieden"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/rdbtn_notstarted"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Nicht gestartet"
+                android:textSize="10dp" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Notiz:" />
+
+        <EditText
+            android:id="@+id/edittxt_note"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_abort"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Abbruch" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Speichern" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

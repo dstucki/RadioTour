@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <TextView
@@ -13,7 +13,7 @@
         android:onClick="clearCheckedIntegersOnclick"
         android:clickable="true"
         android:text="x"
-        android:textSize="22px" />
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/arzt"
@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="arzt"
-        android:textSize="22px" />
+        android:text="Arzt"
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/aufgabe"
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="aufgabe"
-        android:textSize="22px" />
+        android:text="Aufgabe"
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/miipmiip"
@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="miipmiip"
-        android:textSize="22px" />
+        android:text="Sturz"
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/miipmiipmiip"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="sali"
-        android:textSize="22px" />
+        android:text="Defekt"
+        android:textSize="20px" />
 
 </LinearLayout>

@@ -1,12 +1,9 @@
 package ch.hsr.sa.radiotour.views;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.StringTokenizer;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +19,6 @@ public class FragmentDialog extends DialogFragment {
 
 	public FragmentDialog(GroupTableRow txtView) {
 		super();
-		Log.e(getClass().getSimpleName(), "Constructor");
 		selectedTableRow = txtView;
 		setTimeFromTextView();
 	}
@@ -33,7 +29,6 @@ public class FragmentDialog extends DialogFragment {
 		hour = Integer.valueOf(t.nextToken());
 		minute = Integer.valueOf(t.nextToken());
 		second = Integer.valueOf(t.nextToken());
-		Log.e(getClass().getSimpleName(), hour + " " + minute + " " + second);
 
 	}
 
@@ -43,7 +38,6 @@ public class FragmentDialog extends DialogFragment {
 		getDialog().setTitle(
 				"WŠhlen des RŸckstandes der Gruppe relativ zur Spitze");
 		View v = inflater.inflate(R.layout.fragment_dialog, container, false);
-		Log.e(getClass().getSimpleName(), "oncreateview");
 
 		hourPicker = ((NumberPicker) v.findViewById(R.id.hourPicker));
 		hourPicker.setMinValue(0);
@@ -90,17 +84,6 @@ public class FragmentDialog extends DialogFragment {
 			}
 		});
 		return v;
-	}
-
-	protected String getTimeString() {
-		final NumberFormat formatter = new DecimalFormat("00");
-		final StringBuffer buffer = new StringBuffer(
-				formatter.format(hourPicker.getValue()));
-		buffer.append(":");
-		buffer.append(formatter.format(minutePicker.getValue()));
-		buffer.append(":");
-		buffer.append(formatter.format(secondPicker.getValue()));
-		return buffer.toString();
 	}
 
 }

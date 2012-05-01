@@ -1,5 +1,5 @@
 #
-# generated on 2012/04/27 05:03:14
+# generated on 2012/05/01 09:46:06
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
@@ -28,6 +28,9 @@ fieldName=comment
 fieldName=official_time
 # --field-end--
 # --field-start--
+fieldName=birthday
+# --field-end--
+# --field-start--
 fieldName=official_deficit
 # --field-end--
 # --field-start--
@@ -38,6 +41,9 @@ fieldName=activ
 # --field-end--
 # --field-start--
 fieldName=category
+# --field-end--
+# --field-start--
+fieldName=note
 # --field-end--
 # --field-start--
 fieldName=uci

@@ -23,7 +23,7 @@ public class DriverPickerFragment extends ListFragment {
 		adapter = new DriverPickerAdapter(getActivity(),
 				R.layout.picklist_item, R.id.startNr1,
 				((RadioTour) getActivity().getApplication()).getTeams(), this);
-		getListView().addHeaderView(
+		getListView().addFooterView(
 				getActivity().getLayoutInflater().inflate(
 						R.layout.driverpicker_footer, null));
 		setListAdapter(adapter);

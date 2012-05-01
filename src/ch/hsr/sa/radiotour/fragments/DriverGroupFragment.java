@@ -179,7 +179,7 @@ public class DriverGroupFragment extends Fragment {
 		TextView test = new TextView(getActivity());
 		test.setLayoutParams(standardRowParams);
 		test.setTextSize(20);
-		test.setText("Neue Gruppe");
+		test.setText(getString(R.string.new_group));
 		row.addView(test);
 		row.setLayoutParams(standardParams);
 		row.setBackgroundResource(R.drawable.create_new_group);
@@ -218,7 +218,7 @@ public class DriverGroupFragment extends Fragment {
 		prefix = getString(R.string.follower);
 		for (; counter < locationOfField; counter += 2) {
 			((GroupTableRow) tableRows.get(counter)).changeDescription(prefix
-					+ (counter / 2));
+					+ ((counter / 2) + 1));
 		}
 		prefix = getString(R.string.detached);
 		for (counter = locationOfField + 2; counter < tableRows.size(); counter += 2) {
@@ -264,16 +264,19 @@ public class DriverGroupFragment extends Fragment {
 		if (hasToCreateNewGroup(destination)) {
 			destination = createNewGroup(tableRows.indexOf(destination));
 		}
-
 		final GroupTableRow groupTableRow = (GroupTableRow) destination;
-		if (destination != field) {
-			for (Integer i : riderNumbers) {
-				if (driverTableRow.get(i) != null) {
-					driverTableRow.get(i).removeRiderNr(i);
-					driverTableRow.put(i, null);
-				}
+		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
+		modificationAvoider.addAll(riderNumbers);
+		for (Integer i : modificationAvoider) {
+			if (driverTableRow.get(i) != null) {
+				driverTableRow.get(i).removeRiderNr(i);
+				driverTableRow.put(i, null);
+			}
+			if (destination != field) {
+
 				groupTableRow.addRider(i);
 				driverTableRow.put(i, groupTableRow);
+
 			}
 		}
 		removeEmptyTableRows();

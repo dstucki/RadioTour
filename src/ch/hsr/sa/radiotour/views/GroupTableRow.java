@@ -1,10 +1,13 @@
 package ch.hsr.sa.radiotour.views;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.TreeSet;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -101,17 +104,19 @@ public class GroupTableRow extends TableRow {
 	}
 
 	public String getHandicapAsString() {
+		final NumberFormat formatter = new DecimalFormat("00");
 		final Date date = group.getHandicapTime();
 		if (date == null) {
-			return "0:00:00";
+			return "00:00:00";
 		}
 		final StringBuilder tempString = new StringBuilder();
-		tempString.append(date.getHours());
+		tempString.append(formatter.format(date.getHours()));
 		tempString.append(":");
-		tempString.append(date.getMinutes());
+		tempString.append(formatter.format(date.getMinutes()));
 		tempString.append(":");
-		tempString.append(date.getSeconds());
+		tempString.append(formatter.format(date.getSeconds()));
 		return tempString.toString();
+
 	}
 
 	public void addRider(final Integer riderNr) {
@@ -121,13 +126,16 @@ public class GroupTableRow extends TableRow {
 			final TextView txtViewToAdd = new TextView(context);
 			txtViewToAdd.setId(riderNr);
 			txtViewToAdd.setText(riderNr + "");
+			// txtViewToAdd.setText(((RadioTour)
+			// context.getApplicationContext())
+			// .getRidersAsMap().get(riderNr).toString());
+			txtViewToAdd.setTextColor(Color.WHITE);
 			txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
 			txtViewToAdd.setMinimumWidth(40);
 			txtViewToAdd.setGravity(Gravity.RIGHT);
 			LayoutParams layoutParams = new LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 			layoutParams.setMargins(3, 3, 3, 3);
-			// txtViewToAdd.setBackgroundColor(Color.RED);
 			txtViewToAdd.setLayoutParams(layoutParams);
 
 			addView(txtViewToAdd);
@@ -147,8 +155,8 @@ public class GroupTableRow extends TableRow {
 				}
 			});
 
+			txtViewToAdd.setOnClickListener((RadioTourActivity) context);
 		}
-
 	}
 
 	@Override

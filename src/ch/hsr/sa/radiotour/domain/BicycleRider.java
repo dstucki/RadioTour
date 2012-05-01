@@ -22,6 +22,8 @@ public class BicycleRider {
 	@DatabaseField
 	private Date official_time;
 	@DatabaseField
+	private Date birthday;
+	@DatabaseField
 	private Date official_deficit;
 	@DatabaseField
 	private Date virtual_deficit;
@@ -29,6 +31,8 @@ public class BicycleRider {
 	private boolean activ;
 	@DatabaseField
 	private String category;
+	@DatabaseField
+	private String note;
 	@DatabaseField
 	private String uci;
 	@DatabaseField
@@ -183,6 +187,22 @@ public class BicycleRider {
 	@Override
 	public String toString() {
 		return startNr + "   " + name;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 }

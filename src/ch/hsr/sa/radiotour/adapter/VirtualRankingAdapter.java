@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
 
 public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 
@@ -19,6 +21,15 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 			int textViewResourceId, ArrayList<BicycleRider> objects) {
 		super(context, resource, textViewResourceId, objects);
 		riders = objects;
+	}
+
+	public void sort(RiderSortStrategy strategy) {
+		if (strategy.isAscending()) {
+			Collections.sort(riders, Collections.reverseOrder(strategy));
+		} else {
+			Collections.sort(riders, strategy);
+		}
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -38,11 +49,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 			temp = (TextView) v.findViewById(R.id.fahrername);
 			temp.setText(rider.getName());
 			temp = (TextView) v.findViewById(R.id.team);
-			temp.setText(rider.getTeam());
-			temp = (TextView) v.findViewById(R.id.land);
 			temp.setText(rider.getTeamShort());
-			temp = (TextView) v.findViewById(R.id.gruppen);
-			temp.setText("Gruppen-Nr");
+
 			temp = (TextView) v.findViewById(R.id.virtualRank);
 			temp.setText((position + 1) + "");
 			temp = (TextView) v.findViewById(R.id.timeBoni);

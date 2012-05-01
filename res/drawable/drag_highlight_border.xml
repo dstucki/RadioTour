@@ -2,8 +2,9 @@
 
     <stroke
         android:width="3dp"
-        android:color="#FFFFFF" />
-
+        android:color="@android:color/white" />
+<gradient android:startColor="@android:color/transparent" android:endColor="@android:color/transparent"
+            android:angle="225"/> 
     <corners android:radius="4dp" />
 
 </shape>

@@ -15,6 +15,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 import ch.hsr.sa.radiotour.technicalservices.connection.LiveData;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
@@ -52,6 +53,12 @@ public class HeaderFragment extends Fragment implements Observer {
 
 		// Flo's Stuff
 
+		tabRen = (TextView) view.findViewById(R.id.tab_adm);
+		tabRen.setOnClickListener(tabclicklistener);
+		tabRen = (TextView) view.findViewById(R.id.tab_spez);
+		tabRen.setOnClickListener(tabclicklistener);
+		tabRen = (TextView) view.findViewById(R.id.tab_vir);
+		tabRen.setOnClickListener(tabclicklistener);
 		tabRen = (TextView) view.findViewById(R.id.tab_ren);
 		tabRen.setOnClickListener(tabclicklistener);
 
@@ -85,7 +92,22 @@ public class HeaderFragment extends Fragment implements Observer {
 
 		@Override
 		public void onClick(View v) {
-			Log.d(getClass().getSimpleName(), "Clicked");
+			switch (v.getId()) {
+			case R.id.tab_ren:
+				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				return;
+			case R.id.tab_adm:
+				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				return;
+			case R.id.tab_spez:
+				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				return;
+			case R.id.tab_vir:
+				((RadioTourActivity) getActivity()).ontestButtonClick1(v);
+				return;
+			default:
+				Log.e(getClass().getSimpleName(), "I'n default case");
+			}
 		}
 	};
 

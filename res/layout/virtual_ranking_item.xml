@@ -2,100 +2,92 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:stretchColumns="*" >
+    android:orientation="horizontal" 
+    android:stretchColumns="3">
 
     <TableRow >
 
         <TextView
             android:id="@+id/rang"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="right"
+            android:text="Position"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/startnummer"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="right"
+            android:text="Start-Nr."
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/fahrername"
-            android:layout_width="0dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="left"
+            android:layout_marginLeft="5dp"
+            android:text="Name"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/team"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_column="4"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="left"
+            android:text="Team"
+            android:textSize="20dp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/land"
-            android:layout_width="0dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_column="5"
-            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="22px" />
-
-        <TextView
-            android:id="@+id/gruppen"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="6"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:src="@drawable/country_ch"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/virtualRank"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_column="7"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="right"
+            android:text="Rang"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/timeBoni"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_column="8"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="left"
+            android:text="Zeitbonus"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/timeOfficial"
-            android:layout_width="0dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_column="9"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="left"
+            android:text="Offizielle Zeit"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/handicapOfficial"
-            android:layout_width="0dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_column="10"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="22px" />
+            android:gravity="left"
+            android:text="Offizieller Rückstand"
+            android:textSize="20dp" />
     </TableRow>
 
 </TableLayout>

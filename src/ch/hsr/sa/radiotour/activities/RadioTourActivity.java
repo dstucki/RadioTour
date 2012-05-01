@@ -13,9 +13,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TableRow;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Team;
@@ -23,12 +25,14 @@ import ch.hsr.sa.radiotour.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
+import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-public class RadioTourActivity extends Activity implements Observer {
+public class RadioTourActivity extends Activity implements Observer,
+		OnClickListener {
 
 	private final TreeSet<Integer> checkedIntegers = new TreeSet<Integer>();
 	private final HashSet<TextView> checkedViews = new HashSet<TextView>();
@@ -53,6 +57,7 @@ public class RadioTourActivity extends Activity implements Observer {
 	}
 
 	public void importDriverandTeams() {
+		Log.d(getClass().getSimpleName(), "éèàöüä");
 		RadioTour application = (RadioTour) getApplication();
 		application.getRiders().clear();
 		application.getGroups().clear();
@@ -65,8 +70,6 @@ public class RadioTourActivity extends Activity implements Observer {
 		((RadioTour) getApplication()).getGroups().addAll(
 				databaseHelper.getGroupDao().queryForAll());
 		Collections.sort(((RadioTour) getApplication()).getGroups());
-		Log.e(getClass().getSimpleName(), ((RadioTour) getApplication())
-				.getGroups().size() + "");
 		if (((RadioTour) getApplication()).getRiders().size() <= 0) {
 			CSVReader reader = new CSVReader(getResources().openRawResource(
 					R.raw.startliste));
@@ -89,11 +92,12 @@ public class RadioTourActivity extends Activity implements Observer {
 			databaseHelper.getBicycleRiderDao().create(bicycleRider);
 			return bicycleRider;
 		} catch (NumberFormatException e) {
-			Log.e(this.getClass().getSimpleName(), e.getMessage());
+			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
 		return null;
 	}
 
+	@Override
 	public void onClick(View v) {
 		if (v instanceof TextView) {
 			final TextView temp = (TextView) v;
@@ -197,6 +201,19 @@ public class RadioTourActivity extends Activity implements Observer {
 		FragmentDialog newFragment = new FragmentDialog(v);
 		newFragment.show(ft, "dialog");
 
+	}
+
+	public void showRiderDialog(BicycleRider rider,
+			VirtualRankingAdapter adapter) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("riderDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		EditRiderDialog newFragment = new EditRiderDialog(rider, adapter);
+		newFragment.show(ft, "riderDialog");
 	}
 
 	@Override
