@@ -1,287 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/radiotourlayout"
+    android:id="@+id/mainheader"
     android:layout_width="fill_parent"
-    android:layout_height="120dp"
-    android:orientation="vertical" >
+    android:layout_height="100dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="#0F0000"
+    android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/mainheader"
+        android:id="@+id/headeremptyspace"
+        android:layout_width="500dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/tabbar"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/tab_ren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:text="@string/tab_ren"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/tab_spez"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:text="@string/tab_spez"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/tab_vir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:text="@string/tab_vir"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/tab_adm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:text="@string/tab_adm"
+                android:textSize="17dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tourinfo"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <LinearLayout
+            android:id="@+id/tourinfo_row1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lb_spitzefeld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="@string/lb_spitzefeld" />
+
+            <TextView
+                android:id="@+id/lb_spitzert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="@string/lb_spitzert" />
+
+            <TextView
+                android:id="@+id/lb_connectionstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="@string/lb_connectionstate" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tourinfo_row2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:id="@+id/spitzefeld_value"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_emptyvalues" />
+
+            <TextView
+                android:id="@+id/spitzert_value"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_emptyvalues" />
+
+            <ImageView
+                android:id="@+id/img_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:contentDescription="@string/desc_connectionimage"
+                android:padding="7dp"
+                android:src="@drawable/red" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tourinfo_row3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="0dp" >
+
+            <TextView
+                android:id="@+id/lb_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="@string/lb_speed" />
+
+            <TextView
+                android:id="@+id/lb_altitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="Höhe:" />
+
+            <TextView
+                android:id="@+id/lb_stage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="@string/lb_etappe" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tourinfo_row4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/speed_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_defaultspeed" />
+
+            <TextView
+                android:id="@+id/altitude_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_defaultaltitude" />
+
+            <TextView
+                android:id="@+id/etappe_value"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_defaultetappe" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timing"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="right"
         android:orientation="horizontal" >
 
         <LinearLayout
-            android:id="@+id/headeremptyspace"
-            android:layout_width="500dp"
-            android:layout_height="fill_parent"
+            android:id="@+id/racetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/tabbar"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="@string/lb_racetime" />
 
-                <Button
-                    android:id="@+id/tab_ren"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/tab_ren"
-                    android:textSize="17dp" />
+            <Chronometer
+                android:id="@+id/chrono_racetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="2dp"
+                android:textSize="20dp" />
 
-                <Button
-                    android:id="@+id/tab_spez"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/tab_spez"
-                    android:textSize="17dp" />
-
-                <Button
-                    android:id="@+id/tab_vir"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/tab_vir"
-                    android:textSize="17dp" />
-
-                <Button
-                    android:id="@+id/tab_adm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/tab_adm"
-                    android:textSize="17dp" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/bt_racetime_start_stop"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:text="@string/start" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/tourinfo"
-            android:layout_width="500dp"
+            android:id="@+id/stopwatch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp" >
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/tourinfo_row1"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:paddingLeft="5dp"
+                android:text="@string/lb_stopwatch" />
 
-                <TextView
-                    android:id="@+id/lb_spitzefeld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="@string/lb_spitzefeld" />
-
-                <TextView
-                    android:id="@+id/lb_spitzert"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="@string/lb_spitzert" />
-
-                <TextView
-                    android:id="@+id/lb_connectionstate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="@string/lb_connectionstate" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tourinfo_row2"
+            <Chronometer
+                android:id="@+id/chrono_stopwatch"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingRight="10dp" >
+                android:layout_height="30dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="2dp"
+                android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/spitzefeld_value"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:background="#333333"
-                    android:padding="5dp"
-                    android:text="@string/lb_emptyvalues" />
-
-                <TextView
-                    android:id="@+id/spitzert_value"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:background="#333333"
-                    android:padding="5dp"
-                    android:text="@string/lb_emptyvalues" />
-
-                <ImageView
-                    android:id="@+id/img_connection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:contentDescription="@string/desc_connectionimage"
-                    android:padding="7dp"
-                    android:src="@drawable/red" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tourinfo_row3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingRight="0dp" >
-
-                <TextView
-                    android:id="@+id/lb_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="@string/lb_speed" />
-
-                <TextView
-                    android:id="@+id/lb_altitude"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="Höhe:" />
-
-                <TextView
-                    android:id="@+id/lb_stage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="5dp"
-                    android:text="@string/lb_etappe" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tourinfo_row4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/speed_value"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="#333333"
-                    android:padding="5dp"
-                    android:text="@string/lb_defaultspeed" />
-
-                <TextView
-                    android:id="@+id/altitude_value"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="#333333"
-                    android:padding="5dp"
-                    android:text="@string/lb_defaultaltitude" />
-
-                <TextView
-                    android:id="@+id/etappe_value"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="#333333"
-                    android:padding="5dp"
-                    android:text="@string/lb_defaultetappe" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/timing"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/racetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="@string/lb_racetime" />
-
-                <Chronometer
-                    android:id="@+id/chrono_racetime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="2dp"
-                    android:textSize="20dp" />
-
-                <LinearLayout
-                    android:id="@+id/racetime_buttons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/bt_racetime_start_stop"
-                        android:layout_width="80dp"
-                        android:layout_height="35dp"
-                        android:text="@string/start" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/stopwatch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="@string/lb_stopwatch" />
-
-                <Chronometer
-                    android:id="@+id/chrono_stopwatch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="2dp"
-                    android:textSize="20dp" />
-
-                <LinearLayout
-                    android:id="@+id/stopwatch_buttons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/bt_stopwatch_start_stop"
-                        android:layout_width="80dp"
-                        android:layout_height="35dp"
-                        android:text="@string/start" />
-
-                    <Button
-                        android:id="@+id/bt_stopwatch_reset"
-                        android:layout_width="90dp"
-                        android:layout_height="35dp"
-                        android:text="@string/reset" />
-                </LinearLayout>
-            </LinearLayout>
+            <Button
+                android:id="@+id/bt_stopwatch_start_stop"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:text="@string/start" />
         </LinearLayout>
     </LinearLayout>
 

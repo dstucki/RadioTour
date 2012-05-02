@@ -5,5 +5,5 @@ With this application we replace the current RadioTour web application for track
  
 Developers:
 
-* D.Stucki
-* F.Bentele
+* D.Stucki, https://github.com/dstucki/
+* F.Bentele, https://github.com/kassiopaia/

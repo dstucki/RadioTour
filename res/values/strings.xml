@@ -34,6 +34,9 @@
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verbindung:</string>
+    <string name="lb_save">Speichern</string>
+    <string name="lb_spezialkl">Spezialklassement</string>
+    <string name="lb_wertung">Wertung</string>
     <string name="desc_connectionimage">Verbindungsstatus</string>
     <string name="tab_ren">Rennen</string>
     <string name="tab_vir">Virtuelles Klassement</string>

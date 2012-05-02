@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -27,12 +28,9 @@ public class HeaderFragment extends Fragment implements Observer {
 	private Timer racetimeTimer;
 	private Button startstoprace;
 	private Button startstopwatch;
-	private Button reset;
 	private GPSLocationListener mGPS;
 	private LiveData updatedLiveData;
 	private TextView tabRen;
-
-	// end Flo's Stuff
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +49,6 @@ public class HeaderFragment extends Fragment implements Observer {
 		View view = inflater
 				.inflate(R.layout.header_fragment, container, false);
 
-		// Flo's Stuff
-
 		tabRen = (TextView) view.findViewById(R.id.tab_adm);
 		tabRen.setOnClickListener(tabclicklistener);
 		tabRen = (TextView) view.findViewById(R.id.tab_spez);
@@ -70,8 +66,7 @@ public class HeaderFragment extends Fragment implements Observer {
 		startstopwatch = (Button) view
 				.findViewById(R.id.bt_stopwatch_start_stop);
 		startstopwatch.setOnClickListener(stopWatchListener);
-		reset = (Button) view.findViewById(R.id.bt_stopwatch_reset);
-		reset.setOnClickListener(stopWatchResetListener);
+		startstopwatch.setOnLongClickListener(stopWatchResetListener);
 
 		startstoprace = (Button) view.findViewById(R.id.bt_racetime_start_stop);
 		startstoprace.setOnClickListener(racetimeListener);
@@ -82,12 +77,10 @@ public class HeaderFragment extends Fragment implements Observer {
 		updatedLiveData = new LiveData();
 		updatedLiveData.updateperiodically();
 		updatedLiveData.addObserver(this);
-		// end Flo's Stuff
 
 		return view;
 	}
 
-	// Flo's Stuff
 	View.OnClickListener tabclicklistener = new OnClickListener() {
 
 		@Override
@@ -97,7 +90,7 @@ public class HeaderFragment extends Fragment implements Observer {
 				((RadioTourActivity) getActivity()).ontestButtonClick(v);
 				return;
 			case R.id.tab_adm:
-				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				((RadioTourActivity) getActivity()).onAdminButtonClick(v);
 				return;
 			case R.id.tab_spez:
 				((RadioTourActivity) getActivity()).ontestButtonClick(v);
@@ -135,11 +128,12 @@ public class HeaderFragment extends Fragment implements Observer {
 		}
 	};
 
-	View.OnClickListener stopWatchResetListener = new OnClickListener() {
+	View.OnLongClickListener stopWatchResetListener = new OnLongClickListener() {
 		@Override
-		public void onClick(View v) {
+		public boolean onLongClick(View v) {
 			stopWatchTimer.reset();
 			startstopwatch.setText(R.string.start);
+			return true;
 		}
 	};
 
