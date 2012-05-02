@@ -5,16 +5,10 @@
     android:layout_weight="1"
     android:scrollbars="none" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:padding="10dp" >
-
         <TableLayout
             android:id="@+id/groupTableLayout"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:scrollbars="vertical" >
 
@@ -69,6 +63,5 @@
                 </TextView>
             </TableRow>
         </TableLayout>
-    </LinearLayout>
 
 </ScrollView>

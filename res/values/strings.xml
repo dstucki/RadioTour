@@ -14,7 +14,7 @@
     <string name="menu_driver">Fah</string>
     <string name="menu_admin">Adm</string>
     <string name="menu_log">Log</string>
-    <string name="lb_time">Uhrzeit:</string>
+    <string name="lb_time">Zeit:</string>
     <string name="top">Spitze</string>
     <string name="new_group">*</string>
     <string name="field">Feld</string>
@@ -34,10 +34,21 @@
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verbindung:</string>
+    <string name="lb_save">Speichern</string>
+    <string name="lb_spezialkl">Spezialklassement</string>
+    <string name="lb_wertung">Wertung</string>
+    <string name="lb_altitude">Höhe:</string>
     <string name="desc_connectionimage">Verbindungsstatus</string>
     <string name="tab_ren">Rennen</string>
     <string name="tab_vir">Virtuelles Klassement</string>
     <string name="tab_spez">Spezialklassement</string>
     <string name="tab_adm">Admin</string>
+    <string name="lb_maillots">Maillots:</string>
+    <string name="lb_price">Preis:</string>
+    <string name="lb_points">Punkte:</string>
+    <string name="lb_default">Bergpreis</string>
+    <string name="lb_delete">Löschen</string>
+        <string name="lb_name">Name:</string>
+    <string name="lb_bonus">Bonus</string>
 
 </resources>

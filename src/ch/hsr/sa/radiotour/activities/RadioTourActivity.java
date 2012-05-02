@@ -21,6 +21,7 @@ import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Team;
+import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
@@ -38,6 +39,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	private final HashSet<TextView> checkedViews = new HashSet<TextView>();
 	private RaceFragment raceFragment;
 	private VirtualRankingFragment rankingFragment;
+	private AdminFragment adminFragment;
 
 	public TreeSet<Integer> getCheckedIntegers() {
 		return checkedIntegers;
@@ -57,7 +59,6 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void importDriverandTeams() {
-		Log.d(getClass().getSimpleName(), "éèàöüä");
 		RadioTour application = (RadioTour) getApplication();
 		application.getRiders().clear();
 		application.getGroups().clear();
@@ -176,16 +177,13 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
-	public void ontestButtonClick2(View v) {
-		clearCheckedIntegers();
-		rankingFragment = rankingFragment == null ? new VirtualRankingFragment()
-				: rankingFragment;
-		if (!rankingFragment.isAdded()) {
-			FragmentTransaction fragmentTransaction = getFragmentManager()
-					.beginTransaction();
-			fragmentTransaction.replace(R.id.changeLayout, rankingFragment);
-			fragmentTransaction.commit();
-		}
+	public void onAdminButtonClick(View v) {
+		adminFragment = new AdminFragment();
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.changeLayout, adminFragment);
+		fragmentTransaction.commit();
+
 	}
 
 	private void clearCheckedIntegers() {
