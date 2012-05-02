@@ -3,6 +3,8 @@ package ch.hsr.sa.radiotour.views;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import android.content.ClipData;
@@ -11,17 +13,21 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
+import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Group;
 
 public class GroupTableRow extends TableRow {
 	private TextView description;
 	private TextView time;
+	private final Map<Integer, LinearLayout> map = new HashMap<Integer, LinearLayout>();
+	private LinearLayout odd, even;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -42,8 +48,12 @@ public class GroupTableRow extends TableRow {
 	}
 
 	private void createUI() {
-		description = new TextView(context);
-		time = new TextView(context);
+		LayoutInflater.from(context).inflate(
+				R.layout.group_table_row_ingredient, this);
+		odd = (LinearLayout) findViewById(R.id.llayout_driver_odd);
+		even = (LinearLayout) findViewById(R.id.llayout_driver_even);
+		description = (TextView) findViewById(R.id.txt_description);
+		time = (TextView) findViewById(R.id.txt_group_time);
 		time.setText(getHandicapAsString());
 		time.setClickable(true);
 		// time.setLayoutParams(getTextViewMargins());
@@ -68,8 +78,6 @@ public class GroupTableRow extends TableRow {
 
 		description.setTextSize(30);
 
-		this.addView(time);
-		this.addView(description);
 	}
 
 	public LinearLayout.LayoutParams getTextViewMargins() {
@@ -125,20 +133,23 @@ public class GroupTableRow extends TableRow {
 		if (!group.isField()) {
 			final TextView txtViewToAdd = new TextView(context);
 			txtViewToAdd.setId(riderNr);
-			txtViewToAdd.setText(riderNr + "");
-			// txtViewToAdd.setText(((RadioTour)
-			// context.getApplicationContext())
-			// .getRidersAsMap().get(riderNr).toString());
+			// txtViewToAdd.setText(riderNr + "");
+			txtViewToAdd.setText(((RadioTour) context.getApplicationContext())
+					.getRidersAsMap().get(riderNr).toString());
 			txtViewToAdd.setTextColor(Color.WHITE);
 			txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
 			txtViewToAdd.setMinimumWidth(40);
-			txtViewToAdd.setGravity(Gravity.RIGHT);
+			txtViewToAdd.setGravity(Gravity.LEFT);
 			LayoutParams layoutParams = new LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 			layoutParams.setMargins(3, 3, 3, 3);
 			txtViewToAdd.setLayoutParams(layoutParams);
 
-			addView(txtViewToAdd);
+			LinearLayout temp = even.getChildCount() < odd.getChildCount() ? even
+					: odd;
+			temp.addView(txtViewToAdd);
+			map.put(riderNr, temp);
+
 			invalidate();
 			txtViewToAdd.setOnLongClickListener(new OnLongClickListener() {
 
@@ -154,9 +165,17 @@ public class GroupTableRow extends TableRow {
 					return true;
 				}
 			});
-
+			txtViewToAdd.setSingleLine(true);
 			txtViewToAdd.setOnClickListener((RadioTourActivity) context);
 		}
+	}
+
+	public boolean hasRiderNr(Integer riderNr) {
+		return map.containsKey(riderNr);
+	}
+
+	private LinearLayout getParentLayout(Integer riderNr) {
+		return map.get(riderNr);
 	}
 
 	@Override
@@ -173,10 +192,17 @@ public class GroupTableRow extends TableRow {
 
 	public void removeRiderNr(Integer driverNr) {
 		group.removeDriverNumber(driverNr);
-		for (int i = 2; i < getChildCount(); i++) {
-			if (((TextView) getChildAt(i)).getText().toString()
-					.equals(driverNr + "")) {
-				removeViewAt(i);
+		LinearLayout temp = getParentLayout(driverNr);
+		if (temp != null) {
+			for (int i = 0; i < temp.getChildCount(); i++) {
+				if (((TextView) temp.getChildAt(i))
+						.getText()
+						.toString()
+						.equals(((RadioTour) context.getApplicationContext())
+								.getRidersAsMap().get(driverNr).toString())) {
+					temp.removeViewAt(i);
+					map.remove(driverNr);
+				}
 			}
 		}
 

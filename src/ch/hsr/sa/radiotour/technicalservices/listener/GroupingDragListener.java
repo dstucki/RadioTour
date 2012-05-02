@@ -7,7 +7,6 @@ import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.widget.TableRow;
-import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
@@ -67,15 +66,9 @@ public class GroupingDragListener implements OnDragListener {
 
 	public void handleDuplicates(Integer riderNr) {
 		for (TableRow row : groupFragment.getTableRows()) {
-			int childcount = row.getChildCount();
-			for (int i = 2; i < childcount; i++) {
-				View v1 = row.getChildAt(i);
-				if (v1 instanceof TextView
-						&& Integer
-								.valueOf(((TextView) v1).getText().toString()) == riderNr) {
-					((GroupTableRow) row).removeView(v1);
-					row.invalidate();
-				}
+			if (row instanceof GroupTableRow
+					&& ((GroupTableRow) row).hasRiderNr(riderNr)) {
+				((GroupTableRow) row).removeRiderNr(riderNr);
 			}
 		}
 	}

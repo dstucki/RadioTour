@@ -101,7 +101,15 @@ public class RadioTourActivity extends Activity implements Observer,
 	public void onClick(View v) {
 		if (v instanceof TextView) {
 			final TextView temp = (TextView) v;
-			Integer checkedID = Integer.valueOf(temp.getText().toString());
+			Integer checkedID;
+			try {
+				checkedID = Integer.valueOf(temp.getText().toString());
+			} catch (NumberFormatException e) {
+				Integer indexSpace = temp.getText().toString().indexOf(" ");
+				checkedID = Integer.valueOf(temp.getText().toString()
+						.substring(0, indexSpace));
+				Log.e(getClass().getSimpleName(), checkedID + "");
+			}
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
 				checkedViews.remove(temp);
