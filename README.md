@@ -1,6 +1,7 @@
-RadioTour
-=========
+# RadioTour for Android Tablet
+
+
  a Project for the tour de suisse
  
-@author D.Stucki
-@author F.Bentele
+ D.Stucki
+ F.Bentele
