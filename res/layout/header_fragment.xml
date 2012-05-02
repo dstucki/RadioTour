@@ -81,12 +81,12 @@
                 android:text="@string/lb_spitzert" />
 
             <TextView
-                android:id="@+id/lb_connectionstate"
+                android:id="@+id/lb_stage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:padding="5dp"
-                android:text="@string/lb_connectionstate" />
+                android:text="@string/lb_etappe" android:layout_gravity="right"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -112,14 +112,14 @@
                 android:padding="5dp"
                 android:text="@string/lb_emptyvalues" />
 
-            <ImageView
-                android:id="@+id/img_connection"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/etappe_value"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:contentDescription="@string/desc_connectionimage"
-                android:padding="7dp"
-                android:src="@drawable/red" />
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_defaultetappe" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -146,12 +146,12 @@
                 android:text="@string/lb_altitude" />
 
             <TextView
-                android:id="@+id/lb_stage"
+                android:id="@+id/lb_connectionstate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:padding="5dp"
-                android:text="@string/lb_etappe" />
+                android:text="@string/lb_connectionstate" android:layout_gravity="right"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -176,19 +176,20 @@
                 android:padding="5dp"
                 android:text="@string/lb_defaultaltitude" />
 
-            <TextView
-                android:id="@+id/etappe_value"
-                android:layout_width="50dp"
+            <ImageView
+                android:id="@+id/img_connection"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#333333"
-                android:padding="5dp"
-                android:text="@string/lb_defaultetappe" />
+                android:contentDescription="@string/desc_connectionimage"
+                android:padding="7dp"
+                android:src="@drawable/red" />
+
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/timing"
-        android:layout_width="fill_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="right"
@@ -199,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:layout_gravity="right">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -227,7 +228,7 @@
             android:id="@+id/stopwatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:layout_gravity="right">
 
             <TextView
                 android:layout_width="wrap_content"

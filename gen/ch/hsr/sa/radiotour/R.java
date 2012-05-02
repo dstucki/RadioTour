@@ -307,7 +307,7 @@ public final class R {
         public static final int edittxt_startnr=0x7f06003f;
         public static final int edittxt_team=0x7f060041;
         public static final int edittxt_team_short=0x7f060042;
-        public static final int etappe_value=0x7f060070;
+        public static final int etappe_value=0x7f060068;
         public static final int fahrername=0x7f06008a;
         public static final int getBirthday=0x7f06007c;
         public static final int getCountry=0x7f060079;
@@ -324,14 +324,14 @@ public final class R {
         public static final int imageView133=0x7f060010;
         public static final int imageView19=0x7f06000b;
         public static final int imageView31=0x7f060015;
-        public static final int img_connection=0x7f060068;
+        public static final int img_connection=0x7f060070;
         public static final int land=0x7f06008c;
         public static final int lb_altitude=0x7f06006b;
-        public static final int lb_connectionstate=0x7f060064;
+        public static final int lb_connectionstate=0x7f06006c;
         public static final int lb_speed=0x7f06006a;
         public static final int lb_spitzefeld=0x7f060062;
         public static final int lb_spitzert=0x7f060063;
-        public static final int lb_stage=0x7f06006c;
+        public static final int lb_stage=0x7f060064;
         public static final int linearLayout1=0x7f060034;
         public static final int linearLayout2=0x7f06002d;
         public static final int linearLayout3=0x7f060032;

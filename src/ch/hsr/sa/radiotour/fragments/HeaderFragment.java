@@ -23,7 +23,6 @@ import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
 
 public class HeaderFragment extends Fragment implements Observer {
-	// Flo's Stuff
 	private Timer stopWatchTimer;
 	private Timer racetimeTimer;
 	private Button startstoprace;
