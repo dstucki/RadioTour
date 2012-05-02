@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:baselineAligned="false"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -16,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="Maillots:"
+            android:text="@string/lb_maillots"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -27,28 +28,27 @@
                 android:id="@+id/textView2"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Preis:" />
+                android:text="@string/lb_price" />
 
             <TextView
                 android:id="@+id/textView111"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:text="" />
-                />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="Punkte:" />
+                android:text="@string/lb_points" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="Zeit:" />
+                android:text="@string/lb_time" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,10 +56,10 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv10000"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Bergpreis" />
+                android:text="@string/lb_default" />
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -67,18 +67,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/lb_default"
                 android:padding="5dp"
-                android:src="@drawable/country_ae" />
+                android:src="@drawable/country_ch" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView14"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="15" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView57"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -88,7 +89,7 @@
                 android:id="@+id/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Löschen" />
+                android:text="@string/lb_delete" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,39 +97,40 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView29"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Bergpreis" />
+                android:text="@string/lb_default" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/lb_default"
                 android:padding="5dp"
-                android:src="@drawable/country_ae" />
+                android:src="@drawable/country_at" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView455"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="15" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView566"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="00:30" />
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/button177"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Löschen" />
+                android:text="@string/lb_delete" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,39 +138,40 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView288"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Bergpreis" />
+                android:text="@string/lb_default" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView133"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/lb_default"
                 android:padding="5dp"
                 android:src="@drawable/country_ae" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView445"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="15" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView567"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="00:30" />
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/button1234"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Löschen" />
+                android:text="@string/lb_delete" />
         </LinearLayout>
 
         <LinearLayout
@@ -176,39 +179,40 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView2567"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Bergpreis" />
+                android:text="@string/lb_default" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView31"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/lb_default"
                 android:padding="5dp"
-                android:src="@drawable/country_ae" />
+                android:src="@drawable/country_de" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView41"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="15" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView58"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="00:30" />
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/button13"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Löschen" />
+                android:text="@string/lb_delete" />
         </LinearLayout>
     </LinearLayout>
 
@@ -258,15 +262,15 @@
                     android:id="@+id/textView6"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Name:" />
+                    android:text="@string/lb_name" />
 
                 <EditText
                     android:id="@+id/editText1"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:ems="10"
-                    android:text="PROBON Sprint" >
+                    android:inputType="text"
+                    android:text="@string/lb_default" >
 
                     <requestFocus />
                 </EditText>
@@ -280,27 +284,29 @@
                     android:id="@+id/textView7"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Bonus:" />
+                    android:text="@string/lb_bonus" />
 
                 <CheckBox
                     android:id="@+id/checkBox1"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Punkte" />
+                    android:text="@string/lb_points" />
 
                 <CheckBox
-                    android:id="@+id/checkBox1"
+                    android:id="@+id/checkBox141"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zeit" />
+                    android:text="@string/lb_time" />
             </LinearLayout>
         </LinearLayout>
+
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textView101"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="@string/lb_wertung"
-            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_marginTop="50dp"/>
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -312,14 +318,14 @@
                 android:layout_height="wrap_content" >
 
                 <Spinner
-                    android:id="@+id/spinner1"
+                    android:id="@+id/spinner1r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" >
                 </Spinner>
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/button2e"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -331,18 +337,18 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView6r"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Name:" />
+                    android:text="@string/lb_name" />
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/editText1e"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:ems="10"
-                    android:text="PROBON Sprint" >
+                    android:inputType="text"
+                    android:text="@string/lb_default" >
 
                     <requestFocus />
                 </EditText>
@@ -353,22 +359,22 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/textView7u"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Bonus:" />
+                    android:text="@string/lb_bonus" />
 
                 <CheckBox
-                    android:id="@+id/checkBox1"
+                    android:id="@+id/checkBox1i"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Punkte" />
+                    android:text="@string/lb_points" />
 
                 <CheckBox
-                    android:id="@+id/checkBox1"
+                    android:id="@+id/checkBox1k"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zeit" />
+                    android:text="@string/lb_time" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

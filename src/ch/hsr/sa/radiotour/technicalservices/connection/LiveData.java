@@ -20,7 +20,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class LiveData extends Observable {
 	private final String URL = "http://bentele.me/radiotour/";
 	private ConnectionStatus connectionState;
@@ -35,8 +34,10 @@ public class LiveData extends Observable {
 				getNewLiveDataFromURL(URL);
 			};
 		};
+		@SuppressWarnings("rawtypes")
 		final ScheduledFuture beepHandler = scheduler.scheduleAtFixedRate(
 				beeper, 2, 10, TimeUnit.SECONDS);
+		beepHandler.toString();
 	}
 
 	private void getNewLiveDataFromURL(String url) {

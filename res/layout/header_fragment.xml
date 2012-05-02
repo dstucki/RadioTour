@@ -9,53 +9,46 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/headeremptyspace"
+        android:id="@+id/tabbar"
         android:layout_width="500dp"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/tabbar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+        <Button
+            android:id="@+id/tab_ren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="@string/tab_ren"
+            android:textSize="17dp" />
 
-            <Button
-                android:id="@+id/tab_ren"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:text="@string/tab_ren"
-                android:textSize="17dp" />
+        <Button
+            android:id="@+id/tab_spez"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="@string/tab_spez"
+            android:textSize="17dp" />
 
-            <Button
-                android:id="@+id/tab_spez"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:text="@string/tab_spez"
-                android:textSize="17dp" />
+        <Button
+            android:id="@+id/tab_vir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="@string/tab_vir"
+            android:textSize="17dp" />
 
-            <Button
-                android:id="@+id/tab_vir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:text="@string/tab_vir"
-                android:textSize="17dp" />
-
-            <Button
-                android:id="@+id/tab_adm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:text="@string/tab_adm"
-                android:textSize="17dp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/tab_adm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="@string/tab_adm"
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -150,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:padding="5dp"
-                android:text="Höhe:" />
+                android:text="@string/lb_altitude" />
 
             <TextView
                 android:id="@+id/lb_stage"
