@@ -31,9 +31,11 @@
     <string name="lb_etappe">Etappe:</string>
     <string name="lb_defaultspeed">0.0 km/h</string>
     <string name="lb_defaultetappe">0</string>
+    <string name="lb_defaultdistance">0 m</string>
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verbindung:</string>
+    <string name="lb_distance">Distanz:</string>
     <string name="lb_save">Speichern</string>
     <string name="lb_spezialkl">Spezialklassement</string>
     <string name="lb_wertung">Wertung</string>
@@ -48,7 +50,7 @@
     <string name="lb_points">Punkte:</string>
     <string name="lb_default">Bergpreis</string>
     <string name="lb_delete">Löschen</string>
-        <string name="lb_name">Name:</string>
+    <string name="lb_name">Name:</string>
     <string name="lb_bonus">Bonus</string>
 
 </resources>

@@ -14,9 +14,14 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	private String altitude = "No GPS";
 	private String accuracy = "No GPS";
 	private Location actualLocation;
+	private float distance;
 
 	public String getSpeed() {
 		return speed;
+	}
+
+	public float getDistance() {
+		return Math.round(distance / 100f) / 10f;
 	}
 
 	public String getAltitude() {
@@ -48,10 +53,17 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location newLocation) {
+		calculateDistance(newLocation);
 		actualLocation = newLocation;
 		getGPSData();
 		setChanged();
 		notifyObservers(this);
+	}
+
+	private void calculateDistance(Location newLocation) {
+		if (actualLocation != null) {
+			distance += actualLocation.distanceTo(newLocation);
+		}
 	}
 
 	@Override
@@ -69,18 +81,18 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	public void getGPSData() {
 		if (actualLocation != null) {
 			if (actualLocation.hasAltitude()) {
-				altitude = ((int) actualLocation.getAltitude()) + " mŸM";
+				altitude = ((int) actualLocation.getAltitude()) + "";
 			} else {
 				altitude = "No GPS";
 			}
 			if (actualLocation.hasAccuracy() == true) {
-				accuracy = round(actualLocation.getAccuracy()) + " ";
+				accuracy = round(actualLocation.getAccuracy()) + "";
 			} else {
 				accuracy = "No GPS";
 			}
 			if (actualLocation.hasSpeed()) {
 				float kmh = round((float) (actualLocation.getSpeed() * 3.6));
-				speed = kmh + " km/h";
+				speed = kmh + "";
 			} else {
 				speed = "No GPS";
 			}

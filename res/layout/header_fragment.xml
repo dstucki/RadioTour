@@ -145,12 +145,13 @@
                 android:padding="5dp"
                 android:text="@string/lb_altitude" />
 
-            <TextView
-                android:id="@+id/lb_connectionstate"
+           <TextView
+                android:id="@+id/lb_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:padding="5dp"
-                android:text="@string/lb_connectionstate" android:layout_gravity="right"/>
+                android:text="@string/lb_distance" />
 
         </LinearLayout>
 
@@ -175,21 +176,20 @@
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultaltitude" />
-
-            <ImageView
-                android:id="@+id/img_connection"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/distance_value"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/desc_connectionimage"
-                android:padding="7dp"
-                android:src="@drawable/red" />
+                android:background="#333333"
+                android:padding="5dp"
+                android:text="@string/lb_defaultdistance" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/timing"
-        android:layout_width="180dp"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="right"
@@ -251,6 +251,29 @@
                 android:layout_height="35dp"
                 android:text="@string/start" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lb_connectionstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/lb_connectionstate" />
+
+            <ImageView
+                android:id="@+id/img_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/desc_connectionimage"
+                android:padding="7dp"
+                android:src="@drawable/red" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

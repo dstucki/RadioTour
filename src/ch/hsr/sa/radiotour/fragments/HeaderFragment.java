@@ -142,10 +142,13 @@ public class HeaderFragment extends Fragment implements Observer {
 			GPSLocationListener temp = (GPSLocationListener) data;
 			TextView speedo = (TextView) getView().findViewById(
 					R.id.speed_value);
-			speedo.setText(temp.getSpeed());
+			speedo.setText(temp.getSpeed() + " km/h");
 			TextView altitude = (TextView) getView().findViewById(
 					R.id.altitude_value);
-			altitude.setText(temp.getAltitude());
+			altitude.setText(temp.getAltitude() + " müM");
+			TextView distance = (TextView) getView().findViewById(
+					R.id.distance_value);
+			distance.setText(temp.getDistance() + " km");
 
 		} else if (data instanceof LiveData) {
 			final LiveData livedata = (LiveData) data;
