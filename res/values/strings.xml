@@ -35,6 +35,8 @@
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verbindung:</string>
+        <string name="lb_gpsstate">GPS:</string>
+    
     <string name="lb_distance">Distanz:</string>
     <string name="lb_save">Speichern</string>
     <string name="lb_spezialkl">Spezialklassement</string>

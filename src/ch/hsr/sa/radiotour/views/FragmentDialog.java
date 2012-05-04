@@ -36,7 +36,7 @@ public class FragmentDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		getDialog().setTitle(
-				"WŠhlen des RŸckstandes der Gruppe relativ zur Spitze");
+				"WÃ¤hlen des RÃ¼ckstandes der Gruppe relativ zur Spitze");
 		View v = inflater.inflate(R.layout.fragment_dialog, container, false);
 
 		hourPicker = ((NumberPicker) v.findViewById(R.id.hourPicker));

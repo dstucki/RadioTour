@@ -126,7 +126,6 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
-	// TODO: make nicer and smoother
 	public void onRowLayoutClick(TableRow tableRow, TreeSet<Integer> dragObject) {
 		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
 		clearCheckedIntegers();
@@ -227,4 +226,3 @@ public class RadioTourActivity extends Activity implements Observer,
 		onRowLayoutClick((TableRow) data, checkedIntegers);
 	}
 }
-// end Flo's Stuff

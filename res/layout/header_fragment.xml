@@ -17,8 +17,9 @@
         <Button
             android:id="@+id/tab_ren"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_ren"
             android:textSize="17dp" />
@@ -26,8 +27,9 @@
         <Button
             android:id="@+id/tab_spez"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_spez"
             android:textSize="17dp" />
@@ -35,8 +37,9 @@
         <Button
             android:id="@+id/tab_vir"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_vir"
             android:textSize="17dp" />
@@ -44,8 +47,9 @@
         <Button
             android:id="@+id/tab_adm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_adm"
             android:textSize="17dp" />
@@ -84,9 +88,9 @@
                 android:id="@+id/lb_stage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:padding="5dp"
-                android:text="@string/lb_etappe" android:layout_gravity="right"/>
-
+                android:text="@string/lb_etappe" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,7 +123,6 @@
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultetappe" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -145,14 +148,13 @@
                 android:padding="5dp"
                 android:text="@string/lb_altitude" />
 
-           <TextView
+            <TextView
                 android:id="@+id/lb_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="@string/lb_distance" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -176,6 +178,7 @@
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultaltitude" />
+
             <TextView
                 android:id="@+id/distance_value"
                 android:layout_width="100dp"
@@ -183,7 +186,6 @@
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultdistance" />
-
         </LinearLayout>
     </LinearLayout>
 
@@ -199,8 +201,9 @@
             android:id="@+id/racetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginRight="20dp"
-            android:orientation="vertical" android:layout_gravity="right">
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,7 +231,8 @@
             android:id="@+id/stopwatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_gravity="right">
+            android:layout_gravity="right"
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -272,8 +276,13 @@
                 android:padding="7dp"
                 android:src="@drawable/red" />
 
+            <TextView
+                android:id="@+id/lb_gpsstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/lb_gpsstate" />
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

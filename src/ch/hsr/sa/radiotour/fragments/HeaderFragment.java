@@ -30,6 +30,7 @@ public class HeaderFragment extends Fragment implements Observer {
 	private GPSLocationListener mGPS;
 	private LiveData updatedLiveData;
 	private TextView tabRen;
+	private View view;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,7 @@ public class HeaderFragment extends Fragment implements Observer {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater
-				.inflate(R.layout.header_fragment, container, false);
+		view = inflater.inflate(R.layout.header_fragment, container, false);
 
 		tabRen = (TextView) view.findViewById(R.id.tab_adm);
 		tabRen.setOnClickListener(tabclicklistener);
@@ -70,6 +70,9 @@ public class HeaderFragment extends Fragment implements Observer {
 		startstoprace = (Button) view.findViewById(R.id.bt_racetime_start_stop);
 		startstoprace.setOnClickListener(racetimeListener);
 
+		((Chronometer) view.findViewById(R.id.chrono_racetime))
+				.setOnClickListener(editRacetimeListener);
+
 		mGPS = new GPSLocationListener(getActivity().getApplicationContext());
 		mGPS.addObserver(this);
 
@@ -81,24 +84,32 @@ public class HeaderFragment extends Fragment implements Observer {
 	}
 
 	View.OnClickListener tabclicklistener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
+			resetTabBar(view);
 			switch (v.getId()) {
 			case R.id.tab_ren:
 				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				((Button) view.findViewById(R.id.tab_ren))
+						.setBackgroundColor(0xFF434343);
 				return;
 			case R.id.tab_adm:
 				((RadioTourActivity) getActivity()).onAdminButtonClick(v);
+				((Button) view.findViewById(R.id.tab_adm))
+						.setBackgroundColor(0xFF434343);
 				return;
 			case R.id.tab_spez:
 				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				((Button) view.findViewById(R.id.tab_spez))
+						.setBackgroundColor(0xFF434343);
 				return;
 			case R.id.tab_vir:
 				((RadioTourActivity) getActivity()).ontestButtonClick1(v);
+				((Button) view.findViewById(R.id.tab_vir))
+						.setBackgroundColor(0xFF434343);
 				return;
 			default:
-				Log.e(getClass().getSimpleName(), "I'n default case");
+				Log.e(getClass().getSimpleName(), "I'm default case");
 			}
 		}
 	};
@@ -135,6 +146,25 @@ public class HeaderFragment extends Fragment implements Observer {
 			return true;
 		}
 	};
+
+	View.OnClickListener editRacetimeListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			// TODO: Implement timepicker with seconds
+			((Chronometer) v.findViewById(R.id.chrono_racetime))
+					.setText("04:45");
+			racetimeTimer.setTime();
+		}
+	};
+
+	private void resetTabBar(View v) {
+
+		((Button) v.findViewById(R.id.tab_adm)).setBackgroundColor(0);
+		((Button) v.findViewById(R.id.tab_spez)).setBackgroundColor(0);
+		((Button) v.findViewById(R.id.tab_vir)).setBackgroundColor(0);
+		((Button) v.findViewById(R.id.tab_ren)).setBackgroundColor(0);
+	}
 
 	@Override
 	public void update(Observable observable, Object data) {

@@ -37,6 +37,23 @@ public class Timer {
 		timerRunning = true;
 	}
 
+	public void setTime() {
+		String array[] = timer.getText().toString().split(":");
+		// 2 == min:sec
+		// 3 == hour:min:sec
+		if (array.length == 2) {
+			stoppedTime = Integer.parseInt(array[0]) * 60 * 1000
+					+ Integer.parseInt(array[1]) * 1000;
+		} else if (array.length == 3) {
+			stoppedTime = Integer.parseInt(array[0]) * 60 * 60 * 1000
+					+ Integer.parseInt(array[1]) * 60 * 1000
+					+ Integer.parseInt(array[2]) * 1000;
+		}
+
+		timer.setBase(SystemClock.elapsedRealtime() - stoppedTime);
+
+	}
+
 	public void toggle() {
 		if (timerRunning) {
 			this.stop();
