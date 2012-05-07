@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.fragments;
 
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
+import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 import ch.hsr.sa.radiotour.technicalservices.connection.LiveData;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
+import ch.hsr.sa.radiotour.utils.StringUtils;
 
-public class HeaderFragment extends Fragment implements Observer {
+public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	private Timer stopWatchTimer;
 	private Timer racetimeTimer;
 	private Button startstoprace;
@@ -152,9 +155,9 @@ public class HeaderFragment extends Fragment implements Observer {
 		@Override
 		public void onClick(View v) {
 			// TODO: Implement timepicker with seconds
-			((Chronometer) v.findViewById(R.id.chrono_racetime))
-					.setText("04:45");
-			racetimeTimer.setTime();
+			((RadioTourActivity) getActivity())
+					.showTimeDialog(HeaderFragment.this);
+
 		}
 	};
 
@@ -205,4 +208,16 @@ public class HeaderFragment extends Fragment implements Observer {
 		}
 	}
 
+	@Override
+	public Date getTime() {
+		return new Date(racetimeTimer.getTime());
+	}
+
+	@Override
+	public void setTime(Date date) {
+		((Chronometer) view.findViewById(R.id.chrono_racetime))
+				.setText(StringUtils.getTimeAsString(date));
+		racetimeTimer.setTime();
+
+	}
 }

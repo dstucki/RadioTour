@@ -65,6 +65,8 @@ public class VirtualRankingFragment extends ListFragment {
 		map.put(R.id.timeOfficial, new RiderSortStrategy.SortByOfficialTime());
 		map.put(R.id.handicapOfficial,
 				new RiderSortStrategy.SortByOfficialHandicap());
+		map.put(R.id.virtualDeficit,
+				new RiderSortStrategy.SortByVirtualDeficit());
 	}
 
 	private void setSortableHeaderview() {

@@ -1,10 +1,28 @@
 package ch.hsr.sa.radiotour.domain.sorting;
 
 import java.util.Comparator;
+import java.util.Date;
 
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 
 public abstract class RiderSortStrategy implements Comparator<BicycleRider> {
+	public static class SortByVirtualDeficit extends RiderSortStrategy {
+
+		@Override
+		public int compare(BicycleRider arg0, BicycleRider arg1) {
+			if (arg0.getVirtual_deficit() == null) {
+				arg0.setVirtual_deficit(new Date(0, 0, 0, 0, 0, 0));
+			}
+			if (arg1.getVirtual_deficit() == null) {
+				arg1.setVirtual_deficit(new Date(0, 0, 0, 0, 0, 0));
+			}
+
+			return arg0.getVirtual_deficit().compareTo(
+					arg1.getVirtual_deficit());
+		}
+
+	}
+
 	boolean ascending;
 
 	public boolean isAscending() {

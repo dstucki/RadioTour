@@ -30,18 +30,16 @@
 
     <LinearLayout
         android:id="@+id/llayout_driver_odd"
-        android:layout_width="0dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_weight="1"
         android:orientation="vertical" />
 
     <LinearLayout
         android:id="@+id/llayout_driver_even"
-        android:layout_width="0dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_weight="1"
         android:orientation="vertical" />
 
 </LinearLayout>

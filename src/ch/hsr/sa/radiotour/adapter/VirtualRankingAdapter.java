@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
+import ch.hsr.sa.radiotour.utils.StringUtils;
 
 public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 
@@ -54,11 +56,14 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 			temp = (TextView) v.findViewById(R.id.virtualRank);
 			temp.setText((position + 1) + "");
 			temp = (TextView) v.findViewById(R.id.timeBoni);
-			temp.setText("01:00:01");
+			temp.setText("toimplemnt");
 			temp = (TextView) v.findViewById(R.id.timeOfficial);
-			temp.setText("01:00:01");
+			temp.setText(StringUtils.getTimeAsString(rider.getOfficial_time()));
 			temp = (TextView) v.findViewById(R.id.handicapOfficial);
-			temp.setText("01:00:01");
+			temp.setText(StringUtils
+					.getTimeAsString(new Date(0, 0, 0, 0, 0, 0)));
+			temp = (TextView) v.findViewById(R.id.virtualDeficit);
+			temp.setText(StringUtils.getTimeAsString(rider.getVirtual_deficit()));
 		}
 
 		return v;

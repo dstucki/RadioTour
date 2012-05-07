@@ -14,7 +14,7 @@ public class Group extends Observable implements Comparable<Group> {
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private final TreeSet<Integer> driverNumbers;
+	private TreeSet<Integer> driverNumbers;
 	@DatabaseField(dataType = DataType.BOOLEAN)
 	private boolean isField = false;
 	@DatabaseField(dataType = DataType.DATE)
@@ -28,6 +28,10 @@ public class Group extends Observable implements Comparable<Group> {
 
 	public TreeSet<Integer> getDriverNumbers() {
 		return driverNumbers;
+	}
+
+	public void setDriverNumbers(TreeSet<Integer> driverNumbers) {
+		this.driverNumbers = driverNumbers;
 	}
 
 	public void removeDriverNumber(Integer driverNumber) {

@@ -20,15 +20,16 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
+import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
-import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -74,10 +75,16 @@ public class RadioTourActivity extends Activity implements Observer,
 		if (((RadioTour) getApplication()).getRiders().size() <= 0) {
 			CSVReader reader = new CSVReader(getResources().openRawResource(
 					R.raw.startliste));
+			Group gr = new Group();
+			gr.setField(true);
+			gr.setOrderNumber(0);
+
 			for (String[] riderAsString : reader.readFile()) {
-				((RadioTour) getApplication())
-						.add(convertStringArrayToRider(riderAsString));
+				BicycleRider temp = convertStringArrayToRider(riderAsString);
+				((RadioTour) getApplication()).add(temp);
+				gr.getDriverNumbers().add(temp.getStartNr());
 			}
+			databaseHelper.getGroupDao().create(gr);
 
 		}
 		for (Team team : ((RadioTour) getApplication()).getTeams()) {
@@ -90,6 +97,7 @@ public class RadioTourActivity extends Activity implements Observer,
 			BicycleRider bicycleRider = new BicycleRider(
 					Integer.valueOf(riderAsString[0]), riderAsString[1],
 					riderAsString[2], riderAsString[3], "");
+
 			databaseHelper.getBicycleRiderDao().create(bicycleRider);
 			return bicycleRider;
 		} catch (NumberFormatException e) {
@@ -109,7 +117,6 @@ public class RadioTourActivity extends Activity implements Observer,
 				Integer indexSpace = temp.getText().toString().indexOf(" ");
 				checkedID = Integer.valueOf(temp.getText().toString()
 						.substring(0, indexSpace));
-				Log.e(getClass().getSimpleName(), checkedID + "");
 			}
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
@@ -195,7 +202,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		checkedViews.clear();
 	}
 
-	public void show(GroupTableRow v) {
+	public void showTimeDialog(TimePickerIF timePickerIF) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
 		if (prev != null) {
@@ -203,7 +210,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		FragmentDialog newFragment = new FragmentDialog(v);
+		FragmentDialog newFragment = new FragmentDialog(timePickerIF);
 		newFragment.show(ft, "dialog");
 
 	}

@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,6 +51,8 @@ public class RadioTour extends Application {
 	}
 
 	public List<Group> getGroups() {
+		Collections.sort(groups);
 		return groups;
 	}
+
 }

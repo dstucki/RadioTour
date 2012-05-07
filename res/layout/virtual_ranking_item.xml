@@ -70,6 +70,14 @@
             android:gravity="left"
             android:text="Zeitbonus"
             android:textSize="20dp" />
+        <TextView
+            android:id="@+id/virtualDeficit"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="8"
+            android:gravity="left"
+            android:text="Virt. Rückstand"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/timeOfficial"
