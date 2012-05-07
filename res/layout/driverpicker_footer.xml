@@ -34,7 +34,7 @@
         android:textSize="20px" />
 
     <TextView
-        android:id="@+id/miipmiip"
+        android:id="@+id/sturz"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -43,7 +43,7 @@
         android:textSize="20px" />
 
     <TextView
-        android:id="@+id/miipmiipmiip"
+        android:id="@+id/defekt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/04 10:07:47
+# generated on 2012/05/07 06:24:54
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
@@ -82,6 +82,55 @@ dataPersister=DATE
 # --field-end--
 # --field-start--
 fieldName=orderNumber
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.PointOfRace
+tableName=pointofrace
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=altitude
+# --field-end--
+# --field-start--
+fieldName=distance
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=estimatedDate
+dataPersister=DATE
+# --field-end--
+# --field-start--
+fieldName=stage
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.Stage
+tableName=stage
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=start
+# --field-end--
+# --field-start--
+fieldName=destination
+# --field-end--
+# --field-start--
+fieldName=wholeDistance
 # --field-end--
 # --table-fields-end--
 # --table-end--

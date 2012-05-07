@@ -8,6 +8,8 @@ import android.util.Log;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -33,6 +35,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private RuntimeExceptionDao<BicycleRider, Integer> riderRuntimeDao = null;
 	private RuntimeExceptionDao<Team, String> teamRuntimeDao = null;
 	private RuntimeExceptionDao<Group, Integer> groupRuntimeDao = null;
+	private RuntimeExceptionDao<Stage, Integer> stageRuntimeDao = null;
+	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceRuntimeDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -51,6 +55,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, BicycleRider.class);
 			TableUtils.createTable(connectionSource, Team.class);
 			TableUtils.createTable(connectionSource, Group.class);
+			TableUtils.createTable(connectionSource, Stage.class);
+			TableUtils.createTable(connectionSource, PointOfRace.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -67,9 +73,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource,
 			int oldVersion, int newVersion) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
 			TableUtils.dropTable(connectionSource, BicycleRider.class, true);
 			TableUtils.dropTable(connectionSource, Team.class, true);
+			TableUtils.dropTable(connectionSource, Group.class, true);
+			TableUtils.dropTable(connectionSource, Stage.class, true);
+			TableUtils.dropTable(connectionSource, PointOfRace.class, true);
 			// after we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
@@ -104,6 +112,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return teamRuntimeDao;
 	}
 
+	public RuntimeExceptionDao<Stage, Integer> getStageDao() {
+		if (stageRuntimeDao == null) {
+			stageRuntimeDao = getRuntimeExceptionDao(Stage.class);
+		}
+		return stageRuntimeDao;
+	}
+
+	public RuntimeExceptionDao<PointOfRace, Integer> getPointOfRaceDao() {
+		if (pointOfRaceRuntimeDao == null) {
+			pointOfRaceRuntimeDao = getRuntimeExceptionDao(PointOfRace.class);
+		}
+		return pointOfRaceRuntimeDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -113,5 +135,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		riderRuntimeDao = null;
 		teamRuntimeDao = null;
 		groupRuntimeDao = null;
+		stageRuntimeDao = null;
+		pointOfRaceRuntimeDao = null;
 	}
 }

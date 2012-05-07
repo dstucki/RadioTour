@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
 public class RaceFragment extends Fragment {
 
 	private DriverPickerFragment driverPicker;
 	private DriverGroupFragment groupFragment;
+	private GroupingDragListener listener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,15 @@ public class RaceFragment extends Fragment {
 				.beginTransaction();
 		driverPicker = new DriverPickerFragment();
 		groupFragment = new DriverGroupFragment();
+		listener = new GroupingDragListener(getActivity(), groupFragment,
+				driverPicker);
+		driverPicker.setDragListener(listener);
+		groupFragment.setDragListener(listener);
+
 		transaction.replace(R.id.pickerFragmentHolder, driverPicker);
 		transaction.replace(R.id.groupFragmentHolder, groupFragment);
 		transaction.commit();
+
 	}
 
 	@Override

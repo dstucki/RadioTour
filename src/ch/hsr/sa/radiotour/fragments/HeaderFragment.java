@@ -53,8 +53,11 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		tabRen = (TextView) view.findViewById(R.id.tab_adm);
 		tabRen.setOnClickListener(tabclicklistener);
+		((ViewGroup) view).removeView(tabRen); // FIXME Berner Rudnfahrt
 		tabRen = (TextView) view.findViewById(R.id.tab_spez);
 		tabRen.setOnClickListener(tabclicklistener);
+		((ViewGroup) view).removeView(tabRen); // FIXME Berner Rudnfahrt
+
 		tabRen = (TextView) view.findViewById(R.id.tab_vir);
 		tabRen.setOnClickListener(tabclicklistener);
 		tabRen = (TextView) view.findViewById(R.id.tab_ren);
@@ -64,6 +67,17 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 				(Chronometer) view.findViewById(R.id.chrono_stopwatch));
 		racetimeTimer = new Timer(
 				(Chronometer) view.findViewById(R.id.chrono_racetime));
+
+		((TextView) view.findViewById(R.id.lb_stage))
+				.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						((RadioTourActivity) getActivity())
+								.showMarchTableDialog();
+					}
+				});
 
 		startstopwatch = (Button) view
 				.findViewById(R.id.bt_stopwatch_start_stop);
@@ -154,7 +168,6 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		@Override
 		public void onClick(View v) {
-			// TODO: Implement timepicker with seconds
 			((RadioTourActivity) getActivity())
 					.showTimeDialog(HeaderFragment.this);
 

@@ -54,5 +54,6 @@
     <string name="lb_delete">Löschen</string>
     <string name="lb_name">Name:</string>
     <string name="lb_bonus">Bonus</string>
+    <string name="land">Land</string>
 
 </resources>

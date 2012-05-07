@@ -16,7 +16,9 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
@@ -32,6 +34,7 @@ public class DriverGroupFragment extends Fragment {
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
 	private RuntimeExceptionDao<Group, Integer> groupDatabaseDao;
+	private RuntimeExceptionDao<BicycleRider, Integer> riderDatabaseDao;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,14 +49,25 @@ public class DriverGroupFragment extends Fragment {
 		driverTableRow.clear();
 		groupDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
 				.getGroupDao();
+		riderDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
+				.getBicycleRiderDao();
 		((RadioTour) getActivity().getApplication()).getGroups().clear();
 		((RadioTour) getActivity().getApplication()).getGroups().addAll(
 				groupDatabaseDao.queryForAll());
+		assignListener();
 
-		setDragListener();
 		setOnClickListener();
 		initializeDriverRowMap();
 		initializeTableRows();
+	}
+
+	private void assignListener() {
+		getView().findViewById(R.id.tableRowGroup).setOnDragListener(
+				dragListener);
+		getView().findViewById(R.id.tableRowField).setOnDragListener(
+				dragListener);
+		getView().findViewById(R.id.tableRowGroup2).setOnDragListener(
+				dragListener);
 	}
 
 	private void initializeDriverRowMap() {
@@ -124,15 +138,8 @@ public class DriverGroupFragment extends Fragment {
 
 	}
 
-	private void setDragListener() {
-		dragListener = new GroupingDragListener(getActivity(), this);
-		getView().findViewById(R.id.tableRowGroup).setOnDragListener(
-				dragListener);
-		getView().findViewById(R.id.tableRowField).setOnDragListener(
-				dragListener);
-		getView().findViewById(R.id.tableRowGroup2).setOnDragListener(
-				dragListener);
-
+	public void setDragListener(GroupingDragListener listener) {
+		dragListener = listener;
 	}
 
 	public TableRow getField() {
@@ -166,7 +173,6 @@ public class DriverGroupFragment extends Fragment {
 
 	private GroupTableRow createGroupRow() {
 		final GroupTableRow row = new GroupTableRow(getActivity());
-
 		row.setLayoutParams(standardParams);
 		row.setBackgroundResource(R.drawable.working_group);
 		row.setOnDragListener(dragListener);
@@ -243,24 +249,60 @@ public class DriverGroupFragment extends Fragment {
 		return tableRows.indexOf(row) % 2 == 0;
 	}
 
-	public void moveDriverNr(TableRow destination, TreeSet<Integer> riderNumbers) {
+	public void moveDriverNr(View destination, TreeSet<Integer> riderNumbers) {
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}
-		if (hasToCreateNewGroup(destination)) {
-			destination = createNewGroup(tableRows.indexOf(destination));
+		GroupTableRow groupTableRow = null;
+		if (destination instanceof TableRow) {
+			if (hasToCreateNewGroup((TableRow) destination)) {
+				destination = createNewGroup(tableRows.indexOf(destination));
+			}
+			groupTableRow = (GroupTableRow) destination;
 		}
-		final GroupTableRow groupTableRow = (GroupTableRow) destination;
+
 		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
 		modificationAvoider.addAll(riderNumbers);
 		for (Integer i : modificationAvoider) {
 			if (driverTableRow.get(i) != null) {
 				driverTableRow.get(i).removeRiderNr(i);
 			}
-			groupTableRow.addRider(i);
+			if (groupTableRow == null) {
+				selectOnATextView((TextView) destination, i);
+			} else {
+				groupTableRow.addRider(i);
+			}
 			driverTableRow.put(i, groupTableRow);
 		}
-		groupDatabaseDao.createOrUpdate(groupTableRow.getGroup());
+		if (groupTableRow != null) {
+			groupDatabaseDao.createOrUpdate(groupTableRow.getGroup());
+		}
 		removeEmptyTableRows();
+	}
+
+	private void selectOnATextView(TextView v, int i) {
+		RiderState newState = RiderState.ACTIV;
+		switch (v.getId()) {
+		case R.id.arzt:
+			newState = RiderState.DOCTOR;
+			break;
+		case R.id.defekt:
+			newState = RiderState.DEFECT;
+
+			break;
+		case R.id.sturz:
+			newState = RiderState.FALL;
+
+			break;
+		case R.id.aufgabe:
+			newState = RiderState.GIVEUP;
+
+			break;
+
+		}
+		BicycleRider bicycleRider = ((RadioTour) getActivity().getApplication())
+				.getRidersAsMap().get(i);
+		bicycleRider.setRiderState(newState);
+		riderDatabaseDao.update(bicycleRider);
 	}
 }

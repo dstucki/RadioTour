@@ -7,47 +7,44 @@ import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.widget.TableRow;
+import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
+import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 public class GroupingDragListener implements OnDragListener {
-	private TableRow actualLayout = null;
+	private View actualLayout = null;
 	private final Context ctx;
 	private final DriverGroupFragment groupFragment;
+	private final DriverPickerFragment pickerFragment;
 
-	public GroupingDragListener(Context ctx, DriverGroupFragment groupFragment) {
+	public GroupingDragListener(Context ctx, DriverGroupFragment groupFragment,
+			DriverPickerFragment pickerFragment) {
 		this.ctx = ctx;
 		this.groupFragment = groupFragment;
+		this.pickerFragment = pickerFragment;
 	}
 
 	@Override
 	public boolean onDrag(View v, DragEvent event) {
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_ENTERED:
-			if (v instanceof TableRow) {
-				v.setBackgroundResource(R.drawable.drag_highlight_border);
-				actualLayout = (TableRow) v;
-			}
+			v.setBackgroundResource(R.drawable.drag_highlight_border);
+			actualLayout = v;
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
-			if (v instanceof TableRow) {
-				handleBorder((TableRow) v);
-				actualLayout = null;
-			}
+			handleBorder(v);
+			actualLayout = null;
 		case DragEvent.ACTION_DRAG_ENDED:
-			if (v instanceof TableRow) {
-				handleBorder((TableRow) v);
-			}
+			handleBorder(v);
 		case DragEvent.ACTION_DROP:
-			handleBorder((TableRow) v);
-			if (event.getResult()) {
-				if (v instanceof TableRow && v == actualLayout) {
-					((RadioTourActivity) ctx).onRowLayoutClick(actualLayout,
-							(TreeSet<Integer>) event.getLocalState());
-				}
-				v.invalidate();
+			handleBorder(v);
+			if (event.getResult() && v == actualLayout) {
+				((RadioTourActivity) ctx).onRowLayoutClick(actualLayout,
+						(TreeSet<Integer>) event.getLocalState());
+				pickerFragment.getAdapter().notifyDataSetChanged();
 			}
 		default:
 			break;
@@ -55,10 +52,10 @@ public class GroupingDragListener implements OnDragListener {
 		return true;
 	}
 
-	public void handleBorder(TableRow v) {
-		if (v != null && v.getChildCount() >= 1) {
+	public void handleBorder(View v) {
+		if (v != null) {
 			v.setBackgroundResource(R.drawable.drag_unhighlight_border);
-			if (!(v instanceof GroupTableRow)) {
+			if (!(v instanceof GroupTableRow) && !(v instanceof TextView)) {
 				v.setBackgroundResource(R.drawable.create_new_group);
 			}
 		}

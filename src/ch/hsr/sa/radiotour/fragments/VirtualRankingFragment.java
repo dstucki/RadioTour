@@ -67,22 +67,30 @@ public class VirtualRankingFragment extends ListFragment {
 				new RiderSortStrategy.SortByOfficialHandicap());
 		map.put(R.id.virtualDeficit,
 				new RiderSortStrategy.SortByVirtualDeficit());
+		map.put(R.id.land_image, new RiderSortStrategy.SortByCountry());
+		map.put(R.id.land_text, new RiderSortStrategy.SortByCountry());
 	}
 
 	private void setSortableHeaderview() {
 
 		View v = getActivity().getLayoutInflater().inflate(
-				R.layout.virtual_ranking_item, null);
+				R.layout.virtual_ranking_item_singlerace, null);
 		latestSort = (TextView) v.findViewById(R.id.startnummer);
 		latestSort.setTypeface(Typeface.DEFAULT_BOLD);
 		OnClickListener listener = getClickListener();
 
 		for (int i : map.keySet()) {
-			v.findViewById(i).setOnClickListener(listener);
+			try {
+				v.findViewById(i).setOnClickListener(listener);
+			} catch (NullPointerException e) {
+				Log.d(getClass().getSimpleName(),
+						"Nullpointer occured, not bad ;");
+			}
 		}
 
-		ImageView image = (ImageView) v.findViewById(R.id.land);
+		ImageView image = (ImageView) v.findViewById(R.id.land_image);
 		image.setImageDrawable(null);
+		((TextView) v.findViewById(R.id.land_text)).setText(R.string.land);
 
 		getListView().addHeaderView(v);
 

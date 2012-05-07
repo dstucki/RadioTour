@@ -114,5 +114,57 @@
         android:onClick="onClick"
         android:textColor="@android:color/white"
         android:textSize="22px" />
+    <TextView
+        android:id="@+id/startNr9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+    <TextView
+        android:id="@+id/startNr10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+    <TextView
+        android:id="@+id/startNr11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
+    <TextView
+        android:id="@+id/startNr12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0px"
+        android:layout_marginRight="0px"
+        android:layout_marginTop="0px"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="@android:color/white"
+        android:textSize="22px" />
 
 </LinearLayout>

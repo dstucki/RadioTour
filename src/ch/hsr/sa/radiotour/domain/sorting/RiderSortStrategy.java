@@ -64,7 +64,7 @@ public abstract class RiderSortStrategy implements Comparator<BicycleRider> {
 
 	}
 
-	static class SortByCountry extends RiderSortStrategy {
+	public static class SortByCountry extends RiderSortStrategy {
 		@Override
 		public int compare(BicycleRider arg0, BicycleRider arg1) {
 			return arg0.getCountry().compareTo(arg1.getCountry());
@@ -106,4 +106,5 @@ public abstract class RiderSortStrategy implements Comparator<BicycleRider> {
 		}
 
 	}
+
 }

@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
+import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
 
@@ -22,7 +24,8 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	private final DriverPickerFragment fragment;
 	private final ArrayList<Team> teams;
 	int[] ids = { R.id.startNr1, R.id.startNr2, R.id.startNr3, R.id.startNr4,
-			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8 // ...
+			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8,
+			R.id.startNr9, R.id.startNr10, R.id.startNr11, R.id.startNr12 // ...
 	};
 
 	public DriverPickerAdapter(Context context, int resource,
@@ -42,10 +45,12 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		v = vi.inflate(R.layout.picklist_item, null);
 
 		Team team = teams.get(position);
+		int counter = 0;
+		BicycleRider rider;
 		for (Integer driverNumber : team.getDriverNumbers()) {
-
-			TextView temp = (TextView) v
-					.findViewById(ids[(driverNumber % 10) - 1]);
+			rider = ((RadioTour) context.getApplicationContext())
+					.getRidersAsMap().get(driverNumber);
+			TextView temp = (TextView) v.findViewById(ids[counter++]);
 
 			temp.setOnLongClickListener(new OnLongClickListener() {
 
@@ -64,11 +69,14 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 					v.startDrag(data, new DragShadowBuilder(v),
 							((RadioTourActivity) fragment.getActivity())
 									.getCheckedIntegers(), 0);
+					notifyDataSetChanged();
 					return true;
 				}
 			});
 
 			temp.setText(Integer.toString(driverNumber));
+			temp.setTextColor(rider.getRiderState().getTextColor());
+			temp.setBackgroundColor((rider.getRiderState().getBackgroundColor()));
 		}
 
 		return v;

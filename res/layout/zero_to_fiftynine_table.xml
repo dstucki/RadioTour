@@ -3,7 +3,6 @@
     android:id="@+id/llayout_0_59"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="50dp"
     android:background="@drawable/drag_unhighlight_border"
     android:orientation="vertical" >
 

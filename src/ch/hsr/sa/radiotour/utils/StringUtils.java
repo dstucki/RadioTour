@@ -19,4 +19,47 @@ public class StringUtils {
 		tempString.append(formatter.format(date.getSeconds()));
 		return tempString.toString();
 	}
+
+	public static String getCountryFlag(String olympicCountryCode) {
+		String isoCode = null;
+
+		if ("SUI".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ch";
+		}
+		if ("GER".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "de";
+		}
+		if ("ERI".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "er";
+		}
+		if ("KOR".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "kr";
+		}
+		if ("HKG".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "hk";
+		}
+		if ("ETH".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "et";
+		}
+		if ("IRI".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ir";
+		}
+		if ("THA".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "th";
+		}
+		if ("ITA".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "it";
+		}
+		if ("LUX".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "lu";
+		}
+		if ("GRE".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "gr";
+		}
+		if ("BEL".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "be";
+		}
+
+		return "country_" + isoCode;
+	}
 }

@@ -28,7 +28,7 @@ public class BicycleRider {
 	@DatabaseField
 	private Date virtual_deficit;
 	@DatabaseField
-	private boolean activ;
+	private RiderState activ;
 	@DatabaseField
 	private String category;
 	@DatabaseField
@@ -81,6 +81,9 @@ public class BicycleRider {
 	}
 
 	public String getTeamShort() {
+		if (teamShort == null) {
+			return team;
+		}
 		return teamShort;
 	}
 
@@ -136,11 +139,11 @@ public class BicycleRider {
 		this.virtual_deficit = virtual_deficit;
 	}
 
-	public boolean isActiv() {
+	public RiderState getRiderState() {
 		return activ;
 	}
 
-	public void setActiv(boolean activ) {
+	public void setRiderState(RiderState activ) {
 		this.activ = activ;
 	}
 
