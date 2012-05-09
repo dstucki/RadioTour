@@ -154,7 +154,6 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		@Override
 		public void onClick(View v) {
-			// TODO: Implement timepicker with seconds
 			((RadioTourActivity) getActivity())
 					.showTimeDialog(HeaderFragment.this);
 
@@ -197,11 +196,18 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 					} else if (connectionState == ConnectionStatus.GREEN) {
 						connectionImage.setImageResource(R.drawable.green);
 						TextView spitzefeld = (TextView) getView()
-								.findViewById(R.id.spitzefeld_value);
-						spitzefeld.setText(livedata.getSpitzeFeld());
+								.findViewById(R.id.spitzefeld_value_km);
+						spitzefeld.setText(livedata.getSpitzeFeldKm());
 						TextView spitzert = (TextView) getView().findViewById(
-								R.id.spitzert_value);
-						spitzert.setText(livedata.getSpitzeRT());
+								R.id.spitzert_value_km);
+						spitzert.setText(livedata.getSpitzeRTKm());
+
+						TextView spitzefeldtime = (TextView) getView()
+								.findViewById(R.id.spitzefeld_value_time);
+						spitzefeldtime.setText(livedata.getSpitzeFeldTime());
+						TextView spitzerttime = (TextView) getView()
+								.findViewById(R.id.spitzert_value_time);
+						spitzerttime.setText(livedata.getSpitzeRTTime());
 					}
 				}
 			});

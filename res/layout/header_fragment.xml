@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_gravity="bottom"
+            android:background="#FF434343"
             android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_ren"
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_gravity="bottom"
+            android:background="@android:color/black"
             android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_spez"
@@ -39,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_gravity="bottom"
+            android:background="@android:color/black"
             android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_vir"
@@ -49,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_gravity="bottom"
+            android:background="@android:color/black"
             android:gravity="top"
             android:padding="5dp"
             android:text="@string/tab_adm"
@@ -100,21 +104,47 @@
             android:orientation="vertical"
             android:paddingRight="10dp" >
 
-            <TextView
-                android:id="@+id/spitzefeld_value"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:background="#333333"
-                android:padding="5dp"
-                android:text="@string/lb_emptyvalues" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/spitzert_value"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:background="#333333"
-                android:padding="5dp"
-                android:text="@string/lb_emptyvalues" />
+                <TextView
+                    android:id="@+id/spitzefeld_value_km"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="#333333"
+                    android:padding="5dp"
+                    android:text="@string/lb_emptyvalues" />
+
+                <TextView
+                    android:id="@+id/spitzefeld_value_time"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="#333333"
+                    android:padding="5dp"
+                    android:text="@string/lb_emptyvalues" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/spitzert_value_km"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="#333333"
+                    android:padding="5dp"
+                    android:text="@string/lb_emptyvalues" />
+
+                <TextView
+                    android:id="@+id/spitzert_value_time"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="#333333"
+                    android:padding="5dp"
+                    android:text="@string/lb_emptyvalues" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/etappe_value"
@@ -223,7 +253,7 @@
             <Button
                 android:id="@+id/bt_racetime_start_stop"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:text="@string/start" />
         </LinearLayout>
 
@@ -243,7 +273,7 @@
             <Chronometer
                 android:id="@+id/chrono_stopwatch"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
                 android:paddingLeft="5dp"
                 android:paddingTop="2dp"
@@ -252,7 +282,7 @@
             <Button
                 android:id="@+id/bt_stopwatch_start_stop"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:text="@string/start" />
         </LinearLayout>
 

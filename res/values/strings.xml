@@ -27,7 +27,7 @@
     <string name="lb_speed">Ø Geschwindigkeit:</string>
     <string name="lb_spitzefeld">Spitze - Feld:</string>
     <string name="lb_spitzert">Spitze - RadioTour:</string>
-    <string name="lb_emptyvalues">00:00 | 0.0 km</string>
+    <string name="lb_emptyvalues">00:00</string>
     <string name="lb_etappe">Etappe:</string>
     <string name="lb_defaultspeed">0.0 km/h</string>
     <string name="lb_defaultetappe">0</string>
