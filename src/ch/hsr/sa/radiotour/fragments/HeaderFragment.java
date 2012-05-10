@@ -137,8 +137,10 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 			racetimeTimer.toggle();
 			if (racetimeTimer.isRunning()) {
 				startstoprace.setText(R.string.stop);
+				mGPS.startRace();
 			} else {
 				startstoprace.setText(R.string.start);
+				mGPS.stopRace();
 			}
 		}
 	};
@@ -189,6 +191,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 			TextView speedo = (TextView) getView().findViewById(
 					R.id.speed_value);
 			speedo.setText(temp.getSpeed() + " km/h");
+			speedo.setText((String.valueOf(Math.round(temp.getDistance()
+					/ racetimeTimer.getRaceTimeInSec() * 10f) / 10f))
+					+ " km/h");
 			TextView altitude = (TextView) getView().findViewById(
 					R.id.altitude_value);
 			altitude.setText(temp.getAltitude() + " müM");
@@ -210,11 +215,18 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 					} else if (connectionState == ConnectionStatus.GREEN) {
 						connectionImage.setImageResource(R.drawable.green);
 						TextView spitzefeld = (TextView) getView()
-								.findViewById(R.id.spitzefeld_value);
-						spitzefeld.setText(livedata.getSpitzeFeld());
+								.findViewById(R.id.spitzefeld_value_km);
+						spitzefeld.setText(livedata.getSpitzeFeldKm());
 						TextView spitzert = (TextView) getView().findViewById(
-								R.id.spitzert_value);
-						spitzert.setText(livedata.getSpitzeRT());
+								R.id.spitzert_value_km);
+						spitzert.setText(livedata.getSpitzeRTKm());
+
+						TextView spitzefeldtime = (TextView) getView()
+								.findViewById(R.id.spitzefeld_value_time);
+						spitzefeldtime.setText(livedata.getSpitzeFeldTime());
+						TextView spitzerttime = (TextView) getView()
+								.findViewById(R.id.spitzert_value_time);
+						spitzerttime.setText(livedata.getSpitzeRTTime());
 					}
 				}
 			});

@@ -82,20 +82,40 @@ public class LiveData extends Observable {
 		return connectionState;
 	}
 
-	public String getSpitzeFeld() {
+	public String getSpitzeFeldKm() {
 		String value = "No connection";
 		try {
-			value = jObject.getString("spitzefeld");
+			value = jObject.getString("spitzefeld_km");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return value;
 	}
 
-	public String getSpitzeRT() {
+	public String getSpitzeFeldTime() {
 		String value = "No connection";
 		try {
-			value = jObject.getString("spitzert");
+			value = jObject.getString("spitzefeld_time");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+
+	public String getSpitzeRTKm() {
+		String value = " - ";
+		try {
+			value = jObject.getString("spitzert_km");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+
+	public String getSpitzeRTTime() {
+		String value = " - ";
+		try {
+			value = jObject.getString("spitzert_time");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
