@@ -116,7 +116,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 						.setBackgroundColor(0xFF434343);
 				return;
 			case R.id.tab_spez:
-				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				((RadioTourActivity) getActivity()).onSpecialButtonClick(v);
 				((Button) view.findViewById(R.id.tab_spez))
 						.setBackgroundColor(0xFF434343);
 				return;
