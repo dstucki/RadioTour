@@ -30,6 +30,7 @@ import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
@@ -48,6 +49,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	private RaceFragment raceFragment;
 	private VirtualRankingFragment rankingFragment;
 	private AdminFragment adminFragment;
+	private SpecialRakingFragment specialRankingFragment;
 
 	public TreeSet<Integer> getCheckedIntegers() {
 		return checkedIntegers;
@@ -239,6 +241,15 @@ public class RadioTourActivity extends Activity implements Observer,
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.changeLayout, adminFragment);
+		fragmentTransaction.commit();
+
+	}
+
+	public void onSpecialButtonClick(View v) {
+		specialRankingFragment = new SpecialRakingFragment();
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.changeLayout, specialRankingFragment);
 		fragmentTransaction.commit();
 
 	}
