@@ -190,8 +190,10 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	public void removeRiderNr(Integer driverNr) {
 		group.removeDriverNumber(driverNr);
+
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
+		((RadioTourActivity) context).getHelper().getGroupDao().update(group);
 		if (temp != null && !group.isField()) {
 			for (int i = 0; i < temp.getChildCount(); i++) {
 				if (((TextView) temp.getChildAt(i))

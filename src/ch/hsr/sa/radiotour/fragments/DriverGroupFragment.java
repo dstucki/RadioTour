@@ -57,7 +57,6 @@ public class DriverGroupFragment extends Fragment {
 		assignListener();
 
 		setOnClickListener();
-		initializeDriverRowMap();
 		initializeTableRows();
 	}
 
@@ -73,7 +72,7 @@ public class DriverGroupFragment extends Fragment {
 	private void initializeDriverRowMap() {
 		for (Integer i : ((RadioTour) getActivity().getApplication())
 				.getRiderNumbers()) {
-			driverTableRow.put(i, null);
+			driverTableRow.put(i, field);
 		}
 
 	}
@@ -84,6 +83,7 @@ public class DriverGroupFragment extends Fragment {
 		tableRows.add((GroupTableRow) getView()
 				.findViewById(R.id.tableRowField));
 		field = (GroupTableRow) getView().findViewById(R.id.tableRowField);
+		initializeDriverRowMap();
 		field.changeDescription(getString(R.string.field));
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup2));
 		standardParams = (TableLayout.LayoutParams) tableRows.get(0)
@@ -266,7 +266,7 @@ public class DriverGroupFragment extends Fragment {
 		for (Integer i : modificationAvoider) {
 			if (driverTableRow.get(i) != null) {
 				driverTableRow.get(i).removeRiderNr(i);
-				groupDatabaseDao.update(driverTableRow.get(i).getGroup());
+				// groupDatabaseDao.update(driverTableRow.get(i).getGroup());
 			}
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
