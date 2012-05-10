@@ -266,6 +266,7 @@ public class DriverGroupFragment extends Fragment {
 		for (Integer i : modificationAvoider) {
 			if (driverTableRow.get(i) != null) {
 				driverTableRow.get(i).removeRiderNr(i);
+				groupDatabaseDao.update(driverTableRow.get(i).getGroup());
 			}
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
