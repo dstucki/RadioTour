@@ -192,7 +192,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 					R.id.speed_value);
 			speedo.setText(temp.getSpeed() + " km/h");
 			speedo.setText((String.valueOf(Math.round(temp.getDistance()
-					/ racetimeTimer.getRaceTimeInSec() * 10f) / 10f))
+					/ racetimeTimer.getRaceTimeInHour() * 10f) / 10f))
 					+ " km/h");
 			TextView altitude = (TextView) getView().findViewById(
 					R.id.altitude_value);
@@ -235,7 +235,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 	@Override
 	public Date getTime() {
-		return new Date(racetimeTimer.getTime());
+		return new Date(racetimeTimer.getDisplayedTime() - 3600000);
 	}
 
 	@Override

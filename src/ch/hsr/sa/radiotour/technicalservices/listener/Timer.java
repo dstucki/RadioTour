@@ -21,7 +21,7 @@ public class Timer {
 		return timer.getBase();
 	}
 
-	public double getRaceTimeInSec() {
+	public double getRaceTimeInHour() {
 		return (double) getDisplayedTime() / (double) 3600000;
 	}
 
@@ -48,7 +48,7 @@ public class Timer {
 		timer.setBase(SystemClock.elapsedRealtime() - getDisplayedTime());
 	}
 
-	private long getDisplayedTime() {
+	public long getDisplayedTime() {
 		String array[] = timer.getText().toString().split(":");
 		// 2 == min:sec
 		// 3 == hour:min:sec
