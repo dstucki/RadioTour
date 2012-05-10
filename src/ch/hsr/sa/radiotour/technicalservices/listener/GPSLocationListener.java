@@ -15,6 +15,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	private String accuracy = "No GPS";
 	private Location actualLocation;
 	private float distance;
+	private boolean isRaceRunning = false;
 
 	public String getSpeed() {
 		return speed;
@@ -53,7 +54,9 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location newLocation) {
-		calculateDistance(newLocation);
+		if (isRaceRunning)
+			calculateDistance(newLocation);
+
 		actualLocation = newLocation;
 		getGPSData();
 		setChanged();
@@ -101,6 +104,14 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	private static float round(float toRound) {
 		return Math.round(toRound * 100f) / 100f;
+	}
+
+	public void startRace() {
+		isRaceRunning = true;
+	}
+
+	public void stopRace() {
+		isRaceRunning = false;
 	}
 
 }

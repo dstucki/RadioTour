@@ -21,6 +21,10 @@ public class Timer {
 		return timer.getBase();
 	}
 
+	public double getRaceTimeInSec() {
+		return (double) getDisplayedTime() / (double) 3600000;
+	}
+
 	public void reset() {
 		timer.stop();
 		timer.setBase(SystemClock.elapsedRealtime());
@@ -41,6 +45,10 @@ public class Timer {
 	}
 
 	public void setTime() {
+		timer.setBase(SystemClock.elapsedRealtime() - getDisplayedTime());
+	}
+
+	private long getDisplayedTime() {
 		String array[] = timer.getText().toString().split(":");
 		// 2 == min:sec
 		// 3 == hour:min:sec
@@ -52,9 +60,7 @@ public class Timer {
 					+ Integer.parseInt(array[1]) * 60 * 1000
 					+ Integer.parseInt(array[2]) * 1000;
 		}
-
-		timer.setBase(SystemClock.elapsedRealtime() - stoppedTime);
-
+		return stoppedTime;
 	}
 
 	public void toggle() {
