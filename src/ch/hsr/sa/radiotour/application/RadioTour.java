@@ -15,6 +15,7 @@ import ch.hsr.sa.radiotour.domain.Team;
 public class RadioTour extends Application {
 	private final LinkedHashMap<Integer, BicycleRider> riders = new LinkedHashMap<Integer, BicycleRider>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
+	private Team latestTeam;
 	private final LinkedList<Group> groups = new LinkedList<Group>();
 
 	public RadioTour() {
@@ -40,10 +41,16 @@ public class RadioTour extends Application {
 
 	public void add(BicycleRider rider) {
 		riders.put(rider.getStartNr(), rider);
-		if (!teams.containsKey(rider.getTeam())) {
-			teams.put(rider.getTeam(), new Team(rider.getTeam()));
+		if (latestTeam == null || latestTeam.getDriverNumbers().size() >= 10) {
+			latestTeam = new Team(rider.getTeam() + teams.size());
+			teams.put(latestTeam.getName(), latestTeam);
 		}
-		teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
+		latestTeam.getDriverNumbers().add(rider.getStartNr());
+
+		// if (!teams.(rider.getTeam())) {
+		// teams.put(rider.getTeam(), new Team(rider.getTeam()));
+		// }
+		// teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
 	}
 
 	public void add(int index, Group group) {

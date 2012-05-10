@@ -15,6 +15,8 @@ public class PointOfRace {
 	@DatabaseField
 	private double distance;
 	@DatabaseField
+	private int round;
+	@DatabaseField
 	private String name;
 	@DatabaseField(dataType = DataType.DATE)
 	private Date estimatedDate;
@@ -22,11 +24,12 @@ public class PointOfRace {
 	private Stage stage;
 
 	public PointOfRace(int altitude, double distance, String name,
-			Date estimatedDate) {
+			Date estimatedDate, int round) {
 		this.altitude = altitude;
 		this.distance = distance;
 		this.name = name;
 		this.estimatedDate = estimatedDate;
+		this.round = round;
 	}
 
 	public PointOfRace() {
@@ -79,5 +82,13 @@ public class PointOfRace {
 
 	public void setEstimatedDate(Date estimatedDate) {
 		this.estimatedDate = estimatedDate;
+	}
+
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
 	}
 }

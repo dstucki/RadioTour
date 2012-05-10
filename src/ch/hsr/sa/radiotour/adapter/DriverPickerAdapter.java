@@ -16,6 +16,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
 
@@ -25,7 +26,28 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	private final ArrayList<Team> teams;
 	int[] ids = { R.id.startNr1, R.id.startNr2, R.id.startNr3, R.id.startNr4,
 			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8,
-			R.id.startNr9, R.id.startNr10, R.id.startNr11, R.id.startNr12 // ...
+			R.id.startNr9, R.id.startNr10 // ...
+	};
+
+	private final OnLongClickListener longClickListener = new OnLongClickListener() {
+
+		@Override
+		public boolean onLongClick(View v) {
+			final TextView textView = (TextView) v;
+			if (!((RadioTourActivity) fragment.getActivity())
+					.getCheckedIntegers().contains(
+							Integer.valueOf(textView.getText().toString()))) {
+				textView.performClick();
+			}
+
+			ClipData data = ClipData.newPlainText(textView.getText(),
+					textView.getText());
+			v.startDrag(data, new DragShadowBuilder(v),
+					((RadioTourActivity) fragment.getActivity())
+							.getCheckedIntegers(), 0);
+			notifyDataSetChanged();
+			return true;
+		}
 	};
 
 	public DriverPickerAdapter(Context context, int resource,
@@ -52,27 +74,16 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 					.getRidersAsMap().get(driverNumber);
 			TextView temp = (TextView) v.findViewById(ids[counter++]);
 
-			temp.setOnLongClickListener(new OnLongClickListener() {
+			if (rider.getRiderState() == RiderState.ACTIV) {
+				temp.setClickable(true);
+				temp.setOnClickListener((RadioTourActivity) context);
+				temp.setOnLongClickListener(longClickListener);
 
-				@Override
-				public boolean onLongClick(View v) {
-					final TextView textView = (TextView) v;
-					if (!((RadioTourActivity) fragment.getActivity())
-							.getCheckedIntegers().contains(
-									Integer.valueOf(textView.getText()
-											.toString()))) {
-						textView.performClick();
-					}
-
-					ClipData data = ClipData.newPlainText(textView.getText(),
-							textView.getText());
-					v.startDrag(data, new DragShadowBuilder(v),
-							((RadioTourActivity) fragment.getActivity())
-									.getCheckedIntegers(), 0);
-					notifyDataSetChanged();
-					return true;
-				}
-			});
+			} else {
+				temp.setOnClickListener(null);
+				temp.setOnLongClickListener(null);
+				temp.setClickable(false);
+			}
 
 			temp.setText(Integer.toString(driverNumber));
 			temp.setTextColor(rider.getRiderState().getTextColor());

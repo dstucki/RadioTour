@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TableRow;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
@@ -120,8 +119,9 @@ public class RadioTourActivity extends Activity implements Observer,
 		} catch (ParseException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
+		int round = Integer.valueOf(pointAsString[4]);
 
-		return new PointOfRace(altitude, distance, name, date);
+		return new PointOfRace(altitude, distance, name, date, round);
 	}
 
 	private BicycleRider convertStringArrayToRider(String[] riderAsString) {
@@ -174,14 +174,15 @@ public class RadioTourActivity extends Activity implements Observer,
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
 				checkedViews.remove(temp);
-				temp.setBackgroundColor(Color.TRANSPARENT);
-				temp.setTextColor(Color.WHITE);
+				temp.setBackgroundColor(RiderState.ACTIV.getBackgroundColor());
+				temp.setTextColor(RiderState.ACTIV.getTextColor());
 
 			} else {
 				checkedIntegers.add(checkedID);
 				checkedViews.add(temp);
-				temp.setBackgroundColor(Color.LTGRAY);
-				temp.setTextColor(Color.BLACK);
+				temp.setBackgroundColor(RiderState.ACTIV_SELECTED
+						.getBackgroundColor());
+				temp.setTextColor(RiderState.ACTIV_SELECTED.getTextColor());
 			}
 		}
 	}
@@ -304,7 +305,7 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	@Override
 	public void update(Observable observable, Object data) {
-		onRowLayoutClick((TableRow) data, checkedIntegers);
+		onRowLayoutClick((View) data, checkedIntegers);
 	}
 
 }

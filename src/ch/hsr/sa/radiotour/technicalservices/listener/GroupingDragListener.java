@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.technicalservices.listener;
 import java.util.TreeSet;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
@@ -31,7 +32,11 @@ public class GroupingDragListener implements OnDragListener {
 	public boolean onDrag(View v, DragEvent event) {
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_ENTERED:
-			v.setBackgroundResource(R.drawable.drag_highlight_border);
+			if (v instanceof TextView) {
+				((TextView) v).setTypeface(Typeface.DEFAULT_BOLD);
+			} else {
+				v.setBackgroundResource(R.drawable.drag_highlight_border);
+			}
 			actualLayout = v;
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
@@ -54,8 +59,12 @@ public class GroupingDragListener implements OnDragListener {
 
 	public void handleBorder(View v) {
 		if (v != null) {
+			if (v instanceof TextView) {
+				((TextView) v).setTypeface(Typeface.DEFAULT);
+				return;
+			}
 			v.setBackgroundResource(R.drawable.drag_unhighlight_border);
-			if (!(v instanceof GroupTableRow) && !(v instanceof TextView)) {
+			if (!(v instanceof GroupTableRow)) {
 				v.setBackgroundResource(R.drawable.create_new_group);
 			}
 		}

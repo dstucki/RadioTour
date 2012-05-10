@@ -23,6 +23,7 @@ public class FragmentDialog extends DialogFragment {
 	public FragmentDialog(TimePickerIF txtView) {
 		super();
 		selectedTableRow = txtView;
+
 	}
 
 	private void setTimeFromTextView() {

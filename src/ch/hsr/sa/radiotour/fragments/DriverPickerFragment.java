@@ -4,19 +4,21 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.DriverPickerAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
-public class DriverPickerFragment extends ListFragment {
+public class DriverPickerFragment extends ListFragment implements
+		OnClickListener {
 
 	private DriverPickerAdapter adapter;
 	private View footerView;
-	private GroupingDragListener listener;
-
-	private final TextView actualLayout = null;
+	private GroupingDragListener dragListener;
+	private final DriverGroupClickListener clickListener = new DriverGroupClickListener();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class DriverPickerFragment extends ListFragment {
 	}
 
 	public void setDragListener(GroupingDragListener listener) {
-		this.listener = listener;
+		this.dragListener = listener;
 
 	}
 
@@ -52,9 +54,34 @@ public class DriverPickerFragment extends ListFragment {
 	}
 
 	private void assignListener() {
-		footerView.findViewById(R.id.arzt).setOnDragListener(listener);
-		footerView.findViewById(R.id.sturz).setOnDragListener(listener);
-		footerView.findViewById(R.id.defekt).setOnDragListener(listener);
-		footerView.findViewById(R.id.aufgabe).setOnDragListener(listener);
+		footerView.findViewById(R.id.arzt).setOnDragListener(dragListener);
+		footerView.findViewById(R.id.sturz).setOnDragListener(dragListener);
+		footerView.findViewById(R.id.defekt).setOnDragListener(dragListener);
+		footerView.findViewById(R.id.aufgabe).setOnDragListener(dragListener);
+
+		clickListener.addObserver((RadioTourActivity) getActivity());
+
+		footerView.findViewById(R.id.arzt).setOnClickListener(this);
+		footerView.findViewById(R.id.arzt).setBackgroundColor(
+				RiderState.DOCTOR.getBackgroundColor());
+		footerView.findViewById(R.id.sturz).setOnClickListener(this);
+		footerView.findViewById(R.id.sturz).setBackgroundColor(
+				RiderState.FALL.getBackgroundColor());
+
+		footerView.findViewById(R.id.defekt).setOnClickListener(this);
+		footerView.findViewById(R.id.defekt).setBackgroundColor(
+				RiderState.DEFECT.getBackgroundColor());
+
+		footerView.findViewById(R.id.aufgabe).setOnClickListener(this);
+		footerView.findViewById(R.id.aufgabe).setBackgroundColor(
+				RiderState.GIVEUP.getBackgroundColor());
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		clickListener.onClick(v);
+		adapter.notifyDataSetChanged();
+
 	}
 }

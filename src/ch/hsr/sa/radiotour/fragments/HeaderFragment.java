@@ -235,7 +235,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 	@Override
 	public Date getTime() {
-		return new Date(racetimeTimer.getDisplayedTime() - 3600000);
+		return new Date(racetimeTimer.getDisplayedTime());
 	}
 
 	@Override
