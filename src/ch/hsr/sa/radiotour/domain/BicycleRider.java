@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.domain;
 
 import java.util.Date;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -27,7 +28,7 @@ public class BicycleRider {
 	private Date official_deficit;
 	@DatabaseField
 	private Date virtual_deficit;
-	@DatabaseField
+	@DatabaseField(dataType = DataType.ENUM_STRING)
 	private RiderState activ;
 	@DatabaseField
 	private String category;
