@@ -55,5 +55,16 @@
     <string name="lb_name">Name:</string>
     <string name="lb_bonus">Bonus</string>
     <string name="land">Land</string>
+    <string name="in_the_race">Im Rennen</string>
+    <string name="not_started">Nicht gestartet</string>
+    <string name="give_up">Ausgeschieden</string>
+    <string name="edit_rider_dialog_title">Bearbeite Fahrer</string>
+    <string name="status">Status:</string>
+    <string name="not_started_abbreviation">DNC</string>
+    <string name="doctor">Arzt</string>
+    <string name="fall">Sturz</string>
+    <string name="defect">Defekt</string>
+    <string name="giveup">Aufgabe</string>
+    <string name="clear_selection">Auswahl aufheben</string>
 
 </resources>

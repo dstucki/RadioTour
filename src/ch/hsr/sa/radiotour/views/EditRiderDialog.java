@@ -11,10 +11,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderState;
 
 public class EditRiderDialog extends DialogFragment {
 
@@ -38,15 +42,54 @@ public class EditRiderDialog extends DialogFragment {
 					.getName());
 			((EditText) v.findViewById(R.id.edittxt_team)).setText(rider
 					.getTeam());
-			((EditText) v.findViewById(R.id.edittxt_team_short)).setText(rider
-					.getTeamShort());
 			((EditText) v.findViewById(R.id.edittxt_day))
 					.setText(new SimpleDateFormat(BIRTHDAY_TEMPLATE)
 							.format(rider.getBirthday()));
 			((EditText) v.findViewById(R.id.edittxt_note)).setText(rider
 					.getNote());
+
+			setStatiRadioButton();
+
 		} catch (NullPointerException e) {
 			Log.e(getClass().getSimpleName(), "Fixme handle Exception");
+		}
+	}
+
+	private void setStatiRadioButton() {
+		RadioGroup radioGroup = (RadioGroup) v.findViewById(R.id.rg_status);
+		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				rider.setRiderState(getRiderState(checkedId));
+			}
+		});
+		RadioButton temp = ((RadioButton) v.findViewById(getRadioID(rider
+				.getRiderState())));
+		temp.setChecked(true);
+	}
+
+	private RiderState getRiderState(int checkedId) {
+		switch (checkedId) {
+		case R.id.rdbtn_in_race:
+			return RiderState.ACTIV;
+		case R.id.rdbtn_not_started:
+			return RiderState.NOT_STARTED;
+		case R.id.rdbtn_out:
+			return RiderState.GIVEUP;
+		default:
+			return RiderState.ACTIV;
+		}
+	}
+
+	private int getRadioID(RiderState state) {
+		switch (state) {
+		case NOT_STARTED:
+			return R.id.rdbtn_not_started;
+		case GIVEUP:
+			return R.id.rdbtn_out;
+		default:
+			return R.id.rdbtn_in_race;
 		}
 	}
 
@@ -54,6 +97,8 @@ public class EditRiderDialog extends DialogFragment {
 		rider.setName(((EditText) v.findViewById(R.id.edittxt_name)).getText()
 				.toString());
 		rider.setNote(((EditText) v.findViewById(R.id.edittxt_note)).getText()
+				.toString());
+		rider.setTeam(((EditText) v.findViewById(R.id.edittxt_team)).getText()
 				.toString());
 		try {
 			rider.setBirthday(new SimpleDateFormat(BIRTHDAY_TEMPLATE)
@@ -63,7 +108,7 @@ public class EditRiderDialog extends DialogFragment {
 			Log.e(getClass().getSimpleName(), "Fixme handle Exception");
 		}
 		((RadioTourActivity) getActivity()).getHelper().getBicycleRiderDao()
-				.createOrUpdate(rider);
+				.update(rider);
 	}
 
 	public void setRider(BicycleRider rider) {
@@ -74,7 +119,7 @@ public class EditRiderDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getDialog().setTitle("Bearbeite Fahrer");
+		getDialog().setTitle(getString(R.string.edit_rider_dialog_title));
 		v = inflater.inflate(R.layout.edit_rider_dialog, container, false);
 
 		v.findViewById(R.id.btn_abort).setOnClickListener(

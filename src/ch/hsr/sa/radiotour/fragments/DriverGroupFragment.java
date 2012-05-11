@@ -264,16 +264,14 @@ public class DriverGroupFragment extends Fragment {
 		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
 		modificationAvoider.addAll(riderNumbers);
 		for (Integer i : modificationAvoider) {
-			if (driverTableRow.get(i) != null) {
-				driverTableRow.get(i).removeRiderNr(i);
-				// groupDatabaseDao.update(driverTableRow.get(i).getGroup());
-			}
+
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
 			} else {
+				removeDriver(i);
 				groupTableRow.addRider(i);
+				driverTableRow.put(i, groupTableRow);
 			}
-			driverTableRow.put(i, groupTableRow);
 		}
 		if (groupTableRow != null) {
 			groupDatabaseDao.createOrUpdate(groupTableRow.getGroup());
@@ -297,7 +295,11 @@ public class DriverGroupFragment extends Fragment {
 			break;
 		case R.id.aufgabe:
 			newState = RiderState.GIVEUP;
-
+			removeDriver(i);
+			break;
+		case R.id.not_started:
+			newState = RiderState.NOT_STARTED;
+			removeDriver(i);
 			break;
 
 		}
@@ -305,5 +307,11 @@ public class DriverGroupFragment extends Fragment {
 				.getRidersAsMap().get(i);
 		bicycleRider.setRiderState(newState);
 		riderDatabaseDao.update(bicycleRider);
+	}
+
+	public void removeDriver(int i) {
+		if (driverTableRow.get(i) != null) {
+			driverTableRow.get(i).removeRiderNr(i);
+		}
 	}
 }

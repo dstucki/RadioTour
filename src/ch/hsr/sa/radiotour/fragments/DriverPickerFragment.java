@@ -54,6 +54,8 @@ public class DriverPickerFragment extends ListFragment implements
 	}
 
 	private void assignListener() {
+		footerView.findViewById(R.id.not_started).setOnDragListener(
+				dragListener);
 		footerView.findViewById(R.id.arzt).setOnDragListener(dragListener);
 		footerView.findViewById(R.id.sturz).setOnDragListener(dragListener);
 		footerView.findViewById(R.id.defekt).setOnDragListener(dragListener);
@@ -61,9 +63,14 @@ public class DriverPickerFragment extends ListFragment implements
 
 		clickListener.addObserver((RadioTourActivity) getActivity());
 
+		footerView.findViewById(R.id.not_started).setOnClickListener(this);
+		footerView.findViewById(R.id.not_started).setBackgroundColor(
+				RiderState.NOT_STARTED.getBackgroundColor());
+
 		footerView.findViewById(R.id.arzt).setOnClickListener(this);
 		footerView.findViewById(R.id.arzt).setBackgroundColor(
 				RiderState.DOCTOR.getBackgroundColor());
+
 		footerView.findViewById(R.id.sturz).setOnClickListener(this);
 		footerView.findViewById(R.id.sturz).setBackgroundColor(
 				RiderState.FALL.getBackgroundColor());

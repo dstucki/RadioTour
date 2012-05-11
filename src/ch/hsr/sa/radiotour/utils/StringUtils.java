@@ -31,6 +31,9 @@ public class StringUtils {
 		if ("GER".equalsIgnoreCase(olympicCountryCode)) {
 			isoCode = "de";
 		}
+		if ("FRA".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "fr";
+		}
 		if ("ERI".equalsIgnoreCase(olympicCountryCode)) {
 			isoCode = "er";
 		}
