@@ -25,6 +25,7 @@ import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
@@ -39,6 +40,7 @@ import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
 import ch.hsr.sa.radiotour.views.KmPickerDialog;
 import ch.hsr.sa.radiotour.views.MarchTableDialog;
+import ch.hsr.sa.radiotour.views.SpecialRankingDialog;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -105,6 +107,10 @@ public class RadioTourActivity extends Activity implements Observer,
 				point.setStage(stage);
 				databaseHelper.getPointOfRaceDao().create(point);
 			}
+
+			reader = new CSVReader(getResources().openRawResource(
+					R.raw.specialranking));
+
 		}
 		for (Team team : ((RadioTour) getApplication()).getTeams()) {
 			databaseHelper.getTeamDao().create(team);
@@ -326,6 +332,21 @@ public class RadioTourActivity extends Activity implements Observer,
 	@Override
 	public void update(Observable observable, Object data) {
 		onRowLayoutClick((View) data, checkedIntegers);
+	}
+
+	public void showSpecialRankingDialog(SpecialRakingFragment fragment,
+			SpecialRanking selectedItem) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(
+				"specialRankingDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		SpecialRankingDialog newFragment = new SpecialRankingDialog(fragment,
+				selectedItem);
+		newFragment.show(ft, "specialRankingDialog");
 	}
 
 }

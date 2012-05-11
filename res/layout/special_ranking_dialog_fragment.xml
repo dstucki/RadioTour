@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <EditText
+            android:id="@+id/edtxt_name_special_ranking"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Anzahl Gewinner" />
+
+        <EditText
+            android:id="@+id/edtxt_nr_of_winners"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/chbx_timeboni"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Zeit Bonus" />
+
+        <CheckBox
+            android:id="@+id/chbx_pointboni"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Punkte Bonus" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llayout_table_textview_holder"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/dismissButton"
+            android:layout_width="480dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lb_cancel" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="480dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lb_save" />
+    </LinearLayout>
+
+</LinearLayout>

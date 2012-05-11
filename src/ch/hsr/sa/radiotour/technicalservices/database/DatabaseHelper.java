@@ -8,7 +8,9 @@ import android.util.Log;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 
@@ -37,6 +39,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private RuntimeExceptionDao<Group, Integer> groupRuntimeDao = null;
 	private RuntimeExceptionDao<Stage, Integer> stageRuntimeDao = null;
 	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceRuntimeDao = null;
+	private RuntimeExceptionDao<SpecialRanking, Integer> specialRankingDao = null;
+	private RuntimeExceptionDao<Judgement, Integer> judgementRankingDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -51,12 +55,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onCreate");
 			TableUtils.createTable(connectionSource, BicycleRider.class);
 			TableUtils.createTable(connectionSource, Team.class);
 			TableUtils.createTable(connectionSource, Group.class);
 			TableUtils.createTable(connectionSource, Stage.class);
 			TableUtils.createTable(connectionSource, PointOfRace.class);
+			TableUtils.createTable(connectionSource, SpecialRanking.class);
+			TableUtils.createTable(connectionSource, Judgement.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -78,7 +83,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(connectionSource, Group.class, true);
 			TableUtils.dropTable(connectionSource, Stage.class, true);
 			TableUtils.dropTable(connectionSource, PointOfRace.class, true);
-			// after we drop the old databases, we create the new ones
+			TableUtils.dropTable(connectionSource, SpecialRanking.class, true);
+			TableUtils.dropTable(connectionSource, Judgement.class, true);
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -126,6 +132,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return pointOfRaceRuntimeDao;
 	}
 
+	public RuntimeExceptionDao<SpecialRanking, Integer> getSpecialRankingDao() {
+		if (specialRankingDao == null) {
+			specialRankingDao = getRuntimeExceptionDao(SpecialRanking.class);
+		}
+		return specialRankingDao;
+	}
+
+	public RuntimeExceptionDao<Judgement, Integer> getJudgementDao() {
+		if (judgementRankingDao == null) {
+			judgementRankingDao = getRuntimeExceptionDao(Judgement.class);
+		}
+		return judgementRankingDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -137,5 +157,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		groupRuntimeDao = null;
 		stageRuntimeDao = null;
 		pointOfRaceRuntimeDao = null;
+		specialRankingDao = null;
+		judgementRankingDao = null;
 	}
 }

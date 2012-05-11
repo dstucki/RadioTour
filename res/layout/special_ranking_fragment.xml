@@ -2,18 +2,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" android:padding="20dp" android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Spezialklassement" />
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp" >
 
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Spezialklassement" />
+
+        <Spinner
+            android:id="@+id/spinner_special_ranking"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button_add_new_special_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/new_word" />
+
+        <Button
+            android:id="@+id/button_edit_special_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/edit" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Wertung" />
+
+        <Spinner
+            android:id="@+id/spinner_judgement"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button_add_new_judgement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/new_word" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llayout_driver_set"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </LinearLayout>

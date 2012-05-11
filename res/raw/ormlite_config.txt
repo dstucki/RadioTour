@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/10 06:50:07
+# generated on 2012/05/11 05:47:01
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
@@ -88,6 +88,30 @@ fieldName=orderNumber
 # --table-end--
 #################################
 # --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.Judgement
+tableName=judgement
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=winningRiders
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=ranking
+columnName=specialranking
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.PointOfRace
 tableName=pointofrace
 # --table-fields-start--
@@ -115,6 +139,39 @@ dataPersister=DATE
 fieldName=stage
 foreign=true
 foreignAutoRefresh=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.SpecialRanking
+tableName=specialranking
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=nrOfWinningDrivers
+# --field-end--
+# --field-start--
+fieldName=timeBoni
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=pointBoni
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=pointBonis
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=timeBonis
+dataPersister=SERIALIZABLE
 # --field-end--
 # --table-fields-end--
 # --table-end--
