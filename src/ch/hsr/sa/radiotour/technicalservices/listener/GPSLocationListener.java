@@ -3,20 +3,28 @@ package ch.hsr.sa.radiotour.technicalservices.listener;
 import java.util.Observable;
 
 import android.content.Context;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 
 public class GPSLocationListener extends Observable implements LocationListener {
-	private final LocationManager manager;
-	private String speed = "No GPS";
-	private String altitude = "No GPS";
-	private String accuracy = "No GPS";
+	private LocationManager manager = null;
+	private ConnectionStatus connectionState;
+	private String speed = "-";
+	private String altitude = "-";
+	private String accuracy = "-";
 	private Location actualLocation;
 	private float distanceInMeters;
 	private boolean isRaceRunning = false;
+	private long lastTimeStamp;
+	private GpsStatus status;
+	boolean isGPSFix;
 
 	public String getSpeed() {
 		return speed;
@@ -27,9 +35,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	}
 
 	public void setDistance(float distanceInKM) {
-		Log.i(getClass().getSimpleName(), distanceInKM + "");
-		Log.i(getClass().getSimpleName(), distanceInMeters + "");
-
 		distanceInMeters = distanceInKM * 1000;
 	}
 
@@ -62,6 +67,8 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location newLocation) {
+		lastTimeStamp = SystemClock.elapsedRealtime();
+
 		if (isRaceRunning)
 			calculateDistance(newLocation);
 
@@ -90,10 +97,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	public void onProviderDisabled(String provider) {
 	}
 
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
-
 	public void getGPSData() {
 		if (actualLocation != null) {
 			if (actualLocation.hasAltitude()) {
@@ -110,7 +113,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 				float kmh = round((float) (actualLocation.getSpeed() * 3.6));
 				speed = kmh + "";
 			} else {
-				speed = "No GPS";
+				speed = "No_GPS";
 			}
 		}
 	}
@@ -125,6 +128,20 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	public void stopRace() {
 		isRaceRunning = false;
+	}
+
+	public ConnectionStatus getConnectionState() {
+		return connectionState;
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle arg2) {
+		Log.d(getClass().getSimpleName(), "provider changed");
+		if (status == LocationProvider.AVAILABLE) {
+			connectionState = ConnectionStatus.GREEN;
+		} else {
+			connectionState = ConnectionStatus.RED;
+		}
 	}
 
 }

@@ -200,6 +200,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		if (data instanceof GPSLocationListener) {
 			mGPS = (GPSLocationListener) data;
+
 			updateGPSValues();
 		} else if (data instanceof LiveData) {
 
@@ -213,10 +214,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 							.findViewById(R.id.img_connection);
 					ConnectionStatus connectionState = livedata
 							.getConnectionState();
-					if (connectionState == ConnectionStatus.RED) {
-						connectionImage.setImageResource(R.drawable.red);
-					} else if (connectionState == ConnectionStatus.GREEN) {
-						connectionImage.setImageResource(R.drawable.green);
+
+					if (updateConnectionIMGs(connectionState, connectionImage)) {
+
 						TextView spitzefeld = (TextView) getView()
 								.findViewById(R.id.spitzefeld_value_km);
 						spitzefeld.setText(livedata.getSpitzeFeldKm());
@@ -234,6 +234,18 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 				}
 			});
 		}
+	}
+
+	private boolean updateConnectionIMGs(ConnectionStatus connectionState,
+			ImageView connectionImage) {
+		if (connectionState == ConnectionStatus.RED) {
+			connectionImage.setImageResource(R.drawable.red);
+			return false;
+		} else if (connectionState == ConnectionStatus.GREEN) {
+			connectionImage.setImageResource(R.drawable.green);
+			return true;
+		}
+		return false;
 	}
 
 	private void updateGPSValues() {
