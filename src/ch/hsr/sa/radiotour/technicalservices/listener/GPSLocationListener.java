@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 public class GPSLocationListener extends Observable implements LocationListener {
 	private final LocationManager manager;
@@ -14,7 +15,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	private String altitude = "No GPS";
 	private String accuracy = "No GPS";
 	private Location actualLocation;
-	private float distance;
+	private float distanceInMeters;
 	private boolean isRaceRunning = false;
 
 	public String getSpeed() {
@@ -22,7 +23,14 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	}
 
 	public float getDistance() {
-		return Math.round(distance / 100f) / 10f;
+		return Math.round(distanceInMeters / 100f) / 10f;
+	}
+
+	public void setDistance(float distanceInKM) {
+		Log.i(getClass().getSimpleName(), distanceInKM + "");
+		Log.i(getClass().getSimpleName(), distanceInMeters + "");
+
+		distanceInMeters = distanceInKM * 1000;
 	}
 
 	public String getAltitude() {
@@ -59,13 +67,18 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 		actualLocation = newLocation;
 		getGPSData();
+		updateLocation();
+
+	}
+
+	public void updateLocation() {
 		setChanged();
 		notifyObservers(this);
 	}
 
 	private void calculateDistance(Location newLocation) {
 		if (actualLocation != null) {
-			distance += actualLocation.distanceTo(newLocation);
+			distanceInMeters += actualLocation.distanceTo(newLocation);
 		}
 	}
 

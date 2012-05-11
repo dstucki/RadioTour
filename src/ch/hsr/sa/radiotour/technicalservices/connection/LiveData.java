@@ -28,15 +28,16 @@ public class LiveData extends Observable {
 			.newScheduledThreadPool(1);
 
 	public void updateperiodically() {
-		final Runnable beeper = new Runnable() {
+		final Runnable runner = new Runnable() {
 			@Override
 			public void run() {
 				getNewLiveDataFromURL(URL);
+
 			};
 		};
 		@SuppressWarnings("rawtypes")
 		final ScheduledFuture beepHandler = scheduler.scheduleAtFixedRate(
-				beeper, 2, 10, TimeUnit.SECONDS);
+				runner, 2, 10, TimeUnit.SECONDS);
 		beepHandler.toString();
 	}
 

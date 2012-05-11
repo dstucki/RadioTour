@@ -34,8 +34,10 @@ import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
+import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
+import ch.hsr.sa.radiotour.views.KmPickerDialog;
 import ch.hsr.sa.radiotour.views.MarchTableDialog;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -280,6 +282,19 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		FragmentDialog newFragment = new FragmentDialog(timePickerIF, useHour);
 		newFragment.show(ft, "dialog");
+
+	}
+
+	public void showKmDialog(GPSLocationListener gps) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		KmPickerDialog newKmPicker = new KmPickerDialog(gps);
+		newKmPicker.show(ft, "dialog");
 
 	}
 
