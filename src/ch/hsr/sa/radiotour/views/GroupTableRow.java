@@ -62,8 +62,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 			@Override
 			public void onClick(View v) {
-				((RadioTourActivity) context)
-						.showTimeDialog(GroupTableRow.this);
+				((RadioTourActivity) context).showTimeDialog(
+						GroupTableRow.this, false);
 			}
 		});
 
@@ -91,6 +91,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		});
 
 		description.setTextSize(30);
+		time.setTextSize(25);
 
 	}
 

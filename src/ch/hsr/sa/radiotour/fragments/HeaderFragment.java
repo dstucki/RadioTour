@@ -170,8 +170,8 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		@Override
 		public void onClick(View v) {
-			((RadioTourActivity) getActivity())
-					.showTimeDialog(HeaderFragment.this);
+			((RadioTourActivity) getActivity()).showTimeDialog(
+					HeaderFragment.this, true);
 
 		}
 	};

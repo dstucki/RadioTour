@@ -265,7 +265,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		checkedViews.clear();
 	}
 
-	public void showTimeDialog(TimePickerIF timePickerIF) {
+	public void showTimeDialog(TimePickerIF timePickerIF, boolean useHour) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
 		if (prev != null) {
@@ -273,7 +273,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		FragmentDialog newFragment = new FragmentDialog(timePickerIF);
+		FragmentDialog newFragment = new FragmentDialog(timePickerIF, useHour);
 		newFragment.show(ft, "dialog");
 
 	}

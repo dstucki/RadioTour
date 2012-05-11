@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llayout_0_59"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/drag_unhighlight_border"
     android:orientation="vertical" >
@@ -13,84 +13,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="0" />
+            android:padding="5dp"
+            android:text="0"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="1" />
+            android:padding="5dp"
+            android:text="1"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="2" />
+            android:padding="5dp"
+            android:text="2"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="3" />
+            android:padding="5dp"
+            android:text="3"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="4" />
+            android:padding="5dp"
+            android:text="4"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="5" />
+            android:padding="5dp"
+            android:text="5"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="6" />
+            android:padding="5dp"
+            android:text="6"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="7" />
+            android:padding="5dp"
+            android:text="7"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="8" />
+            android:padding="5dp"
+            android:text="8"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="9" />
+            android:padding="5dp"
+            android:text="9"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -100,84 +110,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="10" />
+            android:padding="5dp"
+            android:text="10"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="11" />
+            android:padding="5dp"
+            android:text="11"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="12" />
+            android:padding="5dp"
+            android:text="12"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="13" />
+            android:padding="5dp"
+            android:text="13"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="14" />
+            android:padding="5dp"
+            android:text="14"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="15" />
+            android:padding="5dp"
+            android:text="15"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="16" />
+            android:padding="5dp"
+            android:text="16"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="17" />
+            android:padding="5dp"
+            android:text="17"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="18" />
+            android:padding="5dp"
+            android:text="18"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="19" />
+            android:padding="5dp"
+            android:text="19"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -187,84 +207,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="20" />
+            android:padding="5dp"
+            android:text="20"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="21" />
+            android:padding="5dp"
+            android:text="21"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="22" />
+            android:padding="5dp"
+            android:text="22"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="23" />
+            android:padding="5dp"
+            android:text="23"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="24" />
+            android:padding="5dp"
+            android:text="24"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="25" />
+            android:padding="5dp"
+            android:text="25"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="26" />
+            android:padding="5dp"
+            android:text="26"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="27" />
+            android:padding="5dp"
+            android:text="27"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="28" />
+            android:padding="5dp"
+            android:text="28"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="29" />
+            android:padding="5dp"
+            android:text="29"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -274,84 +304,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="30" />
+            android:padding="5dp"
+            android:text="30"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="31" />
+            android:padding="5dp"
+            android:text="31"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="32" />
+            android:padding="5dp"
+            android:text="32"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="33" />
+            android:padding="5dp"
+            android:text="33"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="34" />
+            android:padding="5dp"
+            android:text="34"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="35" />
+            android:padding="5dp"
+            android:text="35"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="36" />
+            android:padding="5dp"
+            android:text="36"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="37" />
+            android:padding="5dp"
+            android:text="37"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="38" />
+            android:padding="5dp"
+            android:text="38"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="39" />
+            android:padding="5dp"
+            android:text="39"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -361,84 +401,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="40" />
+            android:padding="5dp"
+            android:text="40"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="41" />
+            android:padding="5dp"
+            android:text="41"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="42" />
+            android:padding="5dp"
+            android:text="42"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="43" />
+            android:padding="5dp"
+            android:text="43"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="44" />
+            android:padding="5dp"
+            android:text="44"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="45" />
+            android:padding="5dp"
+            android:text="45"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="46" />
+            android:padding="5dp"
+            android:text="46"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="47" />
+            android:padding="5dp"
+            android:text="47"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="48" />
+            android:padding="5dp"
+            android:text="48"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="49" />
+            android:padding="5dp"
+            android:text="49"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -448,84 +498,94 @@
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="50" />
+            android:padding="5dp"
+            android:text="50"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="51" />
+            android:padding="5dp"
+            android:text="51"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="52" />
+            android:padding="5dp"
+            android:text="52"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="53" />
+            android:padding="5dp"
+            android:text="53"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="54" />
+            android:padding="5dp"
+            android:text="54"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="55" />
+            android:padding="5dp"
+            android:text="55"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:text="56" />
+            android:padding="5dp"
+            android:text="56"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="57" />
+            android:padding="5dp"
+            android:text="57"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="58" />
+            android:padding="5dp"
+            android:text="58"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_time_1"
-            android:layout_width="25dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:padding="3dp"
-            android:text="59" />
+            android:padding="5dp"
+            android:text="59"
+            android:textSize="20dp" />
     </LinearLayout>
 
 </LinearLayout>

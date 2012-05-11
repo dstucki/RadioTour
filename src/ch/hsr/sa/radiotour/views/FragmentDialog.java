@@ -19,10 +19,12 @@ public class FragmentDialog extends DialogFragment {
 	private final TimePickerIF selectedTableRow;
 	private LinearLayout hourLayout, minuteLayout, seconLayout;
 	private TextView selectedHour, selectedMinute, selectedSecond;
+	private boolean useHour = false;
 
-	public FragmentDialog(TimePickerIF txtView) {
+	public FragmentDialog(TimePickerIF txtView, boolean useHour) {
 		super();
 		selectedTableRow = txtView;
+		this.useHour = useHour;
 
 	}
 
@@ -32,8 +34,10 @@ public class FragmentDialog extends DialogFragment {
 			date = new Date(0, 0, 0, 0, 0, 0);
 		}
 
-		selectedHour = findTextView(hourLayout, date.getHours());
-		selectedHour.performClick();
+		if (useHour) {
+			selectedHour = findTextView(hourLayout, date.getHours());
+			selectedHour.performClick();
+		}
 		selectedMinute = findTextView(minuteLayout, date.getMinutes());
 		selectedMinute.performClick();
 
@@ -72,14 +76,17 @@ public class FragmentDialog extends DialogFragment {
 		LinearLayout holder = (LinearLayout) v
 				.findViewById(R.id.llayout_number_table_holder);
 
-		hourLayout = (LinearLayout) inflater.inflate(
-				R.layout.zero_to_fiftynine_table, null);
+		if (useHour) {
+			hourLayout = (LinearLayout) inflater.inflate(
+					R.layout.zero_to_fiftynine_table, null);
+			holder.addView(hourLayout);
+		}
+
 		minuteLayout = (LinearLayout) inflater.inflate(
 				R.layout.zero_to_fiftynine_table, null);
 		seconLayout = (LinearLayout) inflater.inflate(
 				R.layout.zero_to_fiftynine_table, null);
 
-		holder.addView(hourLayout);
 		holder.addView(minuteLayout);
 		holder.addView(seconLayout);
 
@@ -99,8 +106,9 @@ public class FragmentDialog extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
-				selectedTableRow.setTime(new Date(0, 0, 0, getHour(),
-						getMinutes(), getSeconds()));
+				int hour = useHour ? getHour() : 0;
+				selectedTableRow.setTime(new Date(0, 0, 0, hour, getMinutes(),
+						getSeconds()));
 				dismiss();
 			}
 		});
@@ -125,7 +133,7 @@ public class FragmentDialog extends DialogFragment {
 		@Override
 		public void onClick(View v) {
 
-			if (v.getParent().getParent() == hourLayout) {
+			if (useHour && v.getParent().getParent() == hourLayout) {
 				selectedHour.setBackgroundColor(Color.TRANSPARENT);
 				selectedHour.setTextColor(Color.WHITE);
 				selectedHour = (TextView) v;
