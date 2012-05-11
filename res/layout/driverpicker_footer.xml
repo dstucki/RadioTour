@@ -15,14 +15,14 @@
             android:layout_width="96dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="DNC"
+            android:text="@string/not_started_abbreviation"
             android:textSize="20px" />
         <TextView
             android:id="@+id/arzt"
             android:layout_width="96dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="Arzt"
+            android:text="@string/doctor"
             android:textSize="20px" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="96dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="Sturz"
+            android:text="@string/fall"
             android:textSize="20px" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_width="96dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="Defekt"
+            android:text="@string/defect"
             android:textSize="20px" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_width="96dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="Aufgabe"
+            android:text="@string/giveup"
             android:textSize="20px" />
     </LinearLayout>
 
@@ -63,7 +63,7 @@
             android:clickable="true"
             android:gravity="center"
             android:onClick="clearCheckedIntegersOnclick"
-            android:text="Auswahl aufheben"
+            android:text="@string/clear_selection"
             android:textSize="20px" />
     </LinearLayout>
 
