@@ -34,7 +34,7 @@
     <string name="lb_defaultdistance">0 m</string>
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
-    <string name="lb_connectionstate">Verbindung:</string>
+    <string name="lb_connectionstate">Verb.:</string>
     <string name="lb_gpsstate">GPS:</string>
     <string name="lb_distance">Rennkilometer:</string>
     <string name="lb_save">Speichern</string>
