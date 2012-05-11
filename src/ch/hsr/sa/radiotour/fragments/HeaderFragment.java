@@ -73,7 +73,6 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						((RadioTourActivity) getActivity())
 								.showMarchTableDialog();
 					}
@@ -89,6 +88,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		((Chronometer) view.findViewById(R.id.chrono_racetime))
 				.setOnClickListener(editRacetimeListener);
+
+		((TextView) view.findViewById(R.id.distance_value))
+				.setOnClickListener(editRacekmListener);
 
 		mGPS = new GPSLocationListener(getActivity().getApplicationContext());
 		mGPS.addObserver(this);
@@ -176,8 +178,17 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		}
 	};
 
-	private void resetTabBar(View v) {
+	View.OnClickListener editRacekmListener = new OnClickListener() {
 
+		@Override
+		public void onClick(View v) {
+
+			((RadioTourActivity) getActivity()).showKmDialog(mGPS);
+
+		}
+	};
+
+	private void resetTabBar(View v) {
 		((Button) v.findViewById(R.id.tab_adm)).setBackgroundColor(0);
 		((Button) v.findViewById(R.id.tab_spez)).setBackgroundColor(0);
 		((Button) v.findViewById(R.id.tab_vir)).setBackgroundColor(0);
@@ -186,26 +197,18 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		if (data instanceof GPSLocationListener) {
-			GPSLocationListener temp = (GPSLocationListener) data;
-			TextView speedo = (TextView) getView().findViewById(
-					R.id.speed_value);
-			speedo.setText(temp.getSpeed() + " km/h");
-			speedo.setText((String.valueOf(Math.round(temp.getDistance()
-					/ racetimeTimer.getRaceTimeInHour() * 10f) / 10f))
-					+ " km/h");
-			TextView altitude = (TextView) getView().findViewById(
-					R.id.altitude_value);
-			altitude.setText(temp.getAltitude() + " müM");
-			TextView distance = (TextView) getView().findViewById(
-					R.id.distance_value);
-			distance.setText(temp.getDistance() + " km");
 
+		if (data instanceof GPSLocationListener) {
+			mGPS = (GPSLocationListener) data;
+			updateGPSValues();
 		} else if (data instanceof LiveData) {
+
 			final LiveData livedata = (LiveData) data;
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
+					updateGPSValues();
+
 					ImageView connectionImage = (ImageView) getView()
 							.findViewById(R.id.img_connection);
 					ConnectionStatus connectionState = livedata
@@ -231,6 +234,20 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 				}
 			});
 		}
+	}
+
+	private void updateGPSValues() {
+		TextView speedo = (TextView) getView().findViewById(R.id.speed_value);
+		speedo.setText(mGPS.getSpeed() + " km/h");
+		speedo.setText((String.valueOf(Math.round(mGPS.getDistance()
+				/ racetimeTimer.getRaceTimeInHour() * 10f) / 10f))
+				+ " km/h");
+		TextView altitude = (TextView) getView().findViewById(
+				R.id.altitude_value);
+		altitude.setText(mGPS.getAltitude() + " müM");
+		TextView distance = (TextView) getView().findViewById(
+				R.id.distance_value);
+		distance.setText(mGPS.getDistance() + " km");
 	}
 
 	@Override

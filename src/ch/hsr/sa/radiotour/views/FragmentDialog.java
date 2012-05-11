@@ -25,7 +25,6 @@ public class FragmentDialog extends DialogFragment {
 		super();
 		selectedTableRow = txtView;
 		this.useHour = useHour;
-
 	}
 
 	private void setTimeFromTextView() {
