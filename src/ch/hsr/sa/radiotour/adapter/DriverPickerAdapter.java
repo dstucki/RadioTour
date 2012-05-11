@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -34,10 +35,11 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		@Override
 		public boolean onLongClick(View v) {
 			final TextView textView = (TextView) v;
+			final int riderNr = Integer.valueOf(textView.getText().toString());
+
 			if (!((RadioTourActivity) fragment.getActivity())
-					.getCheckedIntegers().contains(
-							Integer.valueOf(textView.getText().toString()))) {
-				textView.performClick();
+					.getCheckedIntegers().contains(riderNr)) {
+				v.performClick();
 			}
 
 			ClipData data = ClipData.newPlainText(textView.getText(),
@@ -69,20 +71,23 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		Team team = teams.get(position);
 		int counter = 0;
 		BicycleRider rider;
+
 		for (Integer driverNumber : team.getDriverNumbers()) {
 			rider = ((RadioTour) context.getApplicationContext())
 					.getRidersAsMap().get(driverNumber);
 			TextView temp = (TextView) v.findViewById(ids[counter++]);
 
-			if (rider.getRiderState() == RiderState.ACTIV) {
-				temp.setClickable(true);
-				temp.setOnClickListener((RadioTourActivity) context);
-				temp.setOnLongClickListener(longClickListener);
-
-			} else {
+			if (rider.getRiderState() == RiderState.GIVEUP
+					|| rider.getRiderState() == RiderState.NOT_STARTED) {
 				temp.setOnClickListener(null);
 				temp.setOnLongClickListener(null);
 				temp.setClickable(false);
+				temp.setPaintFlags(temp.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
+			} else {
+				temp.setClickable(true);
+				temp.setOnClickListener((RadioTourActivity) context);
+				temp.setOnLongClickListener(longClickListener);
 			}
 
 			temp.setText(Integer.toString(driverNumber));

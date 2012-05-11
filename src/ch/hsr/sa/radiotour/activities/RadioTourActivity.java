@@ -171,6 +171,11 @@ public class RadioTourActivity extends Activity implements Observer,
 				checkedID = Integer.valueOf(temp.getText().toString()
 						.substring(0, indexSpace));
 			}
+			BicycleRider rider = ((RadioTour) getApplication())
+					.getRidersAsMap().get(checkedID);
+			rider.setRiderState(RiderState.ACTIV);
+			getHelper().getBicycleRiderDao().update(rider);
+
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
 				checkedViews.remove(temp);

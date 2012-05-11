@@ -51,36 +51,7 @@
             android:layout_width="300dp"
             android:layout_height="match_parent" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Team kurz:" />
-
-        <EditText
-            android:id="@+id/edittxt_team_short"
-            android:layout_width="300dp"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Land: " />
-
-        <Spinner
-            android:id="@+id/spinner_country"
-            android:layout_width="300dp"
-            android:layout_height="match_parent" />
-
-        <TextView
+            <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -92,6 +63,7 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -101,35 +73,35 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Status:" />
+            android:gravity="top"
+            android:text="@string/status" />
 
         <RadioGroup
             android:id="@+id/rg_status"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <RadioButton
-                android:id="@+id/rdbtn_active"
-                android:layout_width="100dp"
+                android:id="@+id/rdbtn_in_race"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Aktiv"
-                android:textSize="10dp" />
+                android:text="@string/in_the_race"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rdbtn_not_started"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/not_started"
+                android:textSize="14dp" />
 
             <RadioButton
                 android:id="@+id/rdbtn_out"
-                android:layout_width="100dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Ausgeschieden"
-                android:textSize="10dp" />
-
-            <RadioButton
-                android:id="@+id/rdbtn_notstarted"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Nicht gestartet"
-                android:textSize="10dp" />
+                android:text="@string/give_up"
+                android:textSize="14dp" />
         </RadioGroup>
 
         <TextView

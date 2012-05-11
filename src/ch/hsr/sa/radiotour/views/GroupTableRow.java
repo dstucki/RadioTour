@@ -191,10 +191,14 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	public void removeRiderNr(Integer driverNr) {
 		group.removeDriverNumber(driverNr);
-
+		BicycleRider rider = ((RadioTour) context.getApplicationContext())
+				.getRidersAsMap().get(driverNr);
+		rider.setVirtual_deficit(new Date(0, 0, 0, 0, 0, 0));
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
 		((RadioTourActivity) context).getHelper().getGroupDao().update(group);
+		((RadioTourActivity) context).getHelper().getBicycleRiderDao()
+				.update(rider);
 		if (temp != null && !group.isField()) {
 			for (int i = 0; i < temp.getChildCount(); i++) {
 				if (((TextView) temp.getChildAt(i))
