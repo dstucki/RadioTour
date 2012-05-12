@@ -27,7 +27,7 @@ public class KmPickerDialog extends DialogFragment {
 		View v = inflater.inflate(R.layout.km_picker_dialog, container, false);
 
 		value = ((EditText) v.findViewById(R.id.racekmvalue));
-		value.setText(Float.valueOf(gpshandler.getDistance()).toString());
+		value.setText(Float.valueOf(gpshandler.getDistanceInKm()).toString());
 
 		Button button = (Button) v.findViewById(R.id.dismissButton);
 		button.setOnClickListener(new OnClickListener() {

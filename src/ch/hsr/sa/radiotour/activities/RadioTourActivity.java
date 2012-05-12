@@ -28,6 +28,7 @@ import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
+import ch.hsr.sa.radiotour.fragments.HeaderFragment;
 import ch.hsr.sa.radiotour.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
@@ -59,14 +60,15 @@ public class RadioTourActivity extends Activity implements Observer,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		importDriverandTeams();
 		setContentView(R.layout.base_activity);
-
 		raceFragment = new RaceFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.changeLayout, raceFragment);
 		fragmentTransaction.commit();
+
 	}
 
 	public void importDriverandTeams() {
@@ -328,4 +330,16 @@ public class RadioTourActivity extends Activity implements Observer,
 		onRowLayoutClick((View) data, checkedIntegers);
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		HeaderFragment.saveDistance();
+		HeaderFragment.saveRaceTime();
+	}
 }

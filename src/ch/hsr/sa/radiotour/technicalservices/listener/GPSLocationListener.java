@@ -3,34 +3,30 @@ package ch.hsr.sa.radiotour.technicalservices.listener;
 import java.util.Observable;
 
 import android.content.Context;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 
 public class GPSLocationListener extends Observable implements LocationListener {
 	private LocationManager manager = null;
 	private ConnectionStatus connectionState;
-	private String speed = "-";
+	private final String speed = "-";
 	private String altitude = "-";
 	private String accuracy = "-";
 	private Location actualLocation;
 	private float distanceInMeters;
 	private boolean isRaceRunning = false;
-	private long lastTimeStamp;
-	private GpsStatus status;
 	boolean isGPSFix;
 
 	public String getSpeed() {
 		return speed;
 	}
 
-	public float getDistance() {
+	public float getDistanceInKm() {
 		return Math.round(distanceInMeters / 100f) / 10f;
 	}
 
@@ -67,7 +63,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location newLocation) {
-		lastTimeStamp = SystemClock.elapsedRealtime();
 
 		if (isRaceRunning)
 			calculateDistance(newLocation);
@@ -108,12 +103,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 				accuracy = round(actualLocation.getAccuracy()) + "";
 			} else {
 				accuracy = "No GPS";
-			}
-			if (actualLocation.hasSpeed()) {
-				float kmh = round((float) (actualLocation.getSpeed() * 3.6));
-				speed = kmh + "";
-			} else {
-				speed = "No_GPS";
 			}
 		}
 	}

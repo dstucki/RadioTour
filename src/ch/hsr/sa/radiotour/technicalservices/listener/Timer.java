@@ -1,9 +1,6 @@
 package ch.hsr.sa.radiotour.technicalservices.listener;
 
-import java.util.Date;
-
 import android.os.SystemClock;
-import android.util.Log;
 import android.widget.Chronometer;
 
 public class Timer {
@@ -75,10 +72,11 @@ public class Timer {
 		return timerRunning;
 	}
 
-	public void setTime(Date date) {
-		// FIXME Flo make It! method stub
-		Log.e(getClass().getSimpleName(), "FIXME:" + date.getHours() + ":"
-				+ date.getMinutes() + ":" + date.getSeconds());
-		Log.e(getClass().getSimpleName(), "FIXME:");
+	public Long getTimeInMillisec() {
+		return SystemClock.elapsedRealtime() - timer.getBase();
+	}
+
+	public void setTimeInMillisec(Long ms) {
+		timer.setBase(SystemClock.elapsedRealtime() - ms);
 	}
 }
