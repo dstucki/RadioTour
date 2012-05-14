@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.technicalservices.sharedpreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
 
@@ -16,7 +15,6 @@ public class SharedPreferencesHelper {
 	}
 
 	public static void initializePreferences(Context con) {
-		Log.d("preferences", "i have been initialized");
 
 		if (helper == null) {
 			helper = new SharedPreferencesHelper(con);

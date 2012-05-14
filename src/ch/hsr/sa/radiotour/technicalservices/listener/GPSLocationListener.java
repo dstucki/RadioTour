@@ -20,7 +20,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	private Location actualLocation;
 	private float distanceInMeters;
 	private boolean isRaceRunning = false;
-	boolean isGPSFix;
 
 	public String getSpeed() {
 		return speed;
@@ -63,14 +62,11 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location newLocation) {
-
 		if (isRaceRunning)
 			calculateDistance(newLocation);
-
 		actualLocation = newLocation;
 		getGPSData();
 		updateLocation();
-
 	}
 
 	public void updateLocation() {
@@ -125,12 +121,13 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle arg2) {
-		Log.d(getClass().getSimpleName(), "provider changed");
+		Log.d(getClass().getSimpleName(), arg2.describeContents() + "");
+		Log.d(getClass().getSimpleName(), arg2.toString());
+
 		if (status == LocationProvider.AVAILABLE) {
 			connectionState = ConnectionStatus.GREEN;
 		} else {
 			connectionState = ConnectionStatus.RED;
 		}
 	}
-
 }
