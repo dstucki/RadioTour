@@ -101,6 +101,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		SharedPreferencesHelper.preferences().checkPersitentKm(mGPS);
 		SharedPreferencesHelper.preferences().checkPersitentTime(racetimeTimer);
+		raceTimeButtonLabelChecker();
 
 		updatedLiveData = new LiveData();
 		updatedLiveData.updateperiodically();
@@ -144,13 +145,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		@Override
 		public void onClick(View v) {
 			racetimeTimer.toggle();
-			if (racetimeTimer.isRunning()) {
-				startstoprace.setText(R.string.stop);
-				mGPS.startRace();
-			} else {
-				startstoprace.setText(R.string.start);
-				mGPS.stopRace();
-			}
+			raceTimeButtonLabelChecker();
 		}
 	};
 
@@ -301,7 +296,23 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	}
 
 	public static void saveRaceTime() {
-		SharedPreferencesHelper.preferences().setPersistentTime(
-				racetimeTimer.getDisplayedTime());
+		if (racetimeTimer.isRunning()) {
+			SharedPreferencesHelper.preferences().setPersistentTime(
+					racetimeTimer.getTime(), racetimeTimer.isRunning());
+		} else {
+			SharedPreferencesHelper.preferences()
+					.setPersistentTime(racetimeTimer.getDisplayedTime(),
+							racetimeTimer.isRunning());
+		}
+	}
+
+	private void raceTimeButtonLabelChecker() {
+		if (racetimeTimer.isRunning()) {
+			startstoprace.setText(R.string.stop);
+			mGPS.startRace();
+		} else {
+			startstoprace.setText(R.string.start);
+			mGPS.stopRace();
+		}
 	}
 }
