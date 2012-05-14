@@ -14,10 +14,16 @@ public class Judgement {
 	private int[] winningRiders;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "specialranking")
 	private SpecialRanking ranking;
+	@DatabaseField()
+	private double distance;
+	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
+	private Stage stage;
 
-	public Judgement(String name) {
+	public Judgement(String name, double distance, Stage stage) {
 		super();
 		this.name = name;
+		this.setDistance(distance);
+		this.setStage(stage);
 	}
 
 	public Judgement() {
@@ -63,6 +69,22 @@ public class Judgement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 }

@@ -68,5 +68,6 @@
     <string name="clear_selection">Auswahl aufheben</string>
     <string name="edit">bearbeiten</string>
     <string name="new_word">neu</string>
+    <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
 
 </resources>

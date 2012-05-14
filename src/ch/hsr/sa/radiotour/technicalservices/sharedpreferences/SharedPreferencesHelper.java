@@ -2,7 +2,7 @@ package ch.hsr.sa.radiotour.technicalservices.sharedpreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
 
@@ -16,8 +16,6 @@ public class SharedPreferencesHelper {
 	}
 
 	public static void initializePreferences(Context con) {
-		Log.d("preferences", "i have been initialized");
-
 		if (helper == null) {
 			helper = new SharedPreferencesHelper(con);
 		}
@@ -49,6 +47,16 @@ public class SharedPreferencesHelper {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putLong("racetime", ms);
 		editor.commit();
+	}
+
+	public void setSelectedStage(Stage stage) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("stage", stage.getId());
+		editor.commit();
+	}
+
+	public int getSelectedStage() {
+		return settings.getInt("stage", -1);
 	}
 
 }

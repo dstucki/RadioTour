@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.SpecialRankingListAdapter;
+import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.SpecialPointHolder;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
@@ -71,7 +74,9 @@ public class SpecialRakingFragment extends Fragment {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
+			LinearLayout llparent = (LinearLayout) v
+					.findViewById(R.id.llayout_driver_set);
+			llparent.removeAllViews();
 
 		}
 	};
@@ -81,12 +86,13 @@ public class SpecialRakingFragment extends Fragment {
 				View selectedItemView, int position, long id) {
 			actualJudgement = adapterForJudgementSpinner.getItem(position);
 			fillJudgementInfo();
-
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
+			LinearLayout llparent = (LinearLayout) v
+					.findViewById(R.id.llayout_driver_set);
+			llparent.removeAllViews();
 
 		}
 	};
@@ -114,11 +120,29 @@ public class SpecialRakingFragment extends Fragment {
 		int[] tempArray = new int[actualSpecialRanking.getNrOfWinningDrivers()];
 		LinearLayout llparent = (LinearLayout) v
 				.findViewById(R.id.llayout_driver_set);
+		Set<Integer> tempSet = new HashSet<Integer>();
+
 		for (int i = 0; i < actualSpecialRanking.getNrOfWinningDrivers(); i++) {
 			LinearLayout ll = (LinearLayout) llparent.getChildAt(i);
-			tempArray[i] = Integer.valueOf(((EditText) ll
-					.findViewById(R.id.edtxt_for_number_insert)).getText()
-					.toString());
+			((TextView) ll.findViewById(R.id.txt_rank_error_show)).setText("");
+			int temp = 0;
+			try {
+				temp = Integer.valueOf(((EditText) ll
+						.findViewById(R.id.edtxt_for_number_insert)).getText()
+						.toString());
+			} catch (Exception e) {
+				((TextView) ll.findViewById(R.id.txt_rank_error_show))
+						.setText("Ungültige Nummer, Speicherung abgebrochen");
+			}
+			Log.d(getClass().getSimpleName(), "before duplicate");
+			if (temp != 0 && tempSet.contains(temp)) {
+				Log.d(getClass().getSimpleName(), "Duplicate badibadi");
+				((TextView) ll.findViewById(R.id.txt_rank_error_show))
+						.setText("Mehrfachzuweisung, Speicherung abgebrochen");
+				return;
+			}
+			tempSet.add(temp);
+			tempArray[i] = temp;
 
 		}
 		actualJudgement.setWinningRiders(tempArray);
@@ -225,7 +249,9 @@ public class SpecialRakingFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						actualJudgement = new Judgement("Neue Wertung");
+						actualJudgement = new Judgement("Neue Wertung", 12.5,
+								((RadioTour) getActivity().getApplication())
+										.getActualSelectedStage());
 						if (actualSpecialRanking == null) {
 							actualSpecialRanking = (SpecialRanking) spinner
 									.getSelectedItem();
@@ -268,7 +294,13 @@ public class SpecialRakingFragment extends Fragment {
 			throws SQLException {
 		QueryBuilder<Judgement, Integer> queryBuilder = judgementDatabaseDao
 				.queryBuilder();
-		queryBuilder.where().eq("specialranking", ranking);
+		queryBuilder
+				.where()
+				.eq("specialranking", ranking)
+				.and()
+				.eq("etappe",
+						((RadioTour) getActivity().getApplication())
+								.getActualSelectedStage());
 		return judgementDatabaseDao.query(queryBuilder.prepare());
 	}
 
@@ -329,7 +361,6 @@ public class SpecialRakingFragment extends Fragment {
 		int postion = adapterForJudgementSpinner.getPosition(judgement);
 		fillJudgements();
 		secondSpinner.setSelection(postion);
-
 	}
 
 }

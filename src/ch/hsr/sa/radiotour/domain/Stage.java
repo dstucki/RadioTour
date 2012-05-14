@@ -55,4 +55,9 @@ public class Stage {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return id + ". " + start + " - " + destination + " " + wholeDistance;
+	}
+
 }

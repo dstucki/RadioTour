@@ -10,13 +10,16 @@ import java.util.Map;
 import android.app.Application;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
+import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 
 public class RadioTour extends Application {
 	private final LinkedHashMap<Integer, BicycleRider> riders = new LinkedHashMap<Integer, BicycleRider>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
 	private Team latestTeam;
 	private final LinkedList<Group> groups = new LinkedList<Group>();
+	private Stage actualSelectedStage;
 
 	public RadioTour() {
 		super();
@@ -60,6 +63,16 @@ public class RadioTour extends Application {
 	public List<Group> getGroups() {
 		Collections.sort(groups);
 		return groups;
+	}
+
+	public Stage getActualSelectedStage() {
+		return actualSelectedStage;
+	}
+
+	public void setActualSelectedStage(Stage actualSelectedStage) {
+		this.actualSelectedStage = actualSelectedStage;
+		SharedPreferencesHelper.preferences().setSelectedStage(
+				actualSelectedStage);
 	}
 
 }

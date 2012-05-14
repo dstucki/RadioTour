@@ -38,6 +38,7 @@ import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
+import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
 import ch.hsr.sa.radiotour.views.KmPickerDialog;
@@ -81,6 +82,24 @@ public class RadioTourActivity extends Activity implements Observer,
 		application.getGroups().clear();
 		application.getTeams().clear();
 
+		SharedPreferencesHelper.initializePreferences(getApplicationContext());
+
+		Stage stage;
+
+		if (SharedPreferencesHelper.preferences().getSelectedStage() == -1) {
+
+			stage = new Stage("Lugano", "Lugano");
+			stage.setWholeDistance(7.3);
+			getHelper().getStageDao().create(stage);
+		} else {
+
+			stage = getHelper().getStageDao().queryForId(
+					SharedPreferencesHelper.preferences().getSelectedStage());
+			Log.i(getClass().getSimpleName(),
+					"Stage from Preferences " + stage.toString());
+		}
+		((RadioTour) getApplication()).setActualSelectedStage(stage);
+
 		for (BicycleRider rider : getHelper().getBicycleRiderDao()
 				.queryForAll()) {
 			((RadioTour) getApplication()).add(rider);
@@ -104,8 +123,7 @@ public class RadioTourActivity extends Activity implements Observer,
 
 			reader = new CSVReader(getResources().openRawResource(
 					R.raw.marschtabellebern));
-			Stage stage = new Stage("Lyss", "Lyss");
-			databaseHelper.getStageDao().create(stage);
+
 			for (String[] pointAsString : reader.readFile()) {
 				PointOfRace point = convertStringArrayToPoint(pointAsString);
 				point.setStage(stage);
@@ -378,5 +396,11 @@ public class RadioTourActivity extends Activity implements Observer,
 		super.onPause();
 		HeaderFragment.saveDistance();
 		HeaderFragment.saveRaceTime();
+	}
+
+	public void updateStage(Stage actualStage) {
+		((HeaderFragment) getFragmentManager().findFragmentById(
+				R.id.headerFragment)).updateStage(actualStage);
+
 	}
 }

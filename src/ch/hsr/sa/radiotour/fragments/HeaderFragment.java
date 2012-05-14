@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
+import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 import ch.hsr.sa.radiotour.technicalservices.connection.LiveData;
@@ -95,6 +97,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		((TextView) view.findViewById(R.id.distance_value))
 				.setOnClickListener(editRacekmListener);
+		((TextView) view.findViewById(R.id.etappe_value))
+				.setText(((RadioTour) getActivity().getApplication())
+						.getActualSelectedStage().getId() + "");
 
 		mGPS = new GPSLocationListener(getActivity().getApplicationContext());
 		mGPS.addObserver(this);
@@ -298,5 +303,12 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	public static void saveRaceTime() {
 		SharedPreferencesHelper.preferences().setPersistentTime(
 				racetimeTimer.getDisplayedTime());
+	}
+
+	public void updateStage(Stage stage) {
+		Log.i(getClass().getSimpleName(), "updaeStage " + stage.toString());
+		((TextView) view.findViewById(R.id.etappe_value)).setText(stage.getId()
+				+ "");
+
 	}
 }

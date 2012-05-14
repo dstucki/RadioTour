@@ -227,8 +227,14 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lb_spezialkl"
+            android:text="@string/lb_etappe"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_group" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -253,7 +259,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/lb_save" />
+                    android:text="@string/edit" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/lb_delete" />
             </LinearLayout>
 
             <LinearLayout

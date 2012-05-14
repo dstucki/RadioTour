@@ -9,10 +9,24 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/edtxt_for_number_insert"
-        android:layout_width="120dp"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/edtxt_for_number_insert"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/txt_rank_error_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp" 
+            />
+    </LinearLayout>
 
 </LinearLayout>
