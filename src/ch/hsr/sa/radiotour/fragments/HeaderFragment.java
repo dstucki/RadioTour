@@ -23,14 +23,15 @@ import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 import ch.hsr.sa.radiotour.technicalservices.connection.LiveData;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
+import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
 public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	private Timer stopWatchTimer;
-	private Timer racetimeTimer;
+	private static Timer racetimeTimer;
 	private Button startstoprace;
 	private Button startstopwatch;
-	private GPSLocationListener mGPS;
+	private static GPSLocationListener mGPS;
 	private LiveData updatedLiveData;
 	private TextView tabRen;
 	private View view;
@@ -50,6 +51,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.header_fragment, container, false);
+
+		SharedPreferencesHelper.initializePreferences(getActivity()
+				.getApplicationContext());
 
 		tabRen = (TextView) view.findViewById(R.id.tab_adm);
 		tabRen.setOnClickListener(tabclicklistener);
@@ -94,6 +98,9 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		mGPS = new GPSLocationListener(getActivity().getApplicationContext());
 		mGPS.addObserver(this);
+
+		SharedPreferencesHelper.preferences().checkPersitentKm(mGPS);
+		SharedPreferencesHelper.preferences().checkPersitentTime(racetimeTimer);
 
 		updatedLiveData = new LiveData();
 		updatedLiveData.updateperiodically();
@@ -250,16 +257,25 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 	private void updateGPSValues() {
 		TextView speedo = (TextView) getView().findViewById(R.id.speed_value);
-		speedo.setText(mGPS.getSpeed() + " km/h");
-		speedo.setText((String.valueOf(Math.round(mGPS.getDistance()
-				/ racetimeTimer.getRaceTimeInHour() * 10f) / 10f))
-				+ " km/h");
+		speedo.setText(calculateSpeed());
 		TextView altitude = (TextView) getView().findViewById(
 				R.id.altitude_value);
 		altitude.setText(mGPS.getAltitude() + " müM");
-		TextView distance = (TextView) getView().findViewById(
-				R.id.distance_value);
-		distance.setText(mGPS.getDistance() + " km");
+		setDistance(mGPS.getDistanceInKm());
+	}
+
+	private String calculateSpeed() {
+		Float dist = mGPS.getDistanceInKm();
+		double time = (racetimeTimer.getRaceTimeInHour());
+		if (dist != 0 && time != 0) {
+			return (Math.round((dist / time) * 10f)) / 10f + " km/h";
+		}
+		return "0 km/h";
+	}
+
+	private void setDistance(float dist) {
+		TextView distance = (TextView) view.findViewById(R.id.distance_value);
+		distance.setText(dist + " km");
 	}
 
 	@Override
@@ -272,6 +288,15 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		((Chronometer) view.findViewById(R.id.chrono_racetime))
 				.setText(StringUtils.getTimeAsString(date));
 		racetimeTimer.setTime();
+	}
 
+	public static void saveDistance() {
+		SharedPreferencesHelper.preferences().setPersistentKm(
+				mGPS.getDistanceInKm());
+	}
+
+	public static void saveRaceTime() {
+		SharedPreferencesHelper.preferences().setPersistentTime(
+				racetimeTimer.getDisplayedTime());
 	}
 }
