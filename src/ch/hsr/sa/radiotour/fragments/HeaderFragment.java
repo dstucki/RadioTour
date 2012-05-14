@@ -325,6 +325,13 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		Log.i(getClass().getSimpleName(), "updaeStage " + stage.toString());
 		((TextView) view.findViewById(R.id.etappe_value)).setText(stage.getId()
 				+ "");
+		updateKmToGo(stage);
 
+	}
+
+	private void updateKmToGo(Stage stage) {
+		((TextView) view.findViewById(R.id.distancetogo)).setText("-"
+				+ (String.valueOf(Math.round((stage.getWholeDistance() - mGPS
+						.getDistanceInKm()) * 100f) / 100f)) + " km");
 	}
 }
