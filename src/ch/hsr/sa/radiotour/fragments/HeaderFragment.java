@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Fragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
@@ -106,6 +106,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		SharedPreferencesHelper.preferences().checkPersitentKm(mGPS);
 		SharedPreferencesHelper.preferences().checkPersitentTime(racetimeTimer);
+		raceTimeButtonLabelChecker();
 
 		updatedLiveData = new LiveData();
 		updatedLiveData.updateperiodically();
@@ -149,13 +150,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		@Override
 		public void onClick(View v) {
 			racetimeTimer.toggle();
-			if (racetimeTimer.isRunning()) {
-				startstoprace.setText(R.string.stop);
-				mGPS.startRace();
-			} else {
-				startstoprace.setText(R.string.start);
-				mGPS.stopRace();
-			}
+			raceTimeButtonLabelChecker();
 		}
 	};
 
@@ -222,7 +217,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 				public void run() {
 					updateGPSValues();
 
-					ImageView connectionImage = (ImageView) getView()
+					TextView connectionImage = (TextView) getView()
 							.findViewById(R.id.img_connection);
 					ConnectionStatus connectionState = livedata
 							.getConnectionState();
@@ -249,15 +244,20 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	}
 
 	private boolean updateConnectionIMGs(ConnectionStatus connectionState,
-			ImageView connectionImage) {
-		if (connectionState == ConnectionStatus.RED) {
-			connectionImage.setImageResource(R.drawable.red);
-			return false;
-		} else if (connectionState == ConnectionStatus.GREEN) {
-			connectionImage.setImageResource(R.drawable.green);
+			TextView connectionImage) {
+		if (connectionState == ConnectionStatus.GREEN) {
+			Drawable img = getResources().getDrawable(
+					R.drawable.trafficlight_green);
+			img.setBounds(0, 0, 16, 16);
+			connectionImage.setCompoundDrawables(null, null, img, null);
 			return true;
+		} else {
+			Drawable img = getResources().getDrawable(
+					R.drawable.trafficlight_red);
+			img.setBounds(0, 0, 16, 16);
+			connectionImage.setCompoundDrawables(null, null, img, null);
+			return false;
 		}
-		return false;
 	}
 
 	private void updateGPSValues() {
@@ -301,8 +301,24 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	}
 
 	public static void saveRaceTime() {
-		SharedPreferencesHelper.preferences().setPersistentTime(
-				racetimeTimer.getDisplayedTime());
+		if (racetimeTimer.isRunning()) {
+			SharedPreferencesHelper.preferences().setPersistentTime(
+					racetimeTimer.getTime(), racetimeTimer.isRunning());
+		} else {
+			SharedPreferencesHelper.preferences()
+					.setPersistentTime(racetimeTimer.getDisplayedTime(),
+							racetimeTimer.isRunning());
+		}
+	}
+
+	private void raceTimeButtonLabelChecker() {
+		if (racetimeTimer.isRunning()) {
+			startstoprace.setText(R.string.stop);
+			mGPS.startRace();
+		} else {
+			startstoprace.setText(R.string.start);
+			mGPS.stopRace();
+		}
 	}
 
 	public void updateStage(Stage stage) {

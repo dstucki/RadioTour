@@ -18,6 +18,18 @@ public class Timer {
 		return timer.getBase();
 	}
 
+	public void setBaseWhileRunning(long base) {
+		timer.setBase(base);
+	}
+
+	public void setBaseWhileNotRunning(long time) {
+		timer.setBase(SystemClock.elapsedRealtime() - time);
+	}
+
+	public void setTime() {
+		timer.setBase(SystemClock.elapsedRealtime() - getDisplayedTime());
+	}
+
 	public double getRaceTimeInHour() {
 		return (double) getDisplayedTime() / (double) 3600000;
 	}
@@ -39,10 +51,6 @@ public class Timer {
 		timer.setBase(SystemClock.elapsedRealtime() - stoppedTime);
 		timer.start();
 		timerRunning = true;
-	}
-
-	public void setTime() {
-		timer.setBase(SystemClock.elapsedRealtime() - getDisplayedTime());
 	}
 
 	public long getDisplayedTime() {
@@ -77,6 +85,6 @@ public class Timer {
 	}
 
 	public void setTimeInMillisec(Long ms) {
-		timer.setBase(SystemClock.elapsedRealtime() - ms);
+		stoppedTime = ms;
 	}
 }

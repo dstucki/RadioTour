@@ -16,6 +16,7 @@ public class SharedPreferencesHelper {
 	}
 
 	public static void initializePreferences(Context con) {
+
 		if (helper == null) {
 			helper = new SharedPreferencesHelper(con);
 		}
@@ -38,14 +39,19 @@ public class SharedPreferencesHelper {
 	}
 
 	public void checkPersitentTime(Timer time) {
-		if (time.getTimeInMillisec() != settings.getLong("racetime", 0)) {
-			time.setTimeInMillisec(settings.getLong("racetime", 0));
+		if (settings.getBoolean("wasrunning", false)) {
+			time.setBaseWhileRunning(settings.getLong("racetime", 0));
+			time.stop();
+			time.start();
+		} else {
+			time.setBaseWhileNotRunning(settings.getLong("racetime", 0));
 		}
 	}
 
-	public void setPersistentTime(Long ms) {
+	public void setPersistentTime(Long base, Boolean isrunning) {
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putLong("racetime", ms);
+		editor.putLong("racetime", base);
+		editor.putBoolean("wasrunning", isrunning);
 		editor.commit();
 	}
 
