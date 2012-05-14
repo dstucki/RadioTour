@@ -23,6 +23,7 @@ import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
@@ -41,6 +42,7 @@ import ch.hsr.sa.radiotour.views.FragmentDialog;
 import ch.hsr.sa.radiotour.views.KmPickerDialog;
 import ch.hsr.sa.radiotour.views.MarchTableDialog;
 import ch.hsr.sa.radiotour.views.SpecialRankingDialog;
+import ch.hsr.sa.radiotour.views.TextViewDialog;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -346,7 +348,21 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		SpecialRankingDialog newFragment = new SpecialRankingDialog(fragment,
 				selectedItem);
-		newFragment.show(ft, "specialRankingDialog");
+		newFragment.show(ft, "textViewDialog");
+	}
+
+	public void showTextViewDialog(SpecialRakingFragment fragment,
+			Judgement judgement) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(
+				"specialRankingDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		TextViewDialog newFragment = new TextViewDialog(fragment, judgement);
+		newFragment.show(ft, "textViewDialog");
 	}
 
 }
