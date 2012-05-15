@@ -10,10 +10,12 @@ import java.util.Observer;
 import java.util.TreeSet;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +39,7 @@ import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
+import ch.hsr.sa.radiotour.technicalservices.importer.Importer;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 import ch.hsr.sa.radiotour.views.EditRiderDialog;
@@ -50,6 +53,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class RadioTourActivity extends Activity implements Observer,
 		OnClickListener {
+	protected Dialog mSplashDialog;
 
 	private final TreeSet<Integer> checkedIntegers = new TreeSet<Integer>();
 	private final HashSet<TextView> checkedViews = new HashSet<TextView>();
@@ -65,15 +69,49 @@ public class RadioTourActivity extends Activity implements Observer,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		showSplashScreen();
+		new Importer().execute(this);
+	}
 
-		importDriverandTeams();
+	public void showRaceFragment() {
 		setContentView(R.layout.base_activity);
 		raceFragment = new RaceFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.changeLayout, raceFragment);
 		fragmentTransaction.commit();
+	}
 
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		MyStateSaver data = new MyStateSaver();
+		if (mSplashDialog != null) {
+			data.showSplashScreen = true;
+			removeSplashScreen();
+		}
+		return data;
+	}
+
+	protected void removeSplashScreen() {
+		if (mSplashDialog != null) {
+			mSplashDialog.dismiss();
+			mSplashDialog = null;
+		}
+	}
+
+	protected void showSplashScreen() {
+		mSplashDialog = new Dialog(this, R.style.SplashScreen);
+		mSplashDialog.setContentView(R.layout.splash_screen);
+		mSplashDialog.setCancelable(false);
+		mSplashDialog.show();
+
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				removeSplashScreen();
+			}
+		}, 5000);
 	}
 
 	public void importDriverandTeams() {
@@ -87,12 +125,10 @@ public class RadioTourActivity extends Activity implements Observer,
 		Stage stage;
 
 		if (SharedPreferencesHelper.preferences().getSelectedStage() == -1) {
-
 			stage = new Stage("Lugano", "Lugano");
 			stage.setWholeDistance(7.3);
 			getHelper().getStageDao().create(stage);
 		} else {
-
 			stage = getHelper().getStageDao().queryForId(
 					SharedPreferencesHelper.preferences().getSelectedStage());
 			Log.i(getClass().getSimpleName(),
@@ -137,6 +173,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		for (Team team : ((RadioTour) getApplication()).getTeams()) {
 			databaseHelper.getTeamDao().create(team);
 		}
+
 	}
 
 	private PointOfRace convertStringArrayToPoint(String[] pointAsString) {
@@ -250,7 +287,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		return databaseHelper;
 	}
 
-	public void ontestButtonClick(View v) {
+	public void onRaceButtonClick(View v) {
 		if (!raceFragment.isAdded()) {
 			FragmentTransaction fragmentTransaction = getFragmentManager()
 					.beginTransaction();
@@ -259,7 +296,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
-	public void ontestButtonClick1(View v) {
+	public void onRankingButtonClick(View v) {
 		clearCheckedIntegers();
 		rankingFragment = rankingFragment == null ? new VirtualRankingFragment()
 				: rankingFragment;
@@ -278,7 +315,6 @@ public class RadioTourActivity extends Activity implements Observer,
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.changeLayout, adminFragment);
 		fragmentTransaction.commit();
-
 	}
 
 	public void onSpecialButtonClick(View v) {
@@ -295,7 +331,6 @@ public class RadioTourActivity extends Activity implements Observer,
 		for (TextView v : checkedViews) {
 			v.setBackgroundColor(Color.TRANSPARENT);
 			v.setTextColor(Color.WHITE);
-
 		}
 		checkedViews.clear();
 	}
@@ -310,7 +345,6 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		FragmentDialog newFragment = new FragmentDialog(timePickerIF, useHour);
 		newFragment.show(ft, "dialog");
-
 	}
 
 	public void showKmDialog(GPSLocationListener gps) {
@@ -388,7 +422,6 @@ public class RadioTourActivity extends Activity implements Observer,
 	@Override
 	protected void onStop() {
 		super.onStop();
-
 	}
 
 	@Override
@@ -403,4 +436,8 @@ public class RadioTourActivity extends Activity implements Observer,
 				R.id.headerFragment)).updateStage(actualStage);
 
 	}
+}
+
+class MyStateSaver {
+	public boolean showSplashScreen = false;
 }

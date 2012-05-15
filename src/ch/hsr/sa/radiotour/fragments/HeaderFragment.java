@@ -121,7 +121,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 			resetTabBar(view);
 			switch (v.getId()) {
 			case R.id.tab_ren:
-				((RadioTourActivity) getActivity()).ontestButtonClick(v);
+				((RadioTourActivity) getActivity()).onRaceButtonClick(v);
 				((Button) view.findViewById(R.id.tab_ren))
 						.setBackgroundColor(0xFF434343);
 				return;
@@ -136,7 +136,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 						.setBackgroundColor(0xFF434343);
 				return;
 			case R.id.tab_vir:
-				((RadioTourActivity) getActivity()).ontestButtonClick1(v);
+				((RadioTourActivity) getActivity()).onRankingButtonClick(v);
 				((Button) view.findViewById(R.id.tab_vir))
 						.setBackgroundColor(0xFF434343);
 				return;

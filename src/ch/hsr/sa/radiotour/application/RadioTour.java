@@ -23,7 +23,6 @@ public class RadioTour extends Application {
 
 	public RadioTour() {
 		super();
-
 	}
 
 	public ArrayList<BicycleRider> getRiders() {
