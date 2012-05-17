@@ -37,7 +37,6 @@ public class TextViewDialog extends DialogFragment {
 
 		@Override
 		public void onClick(View v) {
-			save();
 			dismiss();
 		}
 	};
