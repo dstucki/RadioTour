@@ -39,6 +39,7 @@ import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
+import ch.hsr.sa.radiotour.technicalservices.importer.FileExplorer;
 import ch.hsr.sa.radiotour.technicalservices.importer.Importer;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
@@ -123,17 +124,14 @@ public class RadioTourActivity extends Activity implements Observer,
 		SharedPreferencesHelper.initializePreferences(getApplicationContext());
 
 		Stage stage;
+		stage = getHelper().getStageDao().queryForId(
+				SharedPreferencesHelper.preferences().getSelectedStage());
+		// if (stage == null) {
+		// stage = new Stage("Lugano", "Lugano");
+		// stage.setWholeDistance(7.3);
+		// getHelper().getStageDao().create(stage);
+		// }
 
-		if (SharedPreferencesHelper.preferences().getSelectedStage() == -1) {
-			stage = new Stage("Lugano", "Lugano");
-			stage.setWholeDistance(7.3);
-			getHelper().getStageDao().create(stage);
-		} else {
-			stage = getHelper().getStageDao().queryForId(
-					SharedPreferencesHelper.preferences().getSelectedStage());
-			Log.i(getClass().getSimpleName(),
-					"Stage from Preferences " + stage.toString());
-		}
 		((RadioTour) getApplication()).setActualSelectedStage(stage);
 
 		for (BicycleRider rider : getHelper().getBicycleRiderDao()
@@ -165,9 +163,6 @@ public class RadioTourActivity extends Activity implements Observer,
 				point.setStage(stage);
 				databaseHelper.getPointOfRaceDao().create(point);
 			}
-
-			reader = new CSVReader(getResources().openRawResource(
-					R.raw.specialranking));
 
 		}
 		for (Team team : ((RadioTour) getApplication()).getTeams()) {
@@ -417,6 +412,19 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		TextViewDialog newFragment = new TextViewDialog(fragment, judgement);
 		newFragment.show(ft, "textViewDialog");
+	}
+
+	public void showFileExplorerDialog(AdminFragment fragment) {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(
+				"fileExplorerFragment");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		FileExplorer newFragment = new FileExplorer(fragment);
+		newFragment.show(ft, "fileExplorerFragment");
 	}
 
 	@Override

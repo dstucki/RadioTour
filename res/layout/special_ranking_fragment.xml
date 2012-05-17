@@ -128,7 +128,7 @@
 
         <Button
             android:id="@+id/button_save_judgement"
-            android:layout_width="120dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/lb_save" />

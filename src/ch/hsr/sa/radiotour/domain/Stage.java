@@ -5,6 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class Stage {
+
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField
@@ -58,6 +59,19 @@ public class Stage {
 	@Override
 	public String toString() {
 		return id + ". " + start + " - " + destination + " " + wholeDistance;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Stage)) {
+			return false;
+		}
+		return (((Stage) o).getId() == this.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return getId();
 	}
 
 }

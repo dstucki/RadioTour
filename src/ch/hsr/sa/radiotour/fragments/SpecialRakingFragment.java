@@ -116,7 +116,7 @@ public class SpecialRakingFragment extends Fragment {
 		}
 	}
 
-	private void saveJudgement() {
+	private void saveJudgement() throws NullPointerException {
 		int[] tempArray = new int[actualSpecialRanking.getNrOfWinningDrivers()];
 		LinearLayout llparent = (LinearLayout) v
 				.findViewById(R.id.llayout_driver_set);
@@ -204,7 +204,11 @@ public class SpecialRakingFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				saveJudgement();
+				try {
+					saveJudgement();
+				} catch (NullPointerException e) {
+					Log.e(getClass().getSimpleName(), "");
+				}
 			}
 
 		});

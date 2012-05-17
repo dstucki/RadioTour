@@ -42,17 +42,18 @@ public class RadioTour extends Application {
 	}
 
 	public void add(BicycleRider rider) {
-		riders.put(rider.getStartNr(), rider);
-		if (latestTeam == null || latestTeam.getDriverNumbers().size() >= 10) {
-			latestTeam = new Team(rider.getTeam() + teams.size());
-			teams.put(latestTeam.getName(), latestTeam);
-		}
-		latestTeam.getDriverNumbers().add(rider.getStartNr());
-
-		// if (!teams.(rider.getTeam())) {
-		// teams.put(rider.getTeam(), new Team(rider.getTeam()));
+		// riders.put(rider.getStartNr(), rider);
+		// if (latestTeam == null || latestTeam.getDriverNumbers().size() >= 10)
+		// {
+		// latestTeam = new Team(rider.getTeam() + teams.size());
+		// teams.put(latestTeam.getName(), latestTeam);
 		// }
-		// teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
+		// latestTeam.getDriverNumbers().add(rider.getStartNr());
+
+		if (!teams.containsKey(rider.getTeam())) {
+			teams.put(rider.getTeam(), new Team(rider.getTeam()));
+		}
+		teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
 	}
 
 	public void add(int index, Group group) {

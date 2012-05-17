@@ -21,6 +21,7 @@
     <string name="follower">G#</string>
     <string name="detached">A#</string>
     <string name="start">Start</string>
+    <string name="destination">Ziel</string>
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="lb_stopwatch">Stoppuhr:</string>
@@ -69,5 +70,6 @@
     <string name="edit">bearbeiten</string>
     <string name="new_word">neu</string>
     <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
+    <string name="distance">Distanz</string>
 
 </resources>

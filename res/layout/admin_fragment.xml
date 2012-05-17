@@ -231,7 +231,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_new_stage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_group" />
@@ -255,14 +255,14 @@
                 </Spinner>
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btn_save_stage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/edit" />
+                    android:text="@string/lb_save" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_delete_stage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -274,18 +274,18 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/txt_start_stage"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_name" />
+                    android:text="@string/start" />
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/edtxt_start_stage"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="@string/lb_default" >
+                    android:text="@string/start" >
 
                     <requestFocus />
                 </EditText>
@@ -296,32 +296,37 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/txt_destination_stage"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_bonus" />
+                    android:text="@string/destination" />
 
-                <CheckBox
-                    android:id="@+id/checkBox1"
-                    android:layout_width="120dp"
+                <EditText
+                    android:id="@+id/edtxt_destination_stage"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_points" />
+                    android:text="@string/destination" />
+            </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/checkBox141"
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txt_distance_stage"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_time" />
+                    android:text="@string/distance" />
+
+                <EditText
+                    android:id="@+id/edtxt_distance_stage"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="@string/lb_defaultetappe" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView101"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/lb_wertung"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -330,69 +335,27 @@
             android:orientation="vertical"
             android:padding="10dp" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <Spinner
-                    android:id="@+id/spinner1r"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" >
-                </Spinner>
 
                 <Button
-                    android:id="@+id/button2e"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btn_import_stage"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/lb_save" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/textView6r"
-                    android:layout_width="100dp"
+                    android:text="Import von Etappen" />
+                <Button
+                    android:id="@+id/btn_import_match_table"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_name" />
-
-                <EditText
-                    android:id="@+id/editText1e"
-                    android:layout_width="200dp"
+                    android:text="Import von Marschtabellen" />
+                <Button
+                    android:id="@+id/btn_import_driver"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:text="@string/lb_default" >
-
-                    <requestFocus />
-                </EditText>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/textView7u"
-                    android:layout_width="100dp"
+                    android:text="Import von Fahrern" />
+                <Button
+                    android:id="@+id/btn_import_driver_time"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_bonus" />
-
-                <CheckBox
-                    android:id="@+id/checkBox1i"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lb_points" />
-
-                <CheckBox
-                    android:id="@+id/checkBox1k"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lb_time" />
-            </LinearLayout>
+                    android:text="Import von Fahrern mit Zeiten" />
         </LinearLayout>
     </LinearLayout>
 
