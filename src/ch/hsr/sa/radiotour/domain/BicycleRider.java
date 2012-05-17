@@ -194,6 +194,9 @@ public class BicycleRider {
 	}
 
 	public Date getBirthday() {
+		if (birthday == null) {
+			return new Date();
+		}
 		return birthday;
 	}
 

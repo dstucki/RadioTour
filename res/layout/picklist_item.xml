@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/startNr1"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/startNr2"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -32,7 +32,7 @@
     <TextView
         android:id="@+id/startNr3"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/startNr4"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -58,7 +58,7 @@
     <TextView
         android:id="@+id/startNr5"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -71,7 +71,7 @@
     <TextView
         android:id="@+id/startNr6"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -84,7 +84,7 @@
     <TextView
         android:id="@+id/startNr7"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -97,7 +97,7 @@
     <TextView
         android:id="@+id/startNr8"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
         android:layout_marginTop="0px"
@@ -106,29 +106,5 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="22px" />
-    <TextView
-        android:id="@+id/startNr9"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="0px"
-        android:layout_marginRight="0px"
-        android:layout_marginTop="0px"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="22px" />
-    <TextView
-        android:id="@+id/startNr10"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="0px"
-        android:layout_marginRight="0px"
-        android:layout_marginTop="0px"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="22px" />
-
+ 
 </LinearLayout>

@@ -79,8 +79,11 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 					@Override
 					public void onClick(View v) {
-						((RadioTourActivity) getActivity())
-								.showMarchTableDialog();
+						if (((RadioTour) getActivity().getApplication())
+								.getActualSelectedStage() != null) {
+							((RadioTourActivity) getActivity())
+									.showMarchTableDialog();
+						}
 					}
 				});
 
@@ -97,9 +100,14 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		((TextView) view.findViewById(R.id.distance_value))
 				.setOnClickListener(editRacekmListener);
-		((TextView) view.findViewById(R.id.etappe_value))
-				.setText(((RadioTour) getActivity().getApplication())
-						.getActualSelectedStage().getId() + "");
+
+		Stage actualSelectedStage = ((RadioTour) getActivity().getApplication())
+				.getActualSelectedStage();
+		String stageString = "null";
+		if (actualSelectedStage != null) {
+			stageString = actualSelectedStage.getId() + "";
+		}
+		((TextView) view.findViewById(R.id.etappe_value)).setText(stageString);
 
 		mGPS = new GPSLocationListener(getActivity().getApplicationContext());
 		mGPS.addObserver(this);

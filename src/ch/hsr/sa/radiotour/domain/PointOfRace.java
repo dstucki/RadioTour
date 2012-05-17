@@ -20,7 +20,7 @@ public class PointOfRace {
 	private String name;
 	@DatabaseField(dataType = DataType.DATE)
 	private Date estimatedDate;
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "etappe")
 	private Stage stage;
 
 	public PointOfRace(int altitude, double distance, String name,

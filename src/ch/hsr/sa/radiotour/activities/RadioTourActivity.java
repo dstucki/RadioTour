@@ -24,7 +24,6 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
-import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderState;
@@ -38,7 +37,6 @@ import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
-import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 import ch.hsr.sa.radiotour.technicalservices.importer.FileExplorer;
 import ch.hsr.sa.radiotour.technicalservices.importer.Importer;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
@@ -126,11 +124,6 @@ public class RadioTourActivity extends Activity implements Observer,
 		Stage stage;
 		stage = getHelper().getStageDao().queryForId(
 				SharedPreferencesHelper.preferences().getSelectedStage());
-		// if (stage == null) {
-		// stage = new Stage("Lugano", "Lugano");
-		// stage.setWholeDistance(7.3);
-		// getHelper().getStageDao().create(stage);
-		// }
 
 		((RadioTour) getApplication()).setActualSelectedStage(stage);
 
@@ -141,30 +134,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		((RadioTour) getApplication()).getGroups().addAll(
 				databaseHelper.getGroupDao().queryForAll());
 		Collections.sort(((RadioTour) getApplication()).getGroups());
-		if (((RadioTour) getApplication()).getRiders().size() <= 0) {
-			CSVReader reader = new CSVReader(getResources().openRawResource(
-					R.raw.startlistebern));
-			Group gr = new Group();
-			gr.setField(true);
-			gr.setOrderNumber(0);
 
-			for (String[] riderAsString : reader.readFile()) {
-				BicycleRider temp = convertStringArrayToRider(riderAsString);
-				((RadioTour) getApplication()).add(temp);
-				gr.getDriverNumbers().add(temp.getStartNr());
-			}
-			databaseHelper.getGroupDao().create(gr);
-
-			reader = new CSVReader(getResources().openRawResource(
-					R.raw.marschtabellebern));
-
-			for (String[] pointAsString : reader.readFile()) {
-				PointOfRace point = convertStringArrayToPoint(pointAsString);
-				point.setStage(stage);
-				databaseHelper.getPointOfRaceDao().create(point);
-			}
-
-		}
 		for (Team team : ((RadioTour) getApplication()).getTeams()) {
 			databaseHelper.getTeamDao().create(team);
 		}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -27,7 +28,7 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	private final ArrayList<Team> teams;
 	int[] ids = { R.id.startNr1, R.id.startNr2, R.id.startNr3, R.id.startNr4,
 			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8,
-			R.id.startNr9, R.id.startNr10 // ...
+	// ...
 	};
 
 	private final OnLongClickListener longClickListener = new OnLongClickListener() {
@@ -75,26 +76,29 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		for (Integer driverNumber : team.getDriverNumbers()) {
 			rider = ((RadioTour) context.getApplicationContext())
 					.getRidersAsMap().get(driverNumber);
-			TextView temp = (TextView) v.findViewById(ids[counter++]);
+			Log.i(getClass().getSimpleName(), rider + "");
+			if (rider != null) {
+				TextView temp = (TextView) v.findViewById(ids[counter++]);
 
-			if (rider.getRiderState() == RiderState.GIVEUP
-					|| rider.getRiderState() == RiderState.NOT_STARTED) {
-				temp.setOnClickListener(null);
-				temp.setOnLongClickListener(null);
-				temp.setClickable(false);
-				temp.setPaintFlags(temp.getPaintFlags()
-						| Paint.STRIKE_THRU_TEXT_FLAG);
-			} else {
-				temp.setClickable(true);
-				temp.setOnClickListener((RadioTourActivity) context);
-				temp.setOnLongClickListener(longClickListener);
+				if (rider.getRiderState() == RiderState.GIVEUP
+						|| rider.getRiderState() == RiderState.NOT_STARTED) {
+					temp.setOnClickListener(null);
+					temp.setOnLongClickListener(null);
+					temp.setClickable(false);
+					temp.setPaintFlags(temp.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+				} else {
+					temp.setClickable(true);
+					temp.setOnClickListener((RadioTourActivity) context);
+					temp.setOnLongClickListener(longClickListener);
+				}
+
+				temp.setText(Integer.toString(driverNumber));
+				temp.setTextColor(rider.getRiderState().getTextColor());
+				temp.setBackgroundColor((rider.getRiderState()
+						.getBackgroundColor()));
 			}
-
-			temp.setText(Integer.toString(driverNumber));
-			temp.setTextColor(rider.getRiderState().getTextColor());
-			temp.setBackgroundColor((rider.getRiderState().getBackgroundColor()));
 		}
-
 		return v;
 	}
 

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -20,19 +23,25 @@ import android.widget.Spinner;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 public class AdminFragment extends Fragment {
 
 	private ArrayAdapter<Stage> adapterForStageSpinner;
+	private int lastClickedImportId;
 	private RadioTour app;
 	private RadioTourActivity activity;
 	private EditText start, destination, distance;
 	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
+	private RuntimeExceptionDao<BicycleRider, Integer> riderDbDao;
 	private Spinner stageSpinner;
 	private final OnClickListener saveListener = new OnClickListener() {
 
@@ -84,10 +93,12 @@ public class AdminFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			lastClickedImportId = v.getId();
 			activity.showFileExplorerDialog(AdminFragment.this);
 
 		}
 	};
+	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,8 +118,8 @@ public class AdminFragment extends Fragment {
 		View view = inflater.inflate(R.layout.admin_fragment, container, false);
 		activity = (RadioTourActivity) getActivity();
 		app = (RadioTour) activity.getApplication();
-		stageDbDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getStageDao();
+		stageDbDao = activity.getHelper().getStageDao();
+		riderDbDao = activity.getHelper().getBicycleRiderDao();
 		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
 		destination = (EditText) view
@@ -120,6 +131,12 @@ public class AdminFragment extends Fragment {
 		view.findViewById(R.id.btn_delete_stage).setOnClickListener(
 				deleteListener);
 		view.findViewById(R.id.btn_import_stage).setOnClickListener(
+				importListener);
+		view.findViewById(R.id.btn_import_match_table).setOnClickListener(
+				importListener);
+		view.findViewById(R.id.btn_import_driver).setOnClickListener(
+				importListener);
+		view.findViewById(R.id.btn_import_driver_time).setOnClickListener(
 				importListener);
 
 		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
@@ -137,9 +154,11 @@ public class AdminFragment extends Fragment {
 	}
 
 	private void loadInformation(Stage selectedItem) {
-		start.setText(selectedItem.getStart());
-		destination.setText(selectedItem.getDestination());
-		distance.setText(selectedItem.getWholeDistance() + "");
+		if (selectedItem != null) {
+			start.setText(selectedItem.getStart());
+			destination.setText(selectedItem.getDestination());
+			distance.setText(selectedItem.getWholeDistance() + "");
+		}
 	}
 
 	private void fillStageInformation(Stage selectedItem) {
@@ -150,6 +169,93 @@ public class AdminFragment extends Fragment {
 	}
 
 	public void setImportFile(File file) {
+		switch (lastClickedImportId) {
+		case R.id.btn_import_stage:
+			importStages(file);
+			break;
+		case R.id.btn_import_driver:
+			importDriver(file);
+			break;
+		case R.id.btn_import_driver_time:
+			importDriverWithTime(file);
+			break;
+		case R.id.btn_import_match_table:
+			importMarchTable(file);
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void importMarchTable(File file) {
+		try {
+			pointOfRaceDao = activity.getHelper().getPointOfRaceDao();
+			QueryBuilder<PointOfRace, Integer> queryBuilder = pointOfRaceDao
+					.queryBuilder();
+			queryBuilder.where().eq("etappe", stageSpinner.getSelectedItem());
+			pointOfRaceDao.delete(pointOfRaceDao.query(queryBuilder.prepare()));
+
+			CSVReader reader = new CSVReader(new FileInputStream(file));
+			PointOfRace point;
+			for (String[] line : reader.readFile()) {
+				point = convertStringArrayToPoint(line);
+				point.setStage((Stage) stageSpinner.getSelectedItem());
+				pointOfRaceDao.create(point);
+			}
+		} catch (Exception e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+		}
+
+	}
+
+	private PointOfRace convertStringArrayToPoint(String[] pointAsString) {
+		int altitude = Integer.valueOf(pointAsString[0]);
+		String name = pointAsString[3];
+		double distance = Double.valueOf(pointAsString[1]);
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("HH:mm").parse(pointAsString[6]);
+		} catch (ParseException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+		}
+
+		return new PointOfRace(altitude, distance, name, date, 0);
+	}
+
+	private void importDriver(File file) {
+		try {
+			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
+					BicycleRider.class, true);
+			TableUtils.createTable(activity.getHelper().getConnectionSource(),
+					BicycleRider.class);
+		} catch (SQLException e1) {
+			Log.e(getClass().getSimpleName(), e1.getMessage());
+		}
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+
+		}
+		BicycleRider bicycleRider;
+		for (String[] riderAsString : reader.readFile()) {
+			Log.i(getClass().getSimpleName(), "im here");
+			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
+					riderAsString[1], riderAsString[2], riderAsString[3], "");
+			bicycleRider.setRiderState(RiderState.ACTIV);
+			riderDbDao.create(bicycleRider);
+			app.add(bicycleRider);
+		}
+
+	}
+
+	private void importDriverWithTime(File file) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void importStages(File file) {
 		try {
 			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
 					Stage.class, true);

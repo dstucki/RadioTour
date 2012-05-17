@@ -42,14 +42,13 @@ public class RadioTour extends Application {
 	}
 
 	public void add(BicycleRider rider) {
-		// riders.put(rider.getStartNr(), rider);
+		riders.put(rider.getStartNr(), rider);
 		// if (latestTeam == null || latestTeam.getDriverNumbers().size() >= 10)
 		// {
 		// latestTeam = new Team(rider.getTeam() + teams.size());
 		// teams.put(latestTeam.getName(), latestTeam);
 		// }
 		// latestTeam.getDriverNumbers().add(rider.getStartNr());
-
 		if (!teams.containsKey(rider.getTeam())) {
 			teams.put(rider.getTeam(), new Team(rider.getTeam()));
 		}
@@ -71,8 +70,10 @@ public class RadioTour extends Application {
 
 	public void setActualSelectedStage(Stage actualSelectedStage) {
 		this.actualSelectedStage = actualSelectedStage;
-		SharedPreferencesHelper.preferences().setSelectedStage(
-				actualSelectedStage);
+		if (actualSelectedStage != null) {
+			SharedPreferencesHelper.preferences().setSelectedStage(
+					actualSelectedStage);
+		}
 	}
 
 }

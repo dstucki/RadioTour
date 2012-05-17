@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">RadioTour - Deutsch</string>
+    <string name="app_name">RadioTour</string>
     <string name="driver_name">Name</string>
     <string name="driver_team">Team</string>
     <string name="driver_team_short">Team Kurz</string>

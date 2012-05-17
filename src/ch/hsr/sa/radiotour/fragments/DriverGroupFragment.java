@@ -92,6 +92,11 @@ public class DriverGroupFragment extends Fragment {
 				.getChildAt(0).getLayoutParams();
 
 		if (((RadioTour) getActivity().getApplication()).getGroups().isEmpty()) {
+			Group gr = new Group();
+			gr.setField(true);
+			gr.getDriverNumbers().addAll(
+					((RadioTour) getActivity().getApplication())
+							.getRiderNumbers());
 			return;
 		}
 		alreadyGroupsHere();
