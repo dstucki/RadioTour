@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_gravity="center"
     android:background="@drawable/radiotourbackground"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="200dp"
+        android:gravity="center"
         android:paddingBottom="30dp"
-        android:paddingTop="100dp"
-        android:text="One Hell of a Splash Screen"
-        android:textSize="30dp" />
+        android:text="@string/splashscreen"
+        android:textSize="30dp" android:layout_gravity="center" android:saveEnabled="false"/>
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
 
 </LinearLayout>

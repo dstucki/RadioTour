@@ -84,15 +84,15 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		MyStateSaver data = new MyStateSaver();
+		boolean data = false;
 		if (mSplashDialog != null) {
-			data.showSplashScreen = true;
+			data = true;
 			removeSplashScreen();
 		}
 		return data;
 	}
 
-	protected void removeSplashScreen() {
+	public void removeSplashScreen() {
 		if (mSplashDialog != null) {
 			mSplashDialog.dismiss();
 			mSplashDialog = null;
@@ -106,12 +106,13 @@ public class RadioTourActivity extends Activity implements Observer,
 		mSplashDialog.show();
 
 		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
+		handler.removeCallbacks(new Runnable() {
+			// handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				removeSplashScreen();
 			}
-		}, 5000);
+		}, 2000);
 	}
 
 	public void importDriverandTeams() {
@@ -436,8 +437,4 @@ public class RadioTourActivity extends Activity implements Observer,
 				R.id.headerFragment)).updateStage(actualStage);
 
 	}
-}
-
-class MyStateSaver {
-	public boolean showSplashScreen = false;
 }

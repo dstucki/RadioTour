@@ -17,5 +17,6 @@ public class Importer extends AsyncTask<RadioTourActivity, Integer, Long> {
 	@Override
 	protected void onPostExecute(Long result) {
 		a.showRaceFragment();
+		a.removeSplashScreen();
 	}
 }

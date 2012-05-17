@@ -67,6 +67,7 @@
     <string name="giveup">Aufgabe</string>
     <string name="clear_selection">Auswahl aufheben</string>
     <string name="edit">bearbeiten</string>
+    <string name="splashscreen">Bitte warten, Daten werden geladen</string>
     <string name="new_word">neu</string>
     <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
 
