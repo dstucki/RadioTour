@@ -107,7 +107,6 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		final Handler handler = new Handler();
 		handler.removeCallbacks(new Runnable() {
-			// handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				removeSplashScreen();
@@ -435,6 +434,5 @@ public class RadioTourActivity extends Activity implements Observer,
 	public void updateStage(Stage actualStage) {
 		((HeaderFragment) getFragmentManager().findFragmentById(
 				R.id.headerFragment)).updateStage(actualStage);
-
 	}
 }
