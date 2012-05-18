@@ -199,6 +199,8 @@ public class RadioTourActivity extends Activity implements Observer,
 			try {
 				checkedID = Integer.valueOf(temp.getText().toString());
 			} catch (NumberFormatException e) {
+				Log.i(getClass().getSimpleName(), e.getMessage()
+						+ " Try to parse Text another way");
 				Integer indexSpace = temp.getText().toString().indexOf(" ");
 				checkedID = Integer.valueOf(temp.getText().toString()
 						.substring(0, indexSpace));
@@ -395,11 +397,6 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		FileExplorer newFragment = new FileExplorer(fragment);
 		newFragment.show(ft, "fileExplorerFragment");
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
 	}
 
 	@Override

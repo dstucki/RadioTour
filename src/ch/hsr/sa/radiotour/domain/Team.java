@@ -1,6 +1,6 @@
 package ch.hsr.sa.radiotour.domain;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -10,13 +10,13 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Team {
 
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private ArrayList<Integer> driverNumbers;
+	private TreeSet<Integer> driverNumbers;
 	@DatabaseField
 	private String name;
 
 	public Team(String name) {
 		this.name = name;
-		this.driverNumbers = new ArrayList<Integer>();
+		this.driverNumbers = new TreeSet<Integer>();
 	}
 
 	public Team() {
@@ -31,11 +31,11 @@ public class Team {
 		this.name = name;
 	}
 
-	public ArrayList<Integer> getDriverNumbers() {
+	public TreeSet<Integer> getDriverNumbers() {
 		return driverNumbers;
 	}
 
-	public void setDriverNumbers(ArrayList<Integer> driverNumbers) {
+	public void setDriverNumbers(TreeSet<Integer> driverNumbers) {
 		this.driverNumbers = driverNumbers;
 	}
 

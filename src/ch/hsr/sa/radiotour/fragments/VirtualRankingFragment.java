@@ -25,12 +25,6 @@ public class VirtualRankingFragment extends ListFragment {
 	private VirtualRankingAdapter adapter;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initializeResourceStrategyMap();
@@ -83,8 +77,8 @@ public class VirtualRankingFragment extends ListFragment {
 			try {
 				v.findViewById(i).setOnClickListener(listener);
 			} catch (NullPointerException e) {
-				Log.d(getClass().getSimpleName(),
-						"Nullpointer occured, not bad ;");
+				Log.d(getClass().getSimpleName(), e.getMessage()
+						+ " occured, because of missing rider information");
 			}
 		}
 
@@ -108,8 +102,8 @@ public class VirtualRankingFragment extends ListFragment {
 				try {
 					adapter.sort(strategy);
 				} catch (NullPointerException e) {
-					Log.d(getClass().getSimpleName(),
-							"Fix ME: Nullpointer in Sorting List");
+					Log.d(getClass().getSimpleName(), e.getMessage()
+							+ " occured");
 				}
 				strategy.switchAscending();
 

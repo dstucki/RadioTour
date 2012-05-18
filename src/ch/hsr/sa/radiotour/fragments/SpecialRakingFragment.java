@@ -108,8 +108,8 @@ public class SpecialRakingFragment extends Fragment {
 		for (int i = 0; i < actualSpecialRanking.getNrOfWinningDrivers(); i++) {
 			LinearLayout ll = (LinearLayout) getActivity().getLayoutInflater()
 					.inflate(R.layout.driverset_judgement, null);
-			((TextView) ll.findViewById(R.id.txt_rank_in_words)).setText(i + 1
-					+ ".");
+			((TextView) ll.findViewById(R.id.txt_rank_in_words))
+					.setText((i + 1) + ".");
 			((EditText) ll.findViewById(R.id.edtxt_for_number_insert))
 					.setText(actualJudgement.getWinningRiders()[i] + "");
 			llparent.addView(ll);
@@ -131,6 +131,7 @@ public class SpecialRakingFragment extends Fragment {
 						.findViewById(R.id.edtxt_for_number_insert)).getText()
 						.toString());
 			} catch (Exception e) {
+				Log.e(getClass().getSimpleName(), e.getMessage());
 				((TextView) ll.findViewById(R.id.txt_rank_error_show))
 						.setText("Ungültige Nummer, Speicherung abgebrochen");
 			}
@@ -148,18 +149,6 @@ public class SpecialRakingFragment extends Fragment {
 		actualJudgement.setWinningRiders(tempArray);
 		judgementDatabaseDao.update(actualJudgement);
 		setVirtualRanking();
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	@Override

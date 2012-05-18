@@ -21,12 +21,6 @@ public class DriverPickerFragment extends ListFragment implements
 	private final DriverGroupClickListener clickListener = new DriverGroupClickListener();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		adapter = new DriverPickerAdapter(getActivity(),

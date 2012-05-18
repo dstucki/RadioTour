@@ -14,10 +14,10 @@ public class StringUtils {
 		final StringBuilder tempString = new StringBuilder();
 		if (date.getHours() != 0) {
 			tempString.append(formatter.format(date.getHours()));
-			tempString.append(":");
+			tempString.append(':');
 		}
 		tempString.append(formatter.format(date.getMinutes()));
-		tempString.append(":");
+		tempString.append(':');
 		tempString.append(formatter.format(date.getSeconds()));
 		return tempString.toString();
 	}

@@ -83,8 +83,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 						StringUtils.getCountryFlag(rider.getCountry()),
 						"drawable", context.getPackageName()));
 			} catch (NullPointerException e) {
-				Log.d(getClass().getSimpleName(),
-						"Nullpointer occured, not bad ;)");
+				Log.d(getClass().getSimpleName(), e.getMessage()
+						+ " occured, can occur");
 			}
 		}
 

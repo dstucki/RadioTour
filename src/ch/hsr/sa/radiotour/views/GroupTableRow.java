@@ -25,6 +25,7 @@ import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
 public class GroupTableRow extends TableRow implements TimePickerIF {
+	private static final String DRIVER_PERSIST_THREAD = "DriverPersistThread";
 	private TextView description;
 	private TextView time;
 	private final Map<Integer, LinearLayout> map = new HashMap<Integer, LinearLayout>();
@@ -225,11 +226,9 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				updateAndPersistDriver(date);
-
 			}
-		}).start();
+		}, DRIVER_PERSIST_THREAD).start();
 		((RadioTourActivity) context).getHelper().getGroupDao().update(group);
 		time.setText(StringUtils.getTimeAsString(date));
 

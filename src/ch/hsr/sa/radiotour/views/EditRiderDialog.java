@@ -51,7 +51,7 @@ public class EditRiderDialog extends DialogFragment {
 			setStatiRadioButton();
 
 		} catch (NullPointerException e) {
-			Log.e(getClass().getSimpleName(), "Fixme handle Exception");
+			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
 	}
 
@@ -105,7 +105,7 @@ public class EditRiderDialog extends DialogFragment {
 					.parse(((EditText) v.findViewById(R.id.edittxt_day))
 							.getText().toString()));
 		} catch (ParseException e) {
-			Log.e(getClass().getSimpleName(), "Fixme handle Exception");
+			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
 		((RadioTourActivity) getActivity()).getHelper().getBicycleRiderDao()
 				.update(rider);

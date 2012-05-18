@@ -63,6 +63,9 @@ public class Stage {
 
 	@Override
 	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
 		if (!(o instanceof Stage)) {
 			return false;
 		}

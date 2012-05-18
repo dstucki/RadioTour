@@ -52,7 +52,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	}
 
 	public void startLocationUpdates() {
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500l, 10,
+		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500L, 10,
 				this);
 	}
 
@@ -95,7 +95,7 @@ public class GPSLocationListener extends Observable implements LocationListener 
 			} else {
 				altitude = "No GPS";
 			}
-			if (actualLocation.hasAccuracy() == true) {
+			if (actualLocation.hasAccuracy()) {
 				accuracy = round(actualLocation.getAccuracy()) + "";
 			} else {
 				accuracy = "No GPS";
