@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -59,17 +58,15 @@ public class JSONConnectionQueue {
 			IOException {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httpost = new HttpPost("http://bentele.me/json");
+		HttpPost httpost = new HttpPost("http://bentele.me/json/index.php");
 
-		JSONObject holder = new JSONObject();
-
-		StringEntity se = new StringEntity(holder.toString());
+		StringEntity se = new StringEntity(json.toString());
 		httpost.setEntity(se);
 		httpost.setHeader("Accept", "application/json");
 		httpost.setHeader("Content-type", "application/json");
 
 		ResponseHandler responseHandler = new BasicResponseHandler();
-		HttpResponse response = httpclient.execute(httpost, responseHandler);
+		String response = httpclient.execute(httpost, responseHandler);
 	}
 
 }
