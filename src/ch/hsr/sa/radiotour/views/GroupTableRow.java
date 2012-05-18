@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.views;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import android.content.ClipData;
@@ -22,14 +23,19 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 public class GroupTableRow extends TableRow implements TimePickerIF {
-	private static final String DRIVER_PERSIST_THREAD = "DriverPersistThread";
 	private TextView description;
 	private TextView time;
 	private final Map<Integer, LinearLayout> map = new HashMap<Integer, LinearLayout>();
 	private LinearLayout odd, even;
+	private RuntimeExceptionDao<BicycleRider, Integer> bicycleRiderDao;
+	private RuntimeExceptionDao<Group, Integer> groupDao;
+	private RadioTour app;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -50,6 +56,11 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	}
 
 	private void createUI() {
+		DatabaseHelper helper = ((RadioTourActivity) context).getHelper();
+		bicycleRiderDao = helper.getBicycleRiderDao();
+		groupDao = helper.getGroupDao();
+		app = (RadioTour) context.getApplicationContext();
+
 		LayoutInflater.from(context).inflate(
 				R.layout.group_table_row_ingredient, this);
 		odd = (LinearLayout) findViewById(R.id.llayout_driver_odd);
@@ -58,7 +69,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		time = (TextView) findViewById(R.id.txt_group_time);
 		time.setText(StringUtils.getTimeAsString(group.getHandicapTime()));
 		time.setClickable(true);
-		// time.setLayoutParams(getTextViewMargins());
 		time.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -129,15 +139,12 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	public void addRider(final Integer riderNr) {
 		group.getDriverNumbers().add(riderNr);
-		BicycleRider bicycleRider = ((RadioTour) context
-				.getApplicationContext()).getRidersAsMap().get(riderNr);
+		BicycleRider bicycleRider = app.getRider(riderNr);
 		bicycleRider.setVirtual_deficit(group.getHandicapTime());
-		((RadioTourActivity) context).getHelper().getBicycleRiderDao()
-				.createOrUpdate(bicycleRider);
+		bicycleRiderDao.createOrUpdate(bicycleRider);
 		if (!group.isField()) {
 			final TextView txtViewToAdd = new TextView(context);
 			txtViewToAdd.setId(riderNr);
-			// txtViewToAdd.setText(riderNr + "");
 			txtViewToAdd.setText(bicycleRider.toString());
 			txtViewToAdd.setTextColor(Color.WHITE);
 			txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
@@ -164,7 +171,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 					final TextView textView = (TextView) v;
 					ClipData data = ClipData.newPlainText(textView.getText(),
 							textView.getText());
-					TreeSet<Integer> localState = new TreeSet<Integer>();
+					SortedSet<Integer> localState = new TreeSet<Integer>();
 					localState.add(riderNr);
 					v.startDrag(data, new DragShadowBuilder(txtViewToAdd),
 							localState, 0);
@@ -192,21 +199,18 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	public void removeRiderNr(Integer driverNr) {
 		group.removeDriverNumber(driverNr);
-		BicycleRider rider = ((RadioTour) context.getApplicationContext())
-				.getRidersAsMap().get(driverNr);
+		BicycleRider rider = app.getRider(driverNr);
 		rider.setVirtual_deficit(new Date(0, 0, 0, 0, 0, 0));
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
-		((RadioTourActivity) context).getHelper().getGroupDao().update(group);
-		((RadioTourActivity) context).getHelper().getBicycleRiderDao()
-				.update(rider);
+		groupDao.update(group);
+		bicycleRiderDao.update(rider);
 		if (temp != null && !group.isField()) {
 			for (int i = 0; i < temp.getChildCount(); i++) {
-				if (((TextView) temp.getChildAt(i))
-						.getText()
-						.toString()
-						.equals(((RadioTour) context.getApplicationContext())
-								.getRidersAsMap().get(driverNr).toString())) {
+				final String textViewString = ((TextView) temp.getChildAt(i))
+						.getText().toString();
+				if (textViewString.equals(bicycleRiderDao.queryForId(driverNr)
+						.toString())) {
 					temp.removeViewAt(i);
 				}
 			}
@@ -227,9 +231,10 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			@Override
 			public void run() {
 				updateAndPersistDriver(date);
+
 			}
-		}, DRIVER_PERSIST_THREAD).start();
-		((RadioTourActivity) context).getHelper().getGroupDao().update(group);
+		}, "DriverPersistThread").start();
+		groupDao.update(group);
 		time.setText(StringUtils.getTimeAsString(date));
 
 	}
@@ -237,11 +242,9 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	public void updateAndPersistDriver(Date date) {
 		BicycleRider temp;
 		for (int i : group.getDriverNumbers()) {
-			temp = ((RadioTour) context.getApplicationContext())
-					.getRidersAsMap().get(i);
+			temp = app.getRider(i);
 			temp.setVirtual_deficit(date);
-			((RadioTourActivity) context).getHelper().getBicycleRiderDao()
-					.update(temp);
+			bicycleRiderDao.update(temp);
 		}
 	}
 }

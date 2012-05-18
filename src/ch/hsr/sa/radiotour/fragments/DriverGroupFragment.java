@@ -91,6 +91,7 @@ public class DriverGroupFragment extends Fragment {
 			gr.getDriverNumbers().addAll(
 					((RadioTour) getActivity().getApplication())
 							.getRiderNumbers());
+			((RadioTour) getActivity().getApplication()).getGroups().add(gr);
 			field.setGroup(gr);
 			return;
 		}

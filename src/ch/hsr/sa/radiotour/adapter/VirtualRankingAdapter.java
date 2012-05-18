@@ -20,11 +20,16 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 
 	private final ArrayList<BicycleRider> riders;
 	private final Context context;
+	private final ArrayList<BicycleRider> copyForCalculateVirtualRank;
 
 	public VirtualRankingAdapter(Context context, int resource,
 			int textViewResourceId, ArrayList<BicycleRider> objects) {
 		super(context, resource, textViewResourceId, objects);
 		riders = objects;
+		copyForCalculateVirtualRank = new ArrayList<BicycleRider>();
+		copyForCalculateVirtualRank.addAll(riders);
+		Collections.sort(copyForCalculateVirtualRank,
+				new RiderSortStrategy.SortByVirtualDeficit());
 		this.context = context;
 	}
 
@@ -34,6 +39,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 		} else {
 			Collections.sort(riders, strategy);
 		}
+		Collections.sort(copyForCalculateVirtualRank,
+				new RiderSortStrategy.SortByVirtualDeficit());
 		notifyDataSetChanged();
 	}
 
@@ -58,7 +65,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 				temp.setText(rider.getTeamShort());
 
 				temp = (TextView) v.findViewById(R.id.virtualRank);
-				temp.setText((position + 1) + "");
+				temp.setText((copyForCalculateVirtualRank.indexOf(rider) + 1)
+						+ "");
 
 				// temp = (TextView) v.findViewById(R.id.timeBoni);
 				// temp.setText("toimplemnt");

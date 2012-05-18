@@ -228,7 +228,6 @@ public class AdminFragment extends Fragment {
 		}
 		BicycleRider bicycleRider;
 		for (String[] riderAsString : reader.readFile()) {
-			Log.i(getClass().getSimpleName(), "im here");
 			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
 					riderAsString[1], riderAsString[2], riderAsString[3], "");
 			bicycleRider.setRiderState(RiderState.ACTIV);

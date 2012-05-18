@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -76,7 +75,6 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		for (Integer driverNumber : team.getDriverNumbers()) {
 			rider = ((RadioTour) context.getApplicationContext())
 					.getRidersAsMap().get(driverNumber);
-			Log.i(getClass().getSimpleName(), rider + "");
 			if (rider != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
 

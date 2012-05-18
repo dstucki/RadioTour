@@ -33,6 +33,10 @@ public class RadioTour extends Application {
 		return new ArrayList<Integer>(riders.keySet());
 	}
 
+	public BicycleRider getRider(int startNr) {
+		return riders.get(startNr);
+	}
+
 	public Map<Integer, BicycleRider> getRidersAsMap() {
 		return riders;
 	}

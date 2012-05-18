@@ -24,7 +24,7 @@ public class FileExplorer extends DialogFragment {
 	private List<String> item = null;
 	private List<String> path = null;
 	private final String root = "/";
-	private TextView myPath;
+	private TextView breadCrumb;
 	private final AdminFragment fragment;
 
 	private final OnItemClickListener itemListener = new OnItemClickListener() {
@@ -59,7 +59,7 @@ public class FileExplorer extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		v = inflater.inflate(R.layout.fileexplorer, container, false);
-		myPath = (TextView) v.findViewById(R.id.path);
+		breadCrumb = (TextView) v.findViewById(R.id.path);
 		lv = (ListView) v.findViewById(R.id.list_file_explorer);
 		Log.i(getClass().getSimpleName(), lv + "");
 		lv.setOnItemClickListener(itemListener);
@@ -68,7 +68,7 @@ public class FileExplorer extends DialogFragment {
 	}
 
 	private void getDir(String dirPath) {
-		myPath.setText("Location: " + dirPath);
+		breadCrumb.setText("Location: " + dirPath);
 
 		item = new ArrayList<String>();
 		path = new ArrayList<String>();

@@ -75,8 +75,13 @@ public abstract class RiderSortStrategy implements Comparator<BicycleRider> {
 	public static class SortByVirtualRank extends RiderSortStrategy {
 		@Override
 		public int compare(BicycleRider arg0, BicycleRider arg1) {
-			return arg0.getVirtual_deficit().compareTo(
+			int temp = arg0.getVirtual_deficit().compareTo(
 					arg1.getVirtual_deficit());
+			if (temp != 0) {
+				return temp;
+			} else {
+				return arg0.getStartNr() - arg1.getStartNr();
+			}
 		}
 
 	}

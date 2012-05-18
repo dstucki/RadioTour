@@ -22,8 +22,8 @@ public class Judgement {
 	public Judgement(String name, double distance, Stage stage) {
 		super();
 		this.name = name;
-		this.setDistance(distance);
-		this.setStage(stage);
+		this.distance = distance;
+		this.stage = stage;
 	}
 
 	public Judgement() {
