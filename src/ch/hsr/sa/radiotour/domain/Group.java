@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.TreeSet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -73,6 +77,18 @@ public class Group extends Observable implements Comparable<Group> {
 	@Override
 	public int compareTo(Group another) {
 		return orderNumber - another.orderNumber;
+	}
+
+	public JSONObject toJson() {
+		JSONObject json = new JSONObject();
+		try {
+			json.put("groupnr", orderNumber);
+			json.put("drivernumb", new JSONArray(driverNumbers));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
 	}
 
 }

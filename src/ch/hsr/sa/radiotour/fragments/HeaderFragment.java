@@ -33,7 +33,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	private static Timer racetimeTimer;
 	private Button startstoprace;
 	private Button startstopwatch;
-	private static GPSLocationListener mGPS;
+	public static GPSLocationListener mGPS;
 	private LiveData updatedLiveData;
 	private TextView tabRen;
 	private View view;
@@ -186,9 +186,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 
 		@Override
 		public void onClick(View v) {
-
 			((RadioTourActivity) getActivity()).showKmDialog(mGPS);
-
 		}
 	};
 

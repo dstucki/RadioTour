@@ -18,7 +18,9 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
@@ -237,13 +239,18 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	private void syncToDb() {
+		RaceSituation situation = new RaceSituation(
+				HeaderFragment.mGPS.getDistanceInKm());
+
 		for (int i = 1; i < tableRows.size(); i += 2) {
 			Group gr = ((GroupTableRow) tableRows.get(i)).getGroup();
+			situation.add(gr);
 			if ((i / 2) != gr.getOrderNumber()) {
 				gr.setOrderNumber(i / 2);
 				groupDatabaseDao.createOrUpdate(gr);
 			}
 		}
+		JSONConnectionQueue.getInstance().addToQueue(situation);
 	}
 
 	private boolean hasToCreateNewGroup(TableRow row) {

@@ -12,6 +12,7 @@ import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
+import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 
 public class RadioTour extends Application {
@@ -23,6 +24,15 @@ public class RadioTour extends Application {
 
 	public RadioTour() {
 		super();
+		Thread t = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				JSONConnectionQueue.getInstance().start();
+			}
+		});
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
 	}
 
 	public ArrayList<BicycleRider> getRiders() {
