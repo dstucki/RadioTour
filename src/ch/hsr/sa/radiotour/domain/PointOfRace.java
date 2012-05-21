@@ -16,6 +16,8 @@ public class PointOfRace {
 	private double distance;
 	@DatabaseField
 	private int round;
+	@DatabaseField(dataType = DataType.BOOLEAN)
+	private boolean alreadypassed;
 	@DatabaseField
 	private String name;
 	@DatabaseField(dataType = DataType.DATE)
@@ -90,5 +92,13 @@ public class PointOfRace {
 
 	public void setRound(int round) {
 		this.round = round;
+	}
+
+	public boolean isAlreadypassed() {
+		return alreadypassed;
+	}
+
+	public void setAlreadypassed(boolean alreadypassed) {
+		this.alreadypassed = alreadypassed;
 	}
 }

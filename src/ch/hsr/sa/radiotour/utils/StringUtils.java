@@ -22,6 +22,21 @@ public class StringUtils {
 		return tempString.toString();
 	}
 
+	public static String getTimeWithoutSecondsAsString(Date date) {
+		final NumberFormat formatter = new DecimalFormat("00");
+		if (date == null) {
+			return "00:00";
+		}
+		final StringBuilder tempString = new StringBuilder();
+		if (date.getHours() != 0) {
+			tempString.append(formatter.format(date.getHours()));
+			tempString.append(':');
+		}
+		tempString.append(formatter.format(date.getMinutes()));
+
+		return tempString.toString();
+	}
+
 	public static String getCountryFlag(String olympicCountryCode) {
 		String isoCode = null;
 

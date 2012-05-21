@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/17 03:25:04
+# generated on 2012/05/21 11:05:45
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
@@ -62,32 +62,6 @@ fieldName=url
 # --table-end--
 #################################
 # --table-start--
-dataClass=ch.hsr.sa.radiotour.domain.Group
-tableName=Group
-# --table-fields-start--
-# --field-start--
-fieldName=id
-generatedId=true
-# --field-end--
-# --field-start--
-fieldName=driverNumbers
-dataPersister=SERIALIZABLE
-# --field-end--
-# --field-start--
-fieldName=isField
-dataPersister=BOOLEAN
-# --field-end--
-# --field-start--
-fieldName=handicapTime
-dataPersister=DATE
-# --field-end--
-# --field-start--
-fieldName=orderNumber
-# --field-end--
-# --table-fields-end--
-# --table-end--
-#################################
-# --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.Judgement
 tableName=judgement
 # --table-fields-start--
@@ -136,6 +110,10 @@ fieldName=distance
 # --field-end--
 # --field-start--
 fieldName=round
+# --field-end--
+# --field-start--
+fieldName=alreadypassed
+dataPersister=BOOLEAN
 # --field-end--
 # --field-start--
 fieldName=name

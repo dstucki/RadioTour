@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +77,9 @@ public class DriverGroupFragment extends Fragment {
 	private void initializeTableRows() {
 
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup));
-		tableRows.add((GroupTableRow) getView()
-				.findViewById(R.id.tableRowField));
 		field = (GroupTableRow) getView().findViewById(R.id.tableRowField);
+
+		tableRows.add(field);
 		initializeDriverRowMap();
 		field.changeDescription(getString(R.string.field));
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup2));
@@ -88,12 +89,14 @@ public class DriverGroupFragment extends Fragment {
 				.getChildAt(0).getLayoutParams();
 
 		if (((RadioTour) getActivity().getApplication()).getGroups().isEmpty()) {
+			Log.i(getClass().getSimpleName(), "here i am");
 			Group gr = new Group();
 			gr.setField(true);
 			gr.getDriverNumbers().addAll(
 					((RadioTour) getActivity().getApplication())
 							.getRiderNumbers());
 			((RadioTour) getActivity().getApplication()).getGroups().add(gr);
+			gr.setOrderNumber(0);
 			field.setGroup(gr);
 			return;
 		}
