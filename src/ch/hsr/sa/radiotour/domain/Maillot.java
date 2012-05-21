@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class Maillot {
 
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField
 	private String maillot;
@@ -15,9 +15,8 @@ public class Maillot {
 	@DatabaseField
 	private long time;
 
-	public Maillot(int id, String maillot, int color, int points, long time) {
+	public Maillot(String maillot, int color, int points, long time) {
 		super();
-		this.id = id;
 		this.maillot = maillot;
 		this.color = color;
 		this.points = points;

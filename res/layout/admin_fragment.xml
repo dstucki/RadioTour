@@ -57,169 +57,10 @@
                 android:text="@string/lb_time" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tv10000"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lb_default" />
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:contentDescription="@string/lb_default"
-                android:padding="5dp"
-                android:src="@drawable/maillot_red" />
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="15" />
-
-            <TextView
-                android:id="@+id/textView57"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="00:30" />
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="@string/lb_delete" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView29"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lb_default" />
-
-            <ImageView
-                android:id="@+id/imageView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:contentDescription="@string/lb_default"
-                android:padding="5dp"
-                android:src="@drawable/maillot_green" />
-
-            <TextView
-                android:id="@+id/textView455"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="15" />
-
-            <TextView
-                android:id="@+id/textView566"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="00:30" />
-
-            <Button
-                android:id="@+id/button177"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="@string/lb_delete" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView288"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lb_default" />
-
-            <ImageView
-                android:id="@+id/imageView133"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:contentDescription="@string/lb_default"
-                android:padding="5dp"
-                android:src="@drawable/maillot_yellow" />
-
-            <TextView
-                android:id="@+id/textView445"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="15" />
-
-            <TextView
-                android:id="@+id/textView567"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="00:30" />
-
-            <Button
-                android:id="@+id/button1234"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="@string/lb_delete" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView2567"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lb_default" />
-
-            <ImageView
-                android:id="@+id/imageView31"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:contentDescription="@string/lb_default"
-                android:padding="5dp"
-                android:src="@drawable/maillot_white" />
-
-            <TextView
-                android:id="@+id/textView41"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="15" />
-
-            <TextView
-                android:id="@+id/textView58"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="00:30" />
-
-            <Button
-                android:id="@+id/button13"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="@string/lb_delete" />
-        </LinearLayout>
+        <ListView
+            android:id="@+id/list_maillots"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -341,27 +182,29 @@
             android:orientation="vertical"
             android:padding="10dp" >
 
+            <Button
+                android:id="@+id/btn_import_stage"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Import von Etappen" />
 
-                <Button
-                    android:id="@+id/btn_import_stage"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="Import von Etappen" />
-                <Button
-                    android:id="@+id/btn_import_match_table"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="Import von Marschtabellen" />
-                <Button
-                    android:id="@+id/btn_import_driver"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="Import von Fahrern" />
-                <Button
-                    android:id="@+id/btn_import_driver_time"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="Import von Fahrern mit Zeiten" />
+            <Button
+                android:id="@+id/btn_import_match_table"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Import von Marschtabellen" />
+
+            <Button
+                android:id="@+id/btn_import_driver"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Import von Fahrern" />
+
+            <Button
+                android:id="@+id/btn_import_driver_time"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Import von Fahrern mit Zeiten" />
         </LinearLayout>
     </LinearLayout>
 

@@ -353,14 +353,14 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "marchDialog");
 	}
 
-	public void showMaillotDialog() {
+	public void showMaillotDialog(AdminFragment fragment) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("maillotDialog");
 		if (prev != null) {
 			ft.remove(prev);
 		}
 		ft.addToBackStack(null);
-		MaillotDialog newFragment = new MaillotDialog();
+		MaillotDialog newFragment = new MaillotDialog(fragment);
 		newFragment.show(ft, "maillotDialog");
 	}
 

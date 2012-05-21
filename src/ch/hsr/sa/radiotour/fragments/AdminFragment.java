@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Fragment;
@@ -19,9 +20,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
+import ch.hsr.sa.radiotour.adapter.MaillotsListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Maillot;
@@ -72,7 +75,8 @@ public class AdminFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			((RadioTourActivity) getActivity()).showMaillotDialog();
+			((RadioTourActivity) getActivity())
+					.showMaillotDialog(AdminFragment.this);
 		}
 	};
 	private final OnClickListener deleteListener = new OnClickListener() {
@@ -108,6 +112,7 @@ public class AdminFragment extends Fragment {
 		}
 	};
 	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao;
+	private ListView maillot_lv;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,6 +155,12 @@ public class AdminFragment extends Fragment {
 				.getActualSelectedStage()));
 		loadInformation((Stage) stageSpinner.getSelectedItem());
 		stageSpinner.setOnItemSelectedListener(stageListener);
+
+		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
+		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
+				(ArrayList<Maillot>) activity.getHelper()
+						.getMaillotRuntimeDao().queryForAll()));
+
 		return view;
 	}
 
@@ -276,6 +287,10 @@ public class AdminFragment extends Fragment {
 		} catch (FileNotFoundException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
+	}
+
+	public void newMaillotAdded(Maillot m) {
+		((MaillotsListAdapter) maillot_lv.getAdapter()).add(m);
 	}
 
 }
