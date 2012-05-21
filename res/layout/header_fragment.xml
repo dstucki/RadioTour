@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/tabbar"
-        android:layout_width="500dp"
+        android:layout_width="480dp"
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
 
@@ -61,7 +61,7 @@
 
     <LinearLayout
         android:id="@+id/tourinfo"
-        android:layout_width="520dp"
+        android:layout_width="540dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp" >
@@ -189,13 +189,13 @@
 
         <LinearLayout
             android:id="@+id/tourinfo_row4"
-            android:layout_width="120dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/speed_value"
-                android:layout_width="120dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:background="#333333"
                 android:padding="5dp"
@@ -203,19 +203,19 @@
 
             <TextView
                 android:id="@+id/altitude_value"
-                android:layout_width="120dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultaltitude" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/distance_value"
-                    android:layout_width="60dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:background="#333333"
                     android:padding="5dp"
@@ -223,7 +223,7 @@
 
                 <TextView
                     android:id="@+id/distancetogo"
-                    android:layout_width="60dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:text="0 km" android:background="#333333" android:padding="5dp"/>
 

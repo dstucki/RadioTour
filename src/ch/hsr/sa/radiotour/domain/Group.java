@@ -84,8 +84,8 @@ public class Group extends Observable implements Comparable<Group> {
 		try {
 			json.put("groupnr", orderNumber);
 			json.put("drivernumb", new JSONArray(driverNumbers));
+			json.put("handicaptime", handicapTime.getTime());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return json;

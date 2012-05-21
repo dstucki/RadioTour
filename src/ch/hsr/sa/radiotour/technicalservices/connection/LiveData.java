@@ -38,9 +38,8 @@ public class LiveData extends Observable {
 			};
 		};
 		@SuppressWarnings("rawtypes")
-		final ScheduledFuture beepHandler = scheduler.scheduleAtFixedRate(
-				runner, 2, 10, TimeUnit.SECONDS);
-		beepHandler.toString();
+		final ScheduledFuture schedulrate = scheduler.scheduleAtFixedRate(
+				runner, 2, 10000, TimeUnit.MILLISECONDS);
 	}
 
 	private void getNewLiveDataFromURL(String url) {

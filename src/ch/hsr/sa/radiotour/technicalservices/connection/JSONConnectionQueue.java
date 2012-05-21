@@ -2,13 +2,11 @@ package ch.hsr.sa.radiotour.technicalservices.connection;
 
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,31 +29,35 @@ public class JSONConnectionQueue {
 	public void start() {
 		while (true) {
 			try {
-				RaceSituation current = queue
-						.poll(10000, TimeUnit.MILLISECONDS);
+				RaceSituation current = queue.peek();
 				if (current != null) {
 					try {
-						makeRequest(current.toJSON());
-					} catch (ClientProtocolException e) {
-						Log.e(getClass().getSimpleName(), e.getMessage());
+						if (makeRequest(current.toJSON())) {
+							queue.poll();
+
+							Log.d(getClass().getSimpleName(), "Json sent");
+						}
+
 					} catch (IOException e) {
+						// Connection failed, wait for next timeslot
+						Thread.currentThread().sleep(10000);
 						Log.e(getClass().getSimpleName(), e.getMessage());
 					}
+				} else {
+					Thread.currentThread().sleep(10000);
+
 				}
-
-			} catch (InterruptedException e) {
-				Log.e(getClass().getSimpleName(), e.getMessage());
-
 			} catch (JSONException e) {
 				Log.e(getClass().getSimpleName(), e.getMessage());
-
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 
 	}
 
-	private void makeRequest(JSONObject json) throws ClientProtocolException,
-			IOException {
+	private boolean makeRequest(JSONObject json)
+			throws ClientProtocolException, IOException {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		HttpPost httpost = new HttpPost("http://bentele.me/json/index.php");
@@ -65,8 +67,12 @@ public class JSONConnectionQueue {
 		httpost.setHeader("Accept", "application/json");
 		httpost.setHeader("Content-type", "application/json");
 
-		ResponseHandler responseHandler = new BasicResponseHandler();
-		String response = httpclient.execute(httpost, responseHandler);
+		@SuppressWarnings("unchecked")
+		HttpResponse response = httpclient.execute(httpost);
+		Log.d(getClass().getSimpleName(), response.getStatusLine().toString()
+				+ " " + response.getStatusLine().getStatusCode());
+
+		return response.getStatusLine().getStatusCode() == 200;
 	}
 
 }
