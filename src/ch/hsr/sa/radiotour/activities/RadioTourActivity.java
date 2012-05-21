@@ -44,6 +44,7 @@ import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferences
 import ch.hsr.sa.radiotour.views.EditRiderDialog;
 import ch.hsr.sa.radiotour.views.FragmentDialog;
 import ch.hsr.sa.radiotour.views.KmPickerDialog;
+import ch.hsr.sa.radiotour.views.MaillotDialog;
 import ch.hsr.sa.radiotour.views.MarchTableDialog;
 import ch.hsr.sa.radiotour.views.SpecialRankingDialog;
 import ch.hsr.sa.radiotour.views.TextViewDialog;
@@ -350,6 +351,17 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		MarchTableDialog newFragment = new MarchTableDialog();
 		newFragment.show(ft, "marchDialog");
+	}
+
+	public void showMaillotDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("maillotDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+		MaillotDialog newFragment = new MaillotDialog();
+		newFragment.show(ft, "maillotDialog");
 	}
 
 	@Override

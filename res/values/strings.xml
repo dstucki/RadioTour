@@ -74,6 +74,12 @@
     <string name="splashscreen">Bitte warten, Daten werden geladen</string>
     <string name="new_word">neu</string>
     <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
+    <string name="addmaillot">Maillot hinzufügen</string>
     <string name="distance">Distanz</string>
+    <string name="maillot_red">Rot</string>
+        <string name="maillot_yellow">Gelb</string>
+        <string name="maillot_green">Grün</string>
+            <string name="maillot_white">Weiss</string>
+        
 
 </resources>

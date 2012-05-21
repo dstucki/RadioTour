@@ -9,6 +9,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
+import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
@@ -41,6 +42,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceRuntimeDao = null;
 	private RuntimeExceptionDao<SpecialRanking, Integer> specialRankingDao = null;
 	private RuntimeExceptionDao<Judgement, Integer> judgementRankingDao = null;
+	private RuntimeExceptionDao<Maillot, Integer> maillotRuntimeDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -62,6 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, PointOfRace.class);
 			TableUtils.createTable(connectionSource, SpecialRanking.class);
 			TableUtils.createTable(connectionSource, Judgement.class);
+			TableUtils.createTable(connectionSource, Maillot.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -85,6 +88,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(connectionSource, PointOfRace.class, true);
 			TableUtils.dropTable(connectionSource, SpecialRanking.class, true);
 			TableUtils.dropTable(connectionSource, Judgement.class, true);
+			TableUtils.dropTable(connectionSource, Maillot.class, true);
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -146,6 +150,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return judgementRankingDao;
 	}
 
+	public RuntimeExceptionDao<Maillot, Integer> getMaillotRuntimeDao() {
+		if (maillotRuntimeDao == null) {
+			maillotRuntimeDao = getRuntimeExceptionDao(Maillot.class);
+		}
+		return maillotRuntimeDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -159,5 +170,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		pointOfRaceRuntimeDao = null;
 		specialRankingDao = null;
 		judgementRankingDao = null;
+		maillotRuntimeDao = null;
 	}
 }

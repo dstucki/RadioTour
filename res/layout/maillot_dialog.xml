@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/lb_maillots" />
+
+            <EditText
+                android:id="@+id/edittxt_maillot"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/lb_points" />
+
+            <EditText
+                android:id="@+id/edittxt_points"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/lb_time" />
+
+            <EditText
+                android:id="@+id/edittxt_time"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="time" >
+
+                <requestFocus android:layout_width="wrap_content" />
+
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RadioGroup
+                android:id="@+id/rg_color"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RadioButton
+                    android:id="@+id/rdbtn_red"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maillot_red"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_green"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maillot_green"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_yellow"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maillot_yellow"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_white"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maillot_white"
+                    android:textSize="14dp" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_abort"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/lb_cancel" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/lb_save" />
+
+</LinearLayout>

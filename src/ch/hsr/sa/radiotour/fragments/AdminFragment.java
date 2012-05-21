@@ -24,6 +24,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Stage;
@@ -42,6 +43,7 @@ public class AdminFragment extends Fragment {
 	private EditText start, destination, distance;
 	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
 	private RuntimeExceptionDao<BicycleRider, Integer> riderDbDao;
+	private RuntimeExceptionDao<Maillot, Integer> maillotDbDao;
 	private Spinner stageSpinner;
 	private final OnClickListener saveListener = new OnClickListener() {
 
@@ -63,6 +65,14 @@ public class AdminFragment extends Fragment {
 			stageSpinner.setSelection(adapterForStageSpinner
 					.getPosition(actualStage));
 			loadInformation(actualStage);
+		}
+	};
+
+	private final OnClickListener maillotListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			((RadioTourActivity) getActivity()).showMaillotDialog();
 		}
 	};
 	private final OnClickListener deleteListener = new OnClickListener() {
@@ -95,7 +105,6 @@ public class AdminFragment extends Fragment {
 		public void onClick(View v) {
 			lastClickedImportId = v.getId();
 			activity.showFileExplorerDialog(AdminFragment.this);
-
 		}
 	};
 	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao;
@@ -108,6 +117,7 @@ public class AdminFragment extends Fragment {
 		app = (RadioTour) activity.getApplication();
 		stageDbDao = activity.getHelper().getStageDao();
 		riderDbDao = activity.getHelper().getBicycleRiderDao();
+		maillotDbDao = activity.getHelper().getMaillotRuntimeDao();
 		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
 		destination = (EditText) view
@@ -126,6 +136,8 @@ public class AdminFragment extends Fragment {
 				importListener);
 		view.findViewById(R.id.btn_import_driver_time).setOnClickListener(
 				importListener);
+		view.findViewById(R.id.btn_addmaillot).setOnClickListener(
+				maillotListener);
 
 		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
 				android.R.layout.simple_spinner_item);
@@ -265,4 +277,5 @@ public class AdminFragment extends Fragment {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
 	}
+
 }
