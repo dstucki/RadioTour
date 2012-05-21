@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.fragments;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.ListFragment;
@@ -45,7 +46,8 @@ public class VirtualRankingFragment extends ListFragment {
 		});
 		adapter = new VirtualRankingAdapter(getActivity(),
 				R.layout.picklist_item, R.id.startNr1,
-				((RadioTour) getActivity().getApplication()).getRiders());
+				(ArrayList<BicycleRider>) ((RadioTour) getActivity()
+						.getApplication()).getRiders());
 		setListAdapter(adapter);
 
 	}

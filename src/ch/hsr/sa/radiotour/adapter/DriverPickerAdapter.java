@@ -1,6 +1,6 @@
 package ch.hsr.sa.radiotour.adapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -24,11 +24,9 @@ import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
 public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	private final Context context;
 	private final DriverPickerFragment fragment;
-	private final ArrayList<Team> teams;
+	private final List<Team> teams;
 	int[] ids = { R.id.startNr1, R.id.startNr2, R.id.startNr3, R.id.startNr4,
-			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8,
-	// ...
-	};
+			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8, };
 
 	private final OnLongClickListener longClickListener = new OnLongClickListener() {
 
@@ -53,7 +51,7 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	};
 
 	public DriverPickerAdapter(Context context, int resource,
-			int textViewResourceId, ArrayList<Team> objects,
+			int textViewResourceId, List<Team> objects,
 			DriverPickerFragment fragment) {
 		super(context, resource, textViewResourceId, objects);
 		this.context = context;
@@ -74,7 +72,7 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 
 		for (Integer driverNumber : team.getDriverNumbers()) {
 			rider = ((RadioTour) context.getApplicationContext())
-					.getRidersAsMap().get(driverNumber);
+					.getRider(driverNumber);
 			if (rider != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
 
@@ -90,7 +88,6 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 					temp.setOnClickListener((RadioTourActivity) context);
 					temp.setOnLongClickListener(longClickListener);
 				}
-
 				temp.setText(Integer.toString(driverNumber));
 				temp.setTextColor(rider.getRiderState().getTextColor());
 				temp.setBackgroundColor((rider.getRiderState()

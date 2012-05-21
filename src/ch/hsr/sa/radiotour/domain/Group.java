@@ -74,6 +74,10 @@ public class Group extends Observable implements Comparable<Group> {
 		this.orderNumber = orderNumber;
 	}
 
+	private long getHandicapInMilliseconds() {
+		return handicapTime == null ? 0L : handicapTime.getTime();
+	}
+
 	@Override
 	public int compareTo(Group another) {
 		return orderNumber - another.orderNumber;
@@ -84,7 +88,7 @@ public class Group extends Observable implements Comparable<Group> {
 		try {
 			json.put("groupnr", orderNumber);
 			json.put("drivernumb", new JSONArray(driverNumbers));
-			json.put("handicaptime", handicapTime.getTime());
+			json.put("handicaptime", getHandicapInMilliseconds());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,7 +21,7 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 
 	private final ArrayList<BicycleRider> riders;
 	private final Context context;
-	private final ArrayList<BicycleRider> copyForCalculateVirtualRank;
+	private final List<BicycleRider> copyForCalculateVirtualRank;
 
 	public VirtualRankingAdapter(Context context, int resource,
 			int textViewResourceId, ArrayList<BicycleRider> objects) {

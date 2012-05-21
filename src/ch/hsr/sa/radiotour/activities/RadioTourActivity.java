@@ -37,7 +37,7 @@ import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
-import ch.hsr.sa.radiotour.technicalservices.importer.FileExplorer;
+import ch.hsr.sa.radiotour.technicalservices.importer.FileExplorerDialog;
 import ch.hsr.sa.radiotour.technicalservices.importer.Importer;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
@@ -206,7 +206,7 @@ public class RadioTourActivity extends Activity implements Observer,
 						.substring(0, indexSpace));
 			}
 			BicycleRider rider = ((RadioTour) getApplication())
-					.getRidersAsMap().get(checkedID);
+					.getRider(checkedID);
 			rider.setRiderState(RiderState.ACTIV);
 			getHelper().getBicycleRiderDao().update(rider);
 
@@ -395,7 +395,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		FileExplorer newFragment = new FileExplorer(fragment);
+		FileExplorerDialog newFragment = new FileExplorerDialog(fragment);
 		newFragment.show(ft, "fileExplorerFragment");
 	}
 

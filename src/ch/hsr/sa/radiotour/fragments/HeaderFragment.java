@@ -19,7 +19,6 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
@@ -28,9 +27,6 @@ import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.Timer;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 import ch.hsr.sa.radiotour.utils.StringUtils;
-
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
 
 public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	private Timer stopWatchTimer;
@@ -265,28 +261,6 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 		altitude.setText(mGPS.getAltitude() + " müM");
 		float distance = mGPS.getDistanceInKm();
 		setDistance(distance);
-		updatePointOfRace(distance);
-	}
-
-	private void updatePointOfRace(float distance) {
-		RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao = ((RadioTourActivity) getActivity())
-				.getHelper().getPointOfRaceDao();
-		QueryBuilder<PointOfRace, Integer> queryBuilder = pointOfRaceDao
-				.queryBuilder();
-		try {
-			queryBuilder.where().eq(
-					"etappe",
-					((RadioTour) getActivity().getApplication())
-							.getActualSelectedStage());
-			for (PointOfRace point : pointOfRaceDao.query(queryBuilder
-					.prepare())) {
-				point.setAlreadypassed(point.getDistance() < distance);
-				pointOfRaceDao.update(point);
-			}
-		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
-
 	}
 
 	private String calculateSpeed() {

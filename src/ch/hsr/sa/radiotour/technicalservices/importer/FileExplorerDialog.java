@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +18,27 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 
-public class FileExplorer extends DialogFragment {
+public class FileExplorerDialog extends DialogFragment {
 
 	private List<String> item = null;
 	private List<String> path = null;
 	private final String root = "/";
 	private TextView breadCrumb;
 	private final AdminFragment fragment;
+	private View v;
+	private ListView lv;
 
 	private final OnItemClickListener itemListener = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> adapter, View arg1,
 				int position, long id) {
-			File file = new File(path.get(position));
+			final File file = new File(path.get(position));
 
 			if (file.isDirectory()) {
-				if (file.canRead())
+				if (file.canRead()) {
 					getDir(path.get(position));
-
+				}
 			} else {
 				fragment.setImportFile(file);
 				dismiss();
@@ -46,14 +47,9 @@ public class FileExplorer extends DialogFragment {
 
 	};
 
-	public FileExplorer(AdminFragment fragment) {
+	public FileExplorerDialog(AdminFragment fragment) {
 		this.fragment = fragment;
 	}
-
-	/** Called when the activity is first created. */
-
-	View v;
-	private ListView lv;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +57,6 @@ public class FileExplorer extends DialogFragment {
 		v = inflater.inflate(R.layout.fileexplorer, container, false);
 		breadCrumb = (TextView) v.findViewById(R.id.path);
 		lv = (ListView) v.findViewById(R.id.list_file_explorer);
-		Log.i(getClass().getSimpleName(), lv + "");
 		lv.setOnItemClickListener(itemListener);
 		getDir(root);
 		return v;

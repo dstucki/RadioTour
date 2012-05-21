@@ -315,7 +315,7 @@ public class DriverGroupFragment extends Fragment {
 
 		}
 		BicycleRider bicycleRider = ((RadioTour) getActivity().getApplication())
-				.getRidersAsMap().get(i);
+				.getRider(i);
 		bicycleRider.setRiderState(newState);
 		riderDatabaseDao.update(bicycleRider);
 	}

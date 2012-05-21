@@ -33,6 +33,9 @@
     <string name="lb_defaultspeed">0.0 km/h</string>
     <string name="lb_defaultetappe">0</string>
     <string name="lb_defaultdistance">0 m</string>
+    <string name="lb_m_suffix">m</string>
+    <string name="lb_km_suffix">km</string>
+    <string name="lb_kmh_suffix">km/h</string>
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verb.:</string>

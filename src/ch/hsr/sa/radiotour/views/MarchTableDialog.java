@@ -41,13 +41,16 @@ public class MarchTableDialog extends DialogFragment {
 					getActivity(), R.layout.point_item, R.id.txt_point_name,
 					points);
 			lv.setAdapter(pointsOfRaceAdapter);
+
+			lv.setSelectionFromTop(
+					points.indexOf(pointsOfRaceAdapter.getActualPoint()), 10);
 		} catch (SQLException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
 		return v;
 	}
 
-	public List<PointOfRace> getPoints(Stage stage) throws SQLException {
+	private List<PointOfRace> getPoints(Stage stage) throws SQLException {
 		RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao = ((RadioTourActivity) getActivity())
 				.getHelper().getPointOfRaceDao();
 		QueryBuilder<PointOfRace, Integer> queryBuilder = pointOfRaceDao
