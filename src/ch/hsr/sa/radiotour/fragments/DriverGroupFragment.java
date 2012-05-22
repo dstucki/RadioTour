@@ -3,13 +3,12 @@ package ch.hsr.sa.radiotour.fragments;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-public class DriverGroupFragment extends Fragment implements Observer {
+public class DriverGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
 	private LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
@@ -102,7 +101,6 @@ public class DriverGroupFragment extends Fragment implements Observer {
 
 	public Group createFieldGroup() {
 		Group gr = new Group();
-		gr.addObserver(this);
 		gr.setSituation(app.getSituation());
 		gr.setField(true);
 		gr.getDriverNumbers().addAll(app.getRiderNumbers());
@@ -113,7 +111,6 @@ public class DriverGroupFragment extends Fragment implements Observer {
 	private void alreadyGroupsHere() {
 		int counter = 0;
 		for (Group g : app.getGroups()) {
-			g.addObserver(this);
 			if (!g.isField()) {
 				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
@@ -210,7 +207,13 @@ public class DriverGroupFragment extends Fragment implements Observer {
 
 	private void removeEmptyTableRows() {
 		GroupTableRow temp;
+		Log.i(getClass().getSimpleName(),
+				"removeEmptyTableRows #1 " + System.currentTimeMillis());
+
 		for (int i = 1; i < tableRows.size(); i += 2) {
+			Log.i(getClass().getSimpleName(), "removeEmptyTableRows #2 + id: "
+					+ i + "" + System.currentTimeMillis());
+
 			temp = (GroupTableRow) tableRows.get(i);
 			if (temp.getGroup().getDriverNumbers().isEmpty() && temp != field) {
 				final TableLayout tableLayout = (TableLayout) getView()
@@ -223,8 +226,17 @@ public class DriverGroupFragment extends Fragment implements Observer {
 			}
 
 		}
+		Log.i(getClass().getSimpleName(),
+				"removeEmptyTableRows #3 " + System.currentTimeMillis());
+
 		assignNameToTableRow();
+		Log.i(getClass().getSimpleName(),
+				"removeEmptyTableRows #4 " + System.currentTimeMillis());
+
 		syncToDb();
+		Log.i(getClass().getSimpleName(),
+				"removeEmptyTableRows #5 " + System.currentTimeMillis());
+
 	}
 
 	private void assignNameToTableRow() {
@@ -263,12 +275,21 @@ public class DriverGroupFragment extends Fragment implements Observer {
 	}
 
 	private void syncToDb() {
+
+		Log.i(getClass().getSimpleName(),
+				"synctoDB #1 " + System.currentTimeMillis());
+
 		RaceSituation situation = new RaceSituation(
 				HeaderFragment.mGPS.getDistanceInKm(),
 				app.getActualSelectedStage());
 
 		for (int i = 1; i < tableRows.size(); i += 2) {
-			Group gr = ((GroupTableRow) tableRows.get(i)).getGroup();
+			Log.i(getClass().getSimpleName(), "synctoDB #2 id: " + i + " "
+					+ System.currentTimeMillis());
+
+			GroupTableRow groupTableRow = (GroupTableRow) tableRows.get(i);
+			groupTableRow.rearrangeTextViews();
+			Group gr = groupTableRow.getGroup();
 			gr.setSituation(situation);
 			situation.add(gr);
 			if ((i / 2) != gr.getOrderNumber()) {
@@ -276,10 +297,21 @@ public class DriverGroupFragment extends Fragment implements Observer {
 			}
 			groupDatabaseDao.create(gr);
 		}
-		((RadioTourActivity) getActivity()).getHelper().getRaceSituationDao()
-				.create(situation);
+		Log.i(getClass().getSimpleName(),
+				"synctoDB #3" + System.currentTimeMillis());
+
+		activity.getHelper().getRaceSituationDao().create(situation);
+		Log.i(getClass().getSimpleName(),
+				"synctoDB #4" + System.currentTimeMillis());
+
 		app.setSituation(situation);
+		Log.i(getClass().getSimpleName(),
+				"synctoDB #5" + System.currentTimeMillis());
+
 		JSONConnectionQueue.getInstance().addToQueue(situation);
+		Log.i(getClass().getSimpleName(),
+				"synctoDB #6" + System.currentTimeMillis());
+
 	}
 
 	private boolean hasToCreateNewGroup(TableRow row) {
@@ -287,20 +319,30 @@ public class DriverGroupFragment extends Fragment implements Observer {
 	}
 
 	public void moveDriverNr(View destination, Set<Integer> riderNumbers) {
+		Log.i(getClass().getSimpleName(),
+				"moveDriverNr #1" + System.currentTimeMillis());
+
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}
 		GroupTableRow groupTableRow = null;
+		Log.i(getClass().getSimpleName(),
+				"moveDriverNr #2" + System.currentTimeMillis());
+
 		if (destination instanceof TableRow) {
 			if (hasToCreateNewGroup((TableRow) destination)) {
 				destination = createNewGroup(tableRows.indexOf(destination));
 			}
 			groupTableRow = (GroupTableRow) destination;
 		}
+		Log.i(getClass().getSimpleName(),
+				"moveDriverNr #3" + System.currentTimeMillis());
 
 		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
 		modificationAvoider.addAll(riderNumbers);
 		for (Integer i : modificationAvoider) {
+			Log.i(getClass().getSimpleName(), "moveDriverNr #4 : id : " + i
+					+ " " + System.currentTimeMillis());
 
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
@@ -310,11 +352,20 @@ public class DriverGroupFragment extends Fragment implements Observer {
 				driverTableRow.put(i, groupTableRow);
 			}
 		}
+		Log.i(getClass().getSimpleName(),
+				"moveDriverNr #5 " + " " + System.currentTimeMillis());
 		if (groupTableRow != null) {
-			groupTableRow.rearrangeTextViews();
-			groupDatabaseDao.createOrUpdate(groupTableRow.getGroup());
+			Log.i(getClass().getSimpleName(),
+					"moveDriverNr #6 " + " " + System.currentTimeMillis());
+
+			Log.i(getClass().getSimpleName(),
+					"moveDriverNr #7 " + " " + System.currentTimeMillis());
+
 		}
 		removeEmptyTableRows();
+		Log.i(getClass().getSimpleName(),
+				"moveDriverNr #8 " + " " + System.currentTimeMillis());
+
 	}
 
 	private void selectOnATextView(TextView v, int i) {
@@ -347,15 +398,10 @@ public class DriverGroupFragment extends Fragment implements Observer {
 		riderStageDao.update(riderStageConnection);
 	}
 
-	public void removeDriver(int i) {
+	private void removeDriver(int i) {
 		if (driverTableRow.get(i) != null) {
 			driverTableRow.get(i).removeRiderNr(i);
-			driverTableRow.get(i).rearrangeTextViews();
 		}
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		syncToDb();
-	}
 }

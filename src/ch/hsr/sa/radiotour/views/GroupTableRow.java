@@ -2,6 +2,8 @@ package ch.hsr.sa.radiotour.views;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -67,8 +69,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		description = (TextView) findViewById(R.id.txt_description);
 		time = (TextView) findViewById(R.id.txt_group_time);
 		lastTime = (TextView) findViewById(R.id.txt_group_last_time);
-		lastTime.setText("("
-				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
+		setDeficits();
 		time.setText(StringUtils.getTimeAsString(group.getHandicapTime()));
 		time.setClickable(true);
 		time.setOnClickListener(new OnClickListener() {
@@ -152,9 +153,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			changeDescription(context.getString(R.string.field));
 			this.description.setLongClickable(false);
 		}
-		time.setText(StringUtils.getTimeAsString(group.getHandicapTime()));
-		lastTime.setText("("
-				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
+		setDeficits();
 	}
 
 	public void addRider(final Integer riderNr) {
@@ -246,20 +245,36 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	@Override
 	public void setTime(final Date date) {
 		group.updateHandicapTime(date);
-		updateAndPersistDriver(date);
 
-		time.setText(StringUtils.getTimeAsString(date));
-		lastTime.setText("("
-				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
+		final List<RiderStageConnection> listToUpdate = updateAndPersistDriver(date);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (RiderStageConnection conn : listToUpdate) {
+					riderStageDao.update(conn);
+				}
+			}
+		}, "WriteToDBThread").start();
+
+		setDeficits();
 
 	}
 
-	public void updateAndPersistDriver(Date date) {
+	private void setDeficits() {
+		time.setText(StringUtils.getTimeAsString(group.getHandicapTime()));
+		lastTime.setText("("
+				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
+	}
+
+	public List<RiderStageConnection> updateAndPersistDriver(Date date) {
 		RiderStageConnection temp;
+		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getDriverNumbers()) {
 			temp = app.getRiderStage(i);
 			temp.setVirtualDeficit(date);
-			riderStageDao.update(temp);
+			modificationAvoider.add(temp);
 		}
+		return modificationAvoider;
 	}
 }

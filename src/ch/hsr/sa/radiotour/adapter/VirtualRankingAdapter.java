@@ -93,6 +93,10 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				country.setImageResource(context.getResources().getIdentifier(
 						StringUtils.getCountryFlag(rider.getCountry()),
 						"drawable", context.getPackageName()));
+
+				parent.getChildAt(position).setBackgroundColor(
+						conn.getRiderState().getBackgroundColor());
+
 			} catch (NullPointerException e) {
 				Log.d(getClass().getSimpleName(), e.getMessage()
 						+ " occured, can occur");

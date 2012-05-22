@@ -248,6 +248,9 @@ public class SpecialRakingFragment extends Fragment {
 						if (actualSpecialRanking == null) {
 							actualSpecialRanking = (SpecialRanking) spinner
 									.getSelectedItem();
+							if (actualSpecialRanking == null) {
+								return;
+							}
 						}
 						actualJudgement.setRanking(actualSpecialRanking);
 						((RadioTourActivity) getActivity()).showTextViewDialog(

@@ -200,7 +200,11 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void onRowLayoutClick(View tableRow, Set<Integer> dragObject) {
+		Log.i(getClass().getSimpleName(),
+				"onRowLayoutClick #1" + System.currentTimeMillis());
 		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
+		Log.i(getClass().getSimpleName(),
+				"onRowLayoutClick #2" + System.currentTimeMillis());
 		clearCheckedIntegers();
 	}
 
@@ -340,6 +344,8 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	@Override
 	public void update(Observable observable, Object data) {
+		Log.i(getClass().getSimpleName(),
+				"update " + System.currentTimeMillis());
 		onRowLayoutClick((View) data, checkedIntegers);
 	}
 

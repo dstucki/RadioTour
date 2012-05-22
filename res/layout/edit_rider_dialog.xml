@@ -60,7 +60,8 @@
         <EditText
             android:id="@+id/edittxt_day"
             android:layout_width="300dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" 
+            android:inputType="numberDecimal"/>
     </LinearLayout>
 
 
