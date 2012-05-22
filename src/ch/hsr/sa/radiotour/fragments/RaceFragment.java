@@ -22,8 +22,7 @@ public class RaceFragment extends Fragment {
 				.beginTransaction();
 		driverPicker = new DriverPickerFragment();
 		groupFragment = new DriverGroupFragment();
-		listener = new GroupingDragListener(getActivity(), groupFragment,
-				driverPicker);
+		listener = new GroupingDragListener(getActivity(), driverPicker);
 		driverPicker.setDragListener(listener);
 		groupFragment.setDragListener(listener);
 

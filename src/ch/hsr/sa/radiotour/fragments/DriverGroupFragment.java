@@ -311,6 +311,7 @@ public class DriverGroupFragment extends Fragment implements Observer {
 			}
 		}
 		if (groupTableRow != null) {
+			groupTableRow.rearrangeTextViews();
 			groupDatabaseDao.createOrUpdate(groupTableRow.getGroup());
 		}
 		removeEmptyTableRows();
@@ -349,6 +350,7 @@ public class DriverGroupFragment extends Fragment implements Observer {
 	public void removeDriver(int i) {
 		if (driverTableRow.get(i) != null) {
 			driverTableRow.get(i).removeRiderNr(i);
+			driverTableRow.get(i).rearrangeTextViews();
 		}
 	}
 

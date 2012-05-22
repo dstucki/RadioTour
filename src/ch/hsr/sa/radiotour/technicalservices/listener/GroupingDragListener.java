@@ -7,24 +7,19 @@ import android.graphics.Typeface;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
-import android.widget.TableRow;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
-import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
 import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 public class GroupingDragListener implements OnDragListener {
 	private View actualLayout = null;
 	private final Context ctx;
-	private final DriverGroupFragment groupFragment;
 	private final DriverPickerFragment pickerFragment;
 
-	public GroupingDragListener(Context ctx, DriverGroupFragment groupFragment,
-			DriverPickerFragment pickerFragment) {
+	public GroupingDragListener(Context ctx, DriverPickerFragment pickerFragment) {
 		this.ctx = ctx;
-		this.groupFragment = groupFragment;
 		this.pickerFragment = pickerFragment;
 	}
 
@@ -68,19 +63,5 @@ public class GroupingDragListener implements OnDragListener {
 				v.setBackgroundResource(R.drawable.create_new_group);
 			}
 		}
-	}
-
-	public void handleDuplicates(Integer riderNr) {
-		for (TableRow row : groupFragment.getTableRows()) {
-			if (row instanceof GroupTableRow
-					&& ((GroupTableRow) row).hasRiderNr(riderNr)) {
-				((GroupTableRow) row).removeRiderNr(riderNr);
-			}
-		}
-	}
-
-	public void addTextView(GroupTableRow layout, Integer riderNr) {
-		handleDuplicates(riderNr);
-		layout.addRider(riderNr);
 	}
 }

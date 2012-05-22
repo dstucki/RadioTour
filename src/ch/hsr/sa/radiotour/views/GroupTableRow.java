@@ -32,9 +32,9 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private TextView description;
 	private TextView time, lastTime;
 	private final Map<Integer, LinearLayout> map = new HashMap<Integer, LinearLayout>();
+	private final Map<Integer, TextView> mapTextView = new HashMap<Integer, TextView>();
 	private LinearLayout odd, even;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
-	private RuntimeExceptionDao<Group, Integer> groupDao;
 	private RadioTour app;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
@@ -58,7 +58,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private void createUI() {
 		DatabaseHelper helper = ((RadioTourActivity) context).getHelper();
 		riderStageDao = helper.getRiderStageDao();
-		groupDao = helper.getGroupDao();
 		app = (RadioTour) context.getApplicationContext();
 
 		LayoutInflater.from(context).inflate(
@@ -122,6 +121,20 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		this.description.setText(description);
 	}
 
+	public void rearrangeTextViews() {
+		if (group.isField()) {
+			return;
+		}
+		int count = 1;
+		for (Integer riderNr : group.getDriverNumbers()) {
+			map.get(riderNr).removeView(mapTextView.get(riderNr));
+			LinearLayout temp = count % 2 == 0 ? even : odd;
+			temp.addView(mapTextView.get(riderNr));
+			map.put(riderNr, temp);
+			count++;
+		}
+	}
+
 	public GroupTableRow(Context context) {
 		super(context);
 		group = new Group();
@@ -170,7 +183,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 			temp.addView(txtViewToAdd);
 			map.put(riderNr, temp);
-
+			mapTextView.put(riderNr, txtViewToAdd);
 			invalidate();
 			txtViewToAdd.setOnLongClickListener(new OnLongClickListener() {
 
@@ -211,7 +224,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		conn.setVirtualDeficit(new Date(0, 0, 0, 0, 0, 0));
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
-		groupDao.update(group);
 		riderStageDao.update(conn);
 		if (temp != null && !group.isField()) {
 			for (int i = 0; i < temp.getChildCount(); i++) {
@@ -234,15 +246,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	@Override
 	public void setTime(final Date date) {
 		group.updateHandicapTime(date);
-		new Thread(new Runnable() {
+		updateAndPersistDriver(date);
 
-			@Override
-			public void run() {
-				updateAndPersistDriver(date);
-
-			}
-		}, "DriverPersistThread").start();
-		groupDao.update(group);
 		time.setText(StringUtils.getTimeAsString(date));
 		lastTime.setText("("
 				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
