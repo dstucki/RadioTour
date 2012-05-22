@@ -1,12 +1,13 @@
 package ch.hsr.sa.radiotour.fragments;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,9 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
@@ -37,7 +38,9 @@ public class DriverGroupFragment extends Fragment {
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
 	private RuntimeExceptionDao<Group, Integer> groupDatabaseDao;
-	private RuntimeExceptionDao<BicycleRider, Integer> riderDatabaseDao;
+	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
+	private RadioTour app;
+	private RadioTourActivity activity;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -46,11 +49,11 @@ public class DriverGroupFragment extends Fragment {
 		driverTableRow.clear();
 		groupDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
 				.getGroupDao();
-		riderDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getBicycleRiderDao();
-		((RadioTour) getActivity().getApplication()).getGroups().clear();
-		((RadioTour) getActivity().getApplication()).getGroups().addAll(
-				groupDatabaseDao.queryForAll());
+		riderStageDao = ((RadioTourActivity) getActivity()).getHelper()
+				.getRiderStageDao();
+		activity = (RadioTourActivity) getActivity();
+		app = (RadioTour) activity.getApplication();
+
 		assignListener();
 
 		setOnClickListener();
@@ -67,8 +70,7 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	private void initializeDriverRowMap() {
-		for (Integer i : ((RadioTour) getActivity().getApplication())
-				.getRiderNumbers()) {
+		for (Integer i : app.getRiderNumbers()) {
 			driverTableRow.put(i, field);
 		}
 
@@ -87,25 +89,27 @@ public class DriverGroupFragment extends Fragment {
 				.getLayoutParams();
 		standardRowParams = (TableRow.LayoutParams) tableRows.get(0)
 				.getChildAt(0).getLayoutParams();
-
-		if (((RadioTour) getActivity().getApplication()).getGroups().isEmpty()) {
-			Log.i(getClass().getSimpleName(), "here i am");
-			Group gr = new Group();
-			gr.setField(true);
-			gr.getDriverNumbers().addAll(
-					((RadioTour) getActivity().getApplication())
-							.getRiderNumbers());
-			((RadioTour) getActivity().getApplication()).getGroups().add(gr);
-			gr.setOrderNumber(0);
+		if (app.getGroups().isEmpty()) {
+			Group gr = createFieldGroup();
 			field.setGroup(gr);
-			return;
+			app.getSituation().add(gr);
+		} else {
+			alreadyGroupsHere();
 		}
-		alreadyGroupsHere();
+	}
+
+	public Group createFieldGroup() {
+		Group gr = new Group();
+		gr.setSituation(app.getSituation());
+		gr.setField(true);
+		gr.getDriverNumbers().addAll(app.getRiderNumbers());
+		gr.setOrderNumber(0);
+		return gr;
 	}
 
 	private void alreadyGroupsHere() {
 		int counter = 0;
-		for (Group g : ((RadioTour) getActivity().getApplication()).getGroups()) {
+		for (Group g : app.getGroups()) {
 			if (!g.isField()) {
 				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
@@ -208,7 +212,6 @@ public class DriverGroupFragment extends Fragment {
 				final TableLayout tableLayout = (TableLayout) getView()
 						.findViewById(R.id.groupTableLayout);
 				tableLayout.removeView(temp);
-				groupDatabaseDao.delete(temp.getGroup());
 				tableRows.remove(i);
 				tableLayout.removeView(tableRows.get(i));
 				tableRows.remove(i);
@@ -225,34 +228,53 @@ public class DriverGroupFragment extends Fragment {
 		int counter = 1;
 		String prefix = getString(R.string.top);
 		if (locationOfField > counter) {
-			((GroupTableRow) tableRows.get(counter)).changeDescription(prefix);
+			GroupTableRow temp = ((GroupTableRow) tableRows.get(counter));
+			temp.getGroup().setLeader(true);
+			temp.setTime(new Date(0, 0, 0, 0, 0, 0));
+			temp.changeDescription(prefix);
 		}
+
+		if (locationOfField == counter) {
+			field.getGroup().setLeader(true);
+			field.setTime(new Date(0, 0, 0, 0, 0, 0));
+		} else {
+			field.getGroup().setLeader(false);
+		}
+
 		counter += 2;
 		prefix = getString(R.string.follower);
 		for (; counter < locationOfField; counter += 2) {
-			((GroupTableRow) tableRows.get(counter)).changeDescription(prefix
-					+ ((counter / 2) + 1));
+			GroupTableRow temp = ((GroupTableRow) tableRows.get(counter));
+			temp.changeDescription(prefix + ((counter / 2) + 1));
+			temp.getGroup().setLeader(false);
+
 		}
 		prefix = getString(R.string.detached);
 		for (counter = locationOfField + 2; counter < tableRows.size(); counter += 2) {
-			((GroupTableRow) tableRows.get(counter)).changeDescription(prefix
-					+ ((counter - locationOfField) / 2));
+			GroupTableRow temp = ((GroupTableRow) tableRows.get(counter));
+			temp.changeDescription(prefix + ((counter - locationOfField) / 2));
+			temp.getGroup().setLeader(false);
 		}
 
 	}
 
 	private void syncToDb() {
 		RaceSituation situation = new RaceSituation(
-				HeaderFragment.mGPS.getDistanceInKm());
+				HeaderFragment.mGPS.getDistanceInKm(),
+				app.getActualSelectedStage());
 
 		for (int i = 1; i < tableRows.size(); i += 2) {
 			Group gr = ((GroupTableRow) tableRows.get(i)).getGroup();
+			gr.setSituation(situation);
 			situation.add(gr);
 			if ((i / 2) != gr.getOrderNumber()) {
 				gr.setOrderNumber(i / 2);
-				groupDatabaseDao.createOrUpdate(gr);
 			}
+			groupDatabaseDao.create(gr);
 		}
+		((RadioTourActivity) getActivity()).getHelper().getRaceSituationDao()
+				.create(situation);
+		app.setSituation(situation);
 		JSONConnectionQueue.getInstance().addToQueue(situation);
 	}
 
@@ -260,7 +282,7 @@ public class DriverGroupFragment extends Fragment {
 		return tableRows.indexOf(row) % 2 == 0;
 	}
 
-	public void moveDriverNr(View destination, TreeSet<Integer> riderNumbers) {
+	public void moveDriverNr(View destination, Set<Integer> riderNumbers) {
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}
@@ -314,10 +336,10 @@ public class DriverGroupFragment extends Fragment {
 			break;
 
 		}
-		BicycleRider bicycleRider = ((RadioTour) getActivity().getApplication())
-				.getRider(i);
-		bicycleRider.setRiderState(newState);
-		riderDatabaseDao.update(bicycleRider);
+		RiderStageConnection riderStageConnection = ((RadioTour) getActivity()
+				.getApplication()).getRiderStage(i);
+		riderStageConnection.setRiderState(newState);
+		riderStageDao.update(riderStageConnection);
 	}
 
 	public void removeDriver(int i) {

@@ -14,21 +14,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
-public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
+public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 
-	private final ArrayList<BicycleRider> riders;
+	private final ArrayList<RiderStageConnection> connecters;
 	private final Context context;
-	private final List<BicycleRider> copyForCalculateVirtualRank;
+	private final List<RiderStageConnection> copyForCalculateVirtualRank;
 
 	public VirtualRankingAdapter(Context context, int resource,
-			int textViewResourceId, ArrayList<BicycleRider> objects) {
+			int textViewResourceId, ArrayList<RiderStageConnection> objects) {
 		super(context, resource, textViewResourceId, objects);
-		riders = objects;
-		copyForCalculateVirtualRank = new ArrayList<BicycleRider>();
-		copyForCalculateVirtualRank.addAll(riders);
+		connecters = objects;
+		copyForCalculateVirtualRank = new ArrayList<RiderStageConnection>();
+		copyForCalculateVirtualRank.addAll(connecters);
 		Collections.sort(copyForCalculateVirtualRank,
 				new RiderSortStrategy.SortByVirtualDeficit());
 		this.context = context;
@@ -36,9 +37,9 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 
 	public void sort(RiderSortStrategy strategy) {
 		if (strategy.isAscending()) {
-			Collections.sort(riders, Collections.reverseOrder(strategy));
+			Collections.sort(connecters, Collections.reverseOrder(strategy));
 		} else {
-			Collections.sort(riders, strategy);
+			Collections.sort(connecters, strategy);
 		}
 		Collections.sort(copyForCalculateVirtualRank,
 				new RiderSortStrategy.SortByVirtualDeficit());
@@ -53,7 +54,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.virtual_ranking_item_singlerace, null);
 		}
-		final BicycleRider rider = riders.get(position);
+		final RiderStageConnection conn = connecters.get(position);
+		final BicycleRider rider = conn.getRider();
 		if (rider != null) {
 			try {
 				TextView temp = (TextView) v.findViewById(R.id.rang);
@@ -81,8 +83,8 @@ public class VirtualRankingAdapter extends ArrayAdapter<BicycleRider> {
 				// temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
 				// 0, 0)));
 				temp = (TextView) v.findViewById(R.id.virtualDeficit);
-				temp.setText(StringUtils.getTimeAsString(rider
-						.getVirtual_deficit()));
+				temp.setText(StringUtils.getTimeAsString(conn
+						.getVirtualDeficit()));
 
 				temp = (TextView) v.findViewById(R.id.land_text);
 				temp.setText(rider.getCountry());

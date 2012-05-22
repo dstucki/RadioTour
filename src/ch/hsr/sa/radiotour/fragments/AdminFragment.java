@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
-import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 
@@ -46,6 +47,7 @@ public class AdminFragment extends Fragment {
 	private EditText start, destination, distance;
 	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
 	private RuntimeExceptionDao<BicycleRider, Integer> riderDbDao;
+	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private RuntimeExceptionDao<Maillot, Integer> maillotDbDao;
 	private Spinner stageSpinner;
 	private final OnClickListener saveListener = new OnClickListener() {
@@ -67,6 +69,11 @@ public class AdminFragment extends Fragment {
 			adapterForStageSpinner.add(actualStage);
 			stageSpinner.setSelection(adapterForStageSpinner
 					.getPosition(actualStage));
+			RiderStageConnection conn;
+			for (BicycleRider rider : app.getRiders()) {
+				conn = new RiderStageConnection(actualStage, rider);
+				riderStageDao.create(conn);
+			}
 			loadInformation(actualStage);
 		}
 	};
@@ -86,6 +93,8 @@ public class AdminFragment extends Fragment {
 			Stage actualStage = (Stage) stageSpinner.getSelectedItem();
 			adapterForStageSpinner.remove(actualStage);
 			stageDbDao.delete(actualStage);
+			riderStageDao.delete(riderStageDao
+					.queryForEq("etappe", actualStage));
 		}
 	};
 
@@ -94,9 +103,29 @@ public class AdminFragment extends Fragment {
 		public void onItemSelected(AdapterView<?> parentView,
 				View selectedItemView, int position, long id) {
 			final Stage actualStage = adapterForStageSpinner.getItem(position);
-			app.setActualSelectedStage(actualStage);
-			loadInformation(actualStage);
 			activity.updateStage(actualStage);
+			app.getRiderPerStage().clear();
+			List<RiderStageConnection> conns = riderStageDao.queryForEq(
+					"etappe", actualStage);
+			if (conns.size() > 0) {
+				for (RiderStageConnection conn : riderStageDao.queryForEq(
+						"etappe", actualStage)) {
+					app.add(conn);
+				}
+			} else {
+				for (BicycleRider rider : app.getRiders()) {
+					final RiderStageConnection tempConn = new RiderStageConnection(
+							actualStage, rider);
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							riderStageDao.create(tempConn);
+						}
+					}).start();
+				}
+			}
+			loadInformation(actualStage);
 		}
 
 		@Override
@@ -122,6 +151,7 @@ public class AdminFragment extends Fragment {
 		app = (RadioTour) activity.getApplication();
 		stageDbDao = activity.getHelper().getStageDao();
 		riderDbDao = activity.getHelper().getBicycleRiderDao();
+		riderStageDao = activity.getHelper().getRiderStageDao();
 		maillotDbDao = activity.getHelper().getMaillotRuntimeDao();
 		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
@@ -239,6 +269,10 @@ public class AdminFragment extends Fragment {
 					BicycleRider.class, true);
 			TableUtils.createTable(activity.getHelper().getConnectionSource(),
 					BicycleRider.class);
+			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
+					RiderStageConnection.class, true);
+			TableUtils.createTable(activity.getHelper().getConnectionSource(),
+					RiderStageConnection.class);
 		} catch (SQLException e1) {
 			Log.e(getClass().getSimpleName(), e1.getMessage());
 		}
@@ -253,9 +287,12 @@ public class AdminFragment extends Fragment {
 		for (String[] riderAsString : reader.readFile()) {
 			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
 					riderAsString[1], riderAsString[2], riderAsString[3], "");
-			bicycleRider.setRiderState(RiderState.ACTIV);
 			riderDbDao.create(bicycleRider);
+			final RiderStageConnection conn = new RiderStageConnection(
+					app.getActualSelectedStage(), bicycleRider);
+			riderStageDao.create(conn);
 			app.add(bicycleRider);
+			app.add(conn);
 		}
 
 	}
@@ -271,6 +308,10 @@ public class AdminFragment extends Fragment {
 					Stage.class, true);
 			TableUtils.createTable(activity.getHelper().getConnectionSource(),
 					Stage.class);
+			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
+					RiderStageConnection.class, true);
+			TableUtils.createTable(activity.getHelper().getConnectionSource(),
+					RiderStageConnection.class);
 		} catch (SQLException e1) {
 			Log.e(getClass().getSimpleName(), e1.getMessage());
 		}

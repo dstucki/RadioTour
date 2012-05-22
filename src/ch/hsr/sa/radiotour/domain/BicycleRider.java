@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.domain;
 
 import java.util.Date;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -21,15 +20,7 @@ public class BicycleRider {
 	@DatabaseField
 	private String comment;
 	@DatabaseField
-	private Date official_time;
-	@DatabaseField
 	private Date birthday;
-	@DatabaseField
-	private Date official_deficit;
-	@DatabaseField
-	private Date virtual_deficit;
-	@DatabaseField(dataType = DataType.ENUM_STRING)
-	private RiderState activ;
 	@DatabaseField
 	private String category;
 	@DatabaseField
@@ -114,38 +105,6 @@ public class BicycleRider {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public Date getOfficial_time() {
-		return official_time;
-	}
-
-	public void setOfficial_time(Date official_time) {
-		this.official_time = official_time;
-	}
-
-	public Date getOfficial_deficit() {
-		return official_deficit;
-	}
-
-	public void setOfficial_deficit(Date official_deficit) {
-		this.official_deficit = official_deficit;
-	}
-
-	public Date getVirtual_deficit() {
-		return virtual_deficit;
-	}
-
-	public void setVirtual_deficit(Date virtual_deficit) {
-		this.virtual_deficit = virtual_deficit;
-	}
-
-	public RiderState getRiderState() {
-		return activ;
-	}
-
-	public void setRiderState(RiderState activ) {
-		this.activ = activ;
 	}
 
 	public String getCategory() {

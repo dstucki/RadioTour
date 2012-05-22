@@ -11,6 +11,8 @@ import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
@@ -43,6 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private RuntimeExceptionDao<SpecialRanking, Integer> specialRankingDao = null;
 	private RuntimeExceptionDao<Judgement, Integer> judgementRankingDao = null;
 	private RuntimeExceptionDao<Maillot, Integer> maillotRuntimeDao = null;
+	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao = null;
+	private RuntimeExceptionDao<RaceSituation, Long> raceSituationDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -65,6 +69,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, SpecialRanking.class);
 			TableUtils.createTable(connectionSource, Judgement.class);
 			TableUtils.createTable(connectionSource, Maillot.class);
+			TableUtils.createTable(connectionSource, RaceSituation.class);
+			TableUtils
+					.createTable(connectionSource, RiderStageConnection.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -89,6 +96,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(connectionSource, SpecialRanking.class, true);
 			TableUtils.dropTable(connectionSource, Judgement.class, true);
 			TableUtils.dropTable(connectionSource, Maillot.class, true);
+			TableUtils.dropTable(connectionSource, RaceSituation.class, true);
+			TableUtils.dropTable(connectionSource, RiderStageConnection.class,
+					true);
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -157,6 +167,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return maillotRuntimeDao;
 	}
 
+	public RuntimeExceptionDao<RiderStageConnection, Integer> getRiderStageDao() {
+		if (riderStageDao == null) {
+			riderStageDao = getRuntimeExceptionDao(RiderStageConnection.class);
+		}
+		return riderStageDao;
+	}
+
+	public RuntimeExceptionDao<RaceSituation, Long> getRaceSituationDao() {
+		if (raceSituationDao == null) {
+			raceSituationDao = getRuntimeExceptionDao(RaceSituation.class);
+		}
+		return raceSituationDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -171,5 +195,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		specialRankingDao = null;
 		judgementRankingDao = null;
 		maillotRuntimeDao = null;
+		riderStageDao = null;
+		raceSituationDao = null;
 	}
 }

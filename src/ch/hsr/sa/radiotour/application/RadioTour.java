@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Application;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
@@ -16,10 +19,12 @@ import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferences
 
 public class RadioTour extends Application {
 	private final LinkedHashMap<Integer, BicycleRider> riders = new LinkedHashMap<Integer, BicycleRider>();
+	private final Map<Integer, RiderStageConnection> riderPerStage = new LinkedHashMap<Integer, RiderStageConnection>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
 	private final LinkedList<Group> groups = new LinkedList<Group>();
 	private final static String THREAD_NAME = "serverthread";
 	private Stage actualSelectedStage;
+	private RaceSituation situation;
 
 	public RadioTour() {
 		super();
@@ -59,6 +64,10 @@ public class RadioTour extends Application {
 	}
 
 	public List<Group> getGroups() {
+		groups.clear();
+		if (situation != null) {
+			groups.addAll(situation.getGroups());
+		}
 		Collections.sort(groups);
 		return groups;
 	}
@@ -75,4 +84,23 @@ public class RadioTour extends Application {
 		}
 	}
 
+	public Map<Integer, RiderStageConnection> getRiderPerStage() {
+		return riderPerStage;
+	}
+
+	public RiderStageConnection getRiderStage(int startNr) {
+		return riderPerStage.get(startNr);
+	}
+
+	public void add(RiderStageConnection conn) {
+		riderPerStage.put(conn.getRider().getStartNr(), conn);
+	}
+
+	public RaceSituation getSituation() {
+		return situation;
+	}
+
+	public void setSituation(RaceSituation situation) {
+		this.situation = situation;
+	}
 }

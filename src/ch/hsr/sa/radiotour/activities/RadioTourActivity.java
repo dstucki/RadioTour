@@ -1,12 +1,11 @@
 package ch.hsr.sa.radiotour.activities;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
+import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Activity;
@@ -24,8 +23,10 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
-import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
@@ -50,19 +51,22 @@ import ch.hsr.sa.radiotour.views.SpecialRankingDialog;
 import ch.hsr.sa.radiotour.views.TextViewDialog;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 public class RadioTourActivity extends Activity implements Observer,
 		OnClickListener {
+
 	protected Dialog mSplashDialog;
 
-	private final TreeSet<Integer> checkedIntegers = new TreeSet<Integer>();
-	private final HashSet<TextView> checkedViews = new HashSet<TextView>();
+	private final Set<Integer> checkedIntegers = new TreeSet<Integer>();
+	private final Set<TextView> checkedViews = new HashSet<TextView>();
 	private RaceFragment raceFragment;
 	private VirtualRankingFragment rankingFragment;
 	private AdminFragment adminFragment;
 	private SpecialRakingFragment specialRankingFragment;
 
-	public TreeSet<Integer> getCheckedIntegers() {
+	public Set<Integer> getCheckedIntegers() {
 		return checkedIntegers;
 	}
 
@@ -75,7 +79,9 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	public void showRaceFragment() {
 		setContentView(R.layout.base_activity);
+		application = (RadioTour) getApplication();
 		raceFragment = new RaceFragment();
+
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.changeLayout, raceFragment);
@@ -115,81 +121,48 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void importDriverandTeams() {
-		RadioTour application = (RadioTour) getApplication();
+		application = (RadioTour) getApplication();
 		application.getRiders().clear();
-		application.getGroups().clear();
 		application.getTeams().clear();
+		application.getRiderPerStage().clear();
+
+		for (BicycleRider rider : getHelper().getBicycleRiderDao()
+				.queryForAll()) {
+			application.add(rider);
+		}
 
 		SharedPreferencesHelper.initializePreferences(getApplicationContext());
 
 		Stage stage;
+
 		stage = getHelper().getStageDao().queryForId(
 				SharedPreferencesHelper.preferences().getSelectedStage());
-
-		((RadioTour) getApplication()).setActualSelectedStage(stage);
-
-		for (BicycleRider rider : getHelper().getBicycleRiderDao()
-				.queryForAll()) {
-			((RadioTour) getApplication()).add(rider);
+		if (stage == null) {
+			stage = new Stage("Start", "Ziel");
+			stage.setWholeDistance(1337D);
+			getHelper().getStageDao().create(stage);
 		}
-		((RadioTour) getApplication()).getGroups().addAll(
-				databaseHelper.getGroupDao().queryForAll());
-		Collections.sort(((RadioTour) getApplication()).getGroups());
 
-		for (Team team : ((RadioTour) getApplication()).getTeams()) {
+		updateStage(stage);
+
+		List<RiderStageConnection> conns = getHelper().getRiderStageDao()
+				.queryForEq("etappe", stage);
+		if (conns.size() == 0) {
+			RiderStageConnection conn;
+			for (BicycleRider rider : application.getRiders()) {
+				conn = new RiderStageConnection(stage, rider);
+				getHelper().getRiderStageDao().create(conn);
+				application.add(conn);
+			}
+		} else {
+			for (RiderStageConnection conn : conns) {
+				application.add(conn);
+			}
+		}
+		for (Team team : application.getTeams()) {
 			databaseHelper.getTeamDao().create(team);
 		}
 
-	}
-
-	private PointOfRace convertStringArrayToPoint(String[] pointAsString) {
-		int altitude = Integer.valueOf(pointAsString[0]);
-		String name = pointAsString[1];
-		double distance = Double.valueOf(pointAsString[2]);
-		Date date = null;
-		try {
-			date = new SimpleDateFormat("HH:mm").parse(pointAsString[3]);
-		} catch (ParseException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
-		int round = Integer.valueOf(pointAsString[4]);
-
-		return new PointOfRace(altitude, distance, name, date, round);
-	}
-
-	private BicycleRider convertStringArrayToRider(String[] riderAsString) {
-		try {
-			// Berner Rundfahrt Startliste
-			int startNr = Integer.valueOf(riderAsString[0]);
-			String name = riderAsString[1] + " " + riderAsString[2];
-			String team = riderAsString[3];
-			String country = riderAsString[4].substring(0, 3);
-			Date birthday = null;
-			try {
-				birthday = new SimpleDateFormat("yyyyMMdd")
-						.parse(riderAsString[4].substring(3));
-			} catch (ParseException e) {
-				Log.e(getClass().getSimpleName(), e.getMessage());
-			}
-
-			BicycleRider bicycleRider = new BicycleRider();
-			bicycleRider.setStartNr(startNr);
-			bicycleRider.setName(name);
-			bicycleRider.setTeam(team);
-			bicycleRider.setCountry(country);
-			bicycleRider.setBirthday(birthday);
-			bicycleRider.setRiderState(RiderState.ACTIV);
-
-			// BicycleRider bicycleRider = new BicycleRider(
-			// Integer.valueOf(riderAsString[0]), riderAsString[1],
-			// riderAsString[2], riderAsString[3], "");
-
-			databaseHelper.getBicycleRiderDao().create(bicycleRider);
-			return bicycleRider;
-		} catch (NumberFormatException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
-		return null;
 	}
 
 	@Override
@@ -206,10 +179,9 @@ public class RadioTourActivity extends Activity implements Observer,
 				checkedID = Integer.valueOf(temp.getText().toString()
 						.substring(0, indexSpace));
 			}
-			BicycleRider rider = ((RadioTour) getApplication())
-					.getRider(checkedID);
-			rider.setRiderState(RiderState.ACTIV);
-			getHelper().getBicycleRiderDao().update(rider);
+			RiderStageConnection conn = application.getRiderStage(checkedID);
+			conn.setRiderState(RiderState.ACTIV);
+			getHelper().getRiderStageDao().update(conn);
 
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
@@ -227,7 +199,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
-	public void onRowLayoutClick(View tableRow, TreeSet<Integer> dragObject) {
+	public void onRowLayoutClick(View tableRow, Set<Integer> dragObject) {
 		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
 		clearCheckedIntegers();
 	}
@@ -237,6 +209,8 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	private DatabaseHelper databaseHelper = null;
+
+	private RadioTour application;
 
 	@Override
 	protected void onDestroy() {
@@ -328,7 +302,7 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	}
 
-	public void showRiderDialog(BicycleRider rider,
+	public void showRiderDialog(RiderStageConnection conn,
 			VirtualRankingAdapter adapter) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("riderDialog");
@@ -337,7 +311,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		EditRiderDialog newFragment = new EditRiderDialog(rider, adapter);
+		EditRiderDialog newFragment = new EditRiderDialog(conn, adapter);
 		newFragment.show(ft, "riderDialog");
 	}
 
@@ -419,7 +393,46 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void updateStage(Stage actualStage) {
-		((HeaderFragment) getFragmentManager().findFragmentById(
-				R.id.headerFragment)).updateStage(actualStage);
+		if (application.getActualSelectedStage() != null
+				&& actualStage.getId() == application.getActualSelectedStage()
+						.getId()) {
+			return;
+		}
+		application.setActualSelectedStage(actualStage);
+		try {
+			application.setSituation(getNewestRaceSituation(actualStage));
+		} catch (SQLException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+		}
+		HeaderFragment h = ((HeaderFragment) getFragmentManager()
+				.findFragmentById(R.id.headerFragment));
+		if (h != null) {
+			h.updateStage(actualStage);
+		}
+	}
+
+	private RaceSituation getNewestRaceSituation(Stage stage)
+			throws SQLException {
+		RuntimeExceptionDao<RaceSituation, Long> raceSituationDao = databaseHelper
+				.getRaceSituationDao();
+		QueryBuilder<RaceSituation, Long> qb = raceSituationDao.queryBuilder();
+		qb.orderBy("timestamp", false).where().eq("etappe", stage);
+		qb.limit(1L);
+		RaceSituation rs = raceSituationDao.queryForFirst(qb.prepare());
+		if (rs == null) {
+			rs = new RaceSituation(0, stage);
+			databaseHelper.getRaceSituationDao().create(rs);
+			return rs;
+		}
+		rs.addAll(getGroups(rs));
+		return rs;
+	}
+
+	private List<Group> getGroups(RaceSituation rs) throws SQLException {
+		QueryBuilder<Group, Integer> queryBuilder = getHelper().getGroupDao()
+				.queryBuilder();
+		queryBuilder.where().eq("racesituation", rs);
+		return getHelper().getGroupDao().query(queryBuilder.prepare());
+
 	}
 }

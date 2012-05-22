@@ -17,7 +17,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
 
 public class VirtualRankingFragment extends ListFragment {
@@ -38,16 +38,16 @@ public class VirtualRankingFragment extends ListFragment {
 					int position, long id) {
 				if (position > 0) {
 					((RadioTourActivity) getActivity()).showRiderDialog(
-							(BicycleRider) parent.getAdapter()
-									.getItem(position), adapter);
+							(RiderStageConnection) parent.getAdapter().getItem(
+									position), adapter);
 				}
 			}
 
 		});
 		adapter = new VirtualRankingAdapter(getActivity(),
 				R.layout.picklist_item, R.id.startNr1,
-				(ArrayList<BicycleRider>) ((RadioTour) getActivity()
-						.getApplication()).getRiders());
+				new ArrayList<RiderStageConnection>(((RadioTour) getActivity()
+						.getApplication()).getRiderPerStage().values()));
 		setListAdapter(adapter);
 
 	}

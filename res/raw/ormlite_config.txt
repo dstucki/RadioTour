@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/21 02:35:48
+# generated on 2012/05/22 11:26:56
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
@@ -25,20 +25,7 @@ fieldName=country
 fieldName=comment
 # --field-end--
 # --field-start--
-fieldName=official_time
-# --field-end--
-# --field-start--
 fieldName=birthday
-# --field-end--
-# --field-start--
-fieldName=official_deficit
-# --field-end--
-# --field-start--
-fieldName=virtual_deficit
-# --field-end--
-# --field-start--
-fieldName=activ
-dataPersister=ENUM_STRING
 # --field-end--
 # --field-start--
 fieldName=category
@@ -150,6 +137,74 @@ fieldName=stage
 columnName=etappe
 foreign=true
 foreignAutoRefresh=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.RaceSituation
+tableName=racesituation
+# --table-fields-start--
+# --field-start--
+fieldName=timestamp
+id=true
+# --field-end--
+# --field-start--
+fieldName=racekm
+# --field-end--
+# --field-start--
+fieldName=stage
+columnName=etappe
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.RiderStageConnection
+tableName=riderstageconnection
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=rider
+columnName=rider
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=stage
+columnName=etappe
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=bonusPoints
+# --field-end--
+# --field-start--
+fieldName=officialRank
+# --field-end--
+# --field-start--
+fieldName=riderState
+dataPersister=ENUM_STRING
+# --field-end--
+# --field-start--
+fieldName=officialDeficit
+dataPersister=DATE_LONG
+# --field-end--
+# --field-start--
+fieldName=officialTime
+dataPersister=DATE_LONG
+# --field-end--
+# --field-start--
+fieldName=virtualDeficit
+dataPersister=DATE_LONG
+# --field-end--
+# --field-start--
+fieldName=bonusTime
 # --field-end--
 # --table-fields-end--
 # --table-end--

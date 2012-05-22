@@ -21,8 +21,14 @@ public class Group extends Observable implements Comparable<Group> {
 	private TreeSet<Integer> driverNumbers;
 	@DatabaseField(dataType = DataType.BOOLEAN)
 	private boolean isField = false;
+	@DatabaseField(dataType = DataType.BOOLEAN)
+	private boolean isLeader = false;
 	@DatabaseField(dataType = DataType.DATE)
 	private Date handicapTime;
+	@DatabaseField(dataType = DataType.DATE)
+	private Date lastHandiCap;
+	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "racesituation")
+	private RaceSituation situation;
 	@DatabaseField
 	private int orderNumber;
 
@@ -55,6 +61,13 @@ public class Group extends Observable implements Comparable<Group> {
 	}
 
 	public void setHandicapTime(Date handicapTime) {
+		Date last;
+		if (this.handicapTime == null) {
+			last = new Date(0, 0, 0, 0, 0, 0);
+		} else {
+			last = new Date(this.handicapTime.getTime());
+		}
+		setLastHandiCap(last);
 		this.handicapTime = handicapTime;
 	}
 
@@ -87,12 +100,38 @@ public class Group extends Observable implements Comparable<Group> {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("groupnr", orderNumber);
-			json.put("drivernumb", new JSONArray(driverNumbers));
+			if (!isField) {
+				json.put("drivernumb", new JSONArray(driverNumbers));
+			}
 			json.put("handicaptime", getHandicapInMilliseconds());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return json;
+	}
+
+	public RaceSituation getSituation() {
+		return situation;
+	}
+
+	public void setSituation(RaceSituation situation) {
+		this.situation = situation;
+	}
+
+	public boolean isLeader() {
+		return isLeader;
+	}
+
+	public void setLeader(boolean isLeader) {
+		this.isLeader = isLeader;
+	}
+
+	public Date getLastHandiCap() {
+		return lastHandiCap;
+	}
+
+	public void setLastHandiCap(Date lastHandiCap) {
+		this.lastHandiCap = lastHandiCap;
 	}
 
 }

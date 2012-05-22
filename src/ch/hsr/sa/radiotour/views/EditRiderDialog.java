@@ -18,19 +18,22 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 
 public class EditRiderDialog extends DialogFragment {
 
 	private static final String BIRTHDAY_TEMPLATE = "dd.MM.yyyy";
-	private BicycleRider rider;
+	private final RiderStageConnection connecter;
+	private final BicycleRider rider;
 	private final VirtualRankingAdapter adapter;
 	private View v;
 
-	public EditRiderDialog(BicycleRider bicycleRider,
+	public EditRiderDialog(RiderStageConnection connecter,
 			VirtualRankingAdapter adapter) {
 		super();
-		rider = bicycleRider;
+		this.connecter = connecter;
+		rider = connecter.getRider();
 		this.adapter = adapter;
 	}
 
@@ -61,10 +64,10 @@ public class EditRiderDialog extends DialogFragment {
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				rider.setRiderState(getRiderState(checkedId));
+				connecter.setRiderState(getRiderState(checkedId));
 			}
 		});
-		RadioButton temp = ((RadioButton) v.findViewById(getRadioID(rider
+		RadioButton temp = ((RadioButton) v.findViewById(getRadioID(connecter
 				.getRiderState())));
 		temp.setChecked(true);
 	}
@@ -109,11 +112,8 @@ public class EditRiderDialog extends DialogFragment {
 		}
 		((RadioTourActivity) getActivity()).getHelper().getBicycleRiderDao()
 				.update(rider);
-	}
-
-	public void setRider(BicycleRider rider) {
-		this.rider = rider;
-		fillRiderInformation();
+		((RadioTourActivity) getActivity()).getHelper().getRiderStageDao()
+				.update(connecter);
 	}
 
 	@Override

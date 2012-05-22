@@ -16,7 +16,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
@@ -68,16 +68,17 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 
 		Team team = teams.get(position);
 		int counter = 0;
-		BicycleRider rider;
+		RiderStageConnection conn;
 
 		for (Integer driverNumber : team.getDriverNumbers()) {
-			rider = ((RadioTour) context.getApplicationContext())
-					.getRider(driverNumber);
-			if (rider != null) {
+			conn = ((RadioTour) context.getApplicationContext())
+					.getRiderStage(driverNumber);
+
+			if (conn != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
 
-				if (rider.getRiderState() == RiderState.GIVEUP
-						|| rider.getRiderState() == RiderState.NOT_STARTED) {
+				if (conn.getRiderState() == RiderState.GIVEUP
+						|| conn.getRiderState() == RiderState.NOT_STARTED) {
 					temp.setOnClickListener(null);
 					temp.setOnLongClickListener(null);
 					temp.setClickable(false);
@@ -89,8 +90,8 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 					temp.setOnLongClickListener(longClickListener);
 				}
 				temp.setText(Integer.toString(driverNumber));
-				temp.setTextColor(rider.getRiderState().getTextColor());
-				temp.setBackgroundColor((rider.getRiderState()
+				temp.setTextColor(conn.getRiderState().getTextColor());
+				temp.setBackgroundColor((conn.getRiderState()
 						.getBackgroundColor()));
 			}
 		}
