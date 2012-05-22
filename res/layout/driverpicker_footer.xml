@@ -10,17 +10,11 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/not_started"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="@string/not_started_abbreviation"
-            android:textSize="20px" />
+       
         <TextView
             android:id="@+id/arzt"
             android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/doctor"
             android:textSize="20px" />
@@ -28,7 +22,7 @@
         <TextView
             android:id="@+id/sturz"
             android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/fall"
             android:textSize="20px" />
@@ -36,7 +30,7 @@
         <TextView
             android:id="@+id/defekt"
             android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/defect"
             android:textSize="20px" />
@@ -44,9 +38,16 @@
         <TextView
             android:id="@+id/aufgabe"
             android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/giveup"
+            android:textSize="20px" />
+         <TextView
+            android:id="@+id/not_started"
+            android:layout_width="96dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/not_started_abbreviation"
             android:textSize="20px" />
     </LinearLayout>
 
@@ -59,7 +60,7 @@
         <TextView
             android:id="@+id/clear"
             android:layout_width="480dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:clickable="true"
             android:gravity="center"
             android:onClick="clearCheckedIntegersOnclick"
