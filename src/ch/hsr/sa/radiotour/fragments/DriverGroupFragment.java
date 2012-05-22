@@ -3,6 +3,8 @@ package ch.hsr.sa.radiotour.fragments;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,7 +31,7 @@ import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-public class DriverGroupFragment extends Fragment {
+public class DriverGroupFragment extends Fragment implements Observer {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
 	private LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
@@ -100,6 +102,7 @@ public class DriverGroupFragment extends Fragment {
 
 	public Group createFieldGroup() {
 		Group gr = new Group();
+		gr.addObserver(this);
 		gr.setSituation(app.getSituation());
 		gr.setField(true);
 		gr.getDriverNumbers().addAll(app.getRiderNumbers());
@@ -110,6 +113,7 @@ public class DriverGroupFragment extends Fragment {
 	private void alreadyGroupsHere() {
 		int counter = 0;
 		for (Group g : app.getGroups()) {
+			g.addObserver(this);
 			if (!g.isField()) {
 				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
@@ -346,5 +350,10 @@ public class DriverGroupFragment extends Fragment {
 		if (driverTableRow.get(i) != null) {
 			driverTableRow.get(i).removeRiderNr(i);
 		}
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		syncToDb();
 	}
 }

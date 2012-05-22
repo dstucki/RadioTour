@@ -61,14 +61,20 @@ public class Group extends Observable implements Comparable<Group> {
 	}
 
 	public void setHandicapTime(Date handicapTime) {
+		this.handicapTime = handicapTime;
+	}
+
+	public void updateHandicapTime(Date handicapTime) {
 		Date last;
 		if (this.handicapTime == null) {
 			last = new Date(0, 0, 0, 0, 0, 0);
 		} else {
 			last = new Date(this.handicapTime.getTime());
 		}
+		setHandicapTime(handicapTime);
 		setLastHandiCap(last);
-		this.handicapTime = handicapTime;
+		setChanged();
+		notifyObservers();
 	}
 
 	public int getId() {
@@ -100,6 +106,8 @@ public class Group extends Observable implements Comparable<Group> {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("groupnr", orderNumber);
+			json.put("isLeader", isLeader);
+			json.put("isField", isField);
 			if (!isField) {
 				json.put("drivernumb", new JSONArray(driverNumbers));
 			}

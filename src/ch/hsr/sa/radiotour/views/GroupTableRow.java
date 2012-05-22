@@ -107,7 +107,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 		description.setTextSize(30);
 		time.setTextSize(25);
-		lastTime.setTextSize(20);
+		lastTime.setTextSize(18);
 
 	}
 
@@ -140,6 +140,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			this.description.setLongClickable(false);
 		}
 		time.setText(StringUtils.getTimeAsString(group.getHandicapTime()));
+		lastTime.setText("("
+				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
 	}
 
 	public void addRider(final Integer riderNr) {
@@ -231,7 +233,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	@Override
 	public void setTime(final Date date) {
-		group.setHandicapTime(date);
+		group.updateHandicapTime(date);
 		new Thread(new Runnable() {
 
 			@Override
