@@ -12,8 +12,13 @@ public class StringUtils {
 			return "00:00";
 		}
 		final StringBuilder tempString = new StringBuilder();
+		int additionalHours = 0;
+		additionalHours += date.getDay() * 24;
+
 		if (date.getHours() != 0) {
-			tempString.append(formatter.format(date.getHours()));
+
+			tempString.append(formatter.format(additionalHours
+					+ date.getHours()));
 			tempString.append(':');
 		}
 		tempString.append(formatter.format(date.getMinutes()));
@@ -23,13 +28,18 @@ public class StringUtils {
 	}
 
 	public static String getTimeWithoutSecondsAsString(Date date) {
+
 		final NumberFormat formatter = new DecimalFormat("00");
 		if (date == null) {
 			return "00:00";
 		}
+		int additionalHours = 0;
+		additionalHours += date.getDay() * 24;
+
 		final StringBuilder tempString = new StringBuilder();
 		if (date.getHours() != 0) {
-			tempString.append(formatter.format(date.getHours()));
+			tempString.append(formatter.format(additionalHours
+					+ date.getHours()));
 			tempString.append(':');
 		}
 		tempString.append(formatter.format(date.getMinutes()));

@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.views;
+package ch.hsr.sa.radiotour.dialogs;
 
 import android.app.DialogFragment;
 import android.os.Bundle;

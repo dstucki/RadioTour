@@ -77,9 +77,11 @@
     <string name="addmaillot">Maillot hinzufügen</string>
     <string name="distance">Distanz</string>
     <string name="maillot_red">Rot</string>
-        <string name="maillot_yellow">Gelb</string>
-        <string name="maillot_green">Grün</string>
-            <string name="maillot_white">Weiss</string>
-        
+    <string name="maillot_yellow">Gelb</string>
+    <string name="maillot_green">Grün</string>
+    <string name="maillot_white">Weiss</string>
+    <string name="time_sec">Zeit (s)</string>
+    <string name="point_money">Punkte / Geld</string>
+    
 
 </resources>

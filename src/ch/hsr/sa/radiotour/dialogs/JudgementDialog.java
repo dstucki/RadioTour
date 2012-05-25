@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.views;
+package ch.hsr.sa.radiotour.dialogs;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 
-public class TextViewDialog extends DialogFragment {
+public class JudgementDialog extends DialogFragment {
 
 	private final Judgement judgement;
 	private EditText name, distance;
@@ -57,7 +57,7 @@ public class TextViewDialog extends DialogFragment {
 		}
 	};
 
-	public TextViewDialog(SpecialRakingFragment fragment, Judgement judgement) {
+	public JudgementDialog(SpecialRakingFragment fragment, Judgement judgement) {
 		super();
 		this.judgement = judgement;
 		this.fragment = fragment;

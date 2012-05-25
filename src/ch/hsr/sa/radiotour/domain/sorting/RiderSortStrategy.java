@@ -87,6 +87,20 @@ public abstract class RiderSortStrategy implements
 
 	}
 
+	public static class SortByOfficialRank extends RiderSortStrategy {
+		@Override
+		public int compare(RiderStageConnection arg0, RiderStageConnection arg1) {
+			int temp = arg0.getOfficialRank() - arg1.getOfficialRank();
+			if (temp != 0) {
+				return temp;
+			} else {
+				return arg0.getRider().getStartNr()
+						- arg1.getRider().getStartNr();
+			}
+		}
+
+	}
+
 	public static class SortByTimeBoni extends RiderSortStrategy {
 		@Override
 		public int compare(RiderStageConnection arg0, RiderStageConnection arg1) {

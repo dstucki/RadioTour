@@ -80,6 +80,9 @@ public class RiderStageConnection {
 	}
 
 	public RiderState getRiderState() {
+		if (riderState == null) {
+			return RiderState.ACTIV;
+		}
 		return riderState;
 	}
 
@@ -88,6 +91,9 @@ public class RiderStageConnection {
 	}
 
 	public Date getOfficialDeficit() {
+		if (officialDeficit == null) {
+			return new Date(0, 0, 0, 0, 0, 0);
+		}
 		return officialDeficit;
 	}
 
@@ -96,6 +102,9 @@ public class RiderStageConnection {
 	}
 
 	public Date getVirtualDeficit() {
+		if (virtualDeficit == null) {
+			return new Date(0, 0, 0, 0, 0, 0);
+		}
 		return virtualDeficit;
 	}
 
@@ -112,6 +121,9 @@ public class RiderStageConnection {
 	}
 
 	public Date getOfficialTime() {
+		if (officialTime == null) {
+			return new Date(0, 0, 0, 0, 0, 0);
+		}
 		return officialTime;
 	}
 

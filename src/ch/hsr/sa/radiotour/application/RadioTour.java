@@ -103,4 +103,11 @@ public class RadioTour extends Application {
 	public void setSituation(RaceSituation situation) {
 		this.situation = situation;
 	}
+
+	public void clearInfos() {
+		riders.clear();
+		teams.clear();
+		riderPerStage.clear();
+		groups.clear();
+	}
 }

@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -52,7 +53,7 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.virtual_ranking_item_singlerace, null);
+			v = vi.inflate(R.layout.virtual_ranking_item, null);
 		}
 		final RiderStageConnection conn = connecters.get(position);
 		final BicycleRider rider = conn.getRider();
@@ -68,20 +69,17 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				temp.setText(rider.getTeamShort());
 
 				temp = (TextView) v.findViewById(R.id.virtualRank);
-				temp.setText((copyForCalculateVirtualRank.indexOf(rider) + 1)
-						+ "");
+				temp.setText(conn.getOfficialRank() + "");
 
-				// temp = (TextView) v.findViewById(R.id.timeBoni);
-				// temp.setText("toimplemnt");
-				// ((ViewGroup) v).removeView(temp);
-				// v.invalidate();
+				temp = (TextView) v.findViewById(R.id.timeBoni);
+				temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
+						0, conn.getBonusTime())));
 
-				// temp = (TextView) v.findViewById(R.id.timeOfficial);
-				// temp.setText(StringUtils.getTimeAsString(rider
-				// .getOfficial_time()));
-				// temp = (TextView) v.findViewById(R.id.handicapOfficial);
-				// temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
-				// 0, 0)));
+				temp = (TextView) v.findViewById(R.id.timeOfficial);
+				temp.setText(StringUtils.getTimeAsString(conn.getOfficialTime()));
+				temp = (TextView) v.findViewById(R.id.handicapOfficial);
+				temp.setText(StringUtils.getTimeAsString(conn
+						.getOfficialDeficit()));
 				temp = (TextView) v.findViewById(R.id.virtualDeficit);
 				temp.setText(StringUtils.getTimeAsString(conn
 						.getVirtualDeficit()));

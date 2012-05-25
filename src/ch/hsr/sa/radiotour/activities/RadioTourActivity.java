@@ -22,8 +22,15 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.dialogs.EditRiderDialog;
+import ch.hsr.sa.radiotour.dialogs.FileExplorerDialog;
+import ch.hsr.sa.radiotour.dialogs.FragmentDialog;
+import ch.hsr.sa.radiotour.dialogs.KmPickerDialog;
+import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
+import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
+import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
+import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
-import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -38,17 +45,9 @@ import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
-import ch.hsr.sa.radiotour.technicalservices.importer.FileExplorerDialog;
-import ch.hsr.sa.radiotour.technicalservices.importer.Importer;
+import ch.hsr.sa.radiotour.technicalservices.importer.AsyncSetUpTask;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
-import ch.hsr.sa.radiotour.views.EditRiderDialog;
-import ch.hsr.sa.radiotour.views.FragmentDialog;
-import ch.hsr.sa.radiotour.views.KmPickerDialog;
-import ch.hsr.sa.radiotour.views.MaillotDialog;
-import ch.hsr.sa.radiotour.views.MarchTableDialog;
-import ch.hsr.sa.radiotour.views.SpecialRankingDialog;
-import ch.hsr.sa.radiotour.views.TextViewDialog;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -65,6 +64,8 @@ public class RadioTourActivity extends Activity implements Observer,
 	private VirtualRankingFragment rankingFragment;
 	private AdminFragment adminFragment;
 	private SpecialRakingFragment specialRankingFragment;
+	private DatabaseHelper databaseHelper = null;
+	private RadioTour application;
 
 	public Set<Integer> getCheckedIntegers() {
 		return checkedIntegers;
@@ -74,14 +75,12 @@ public class RadioTourActivity extends Activity implements Observer,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		showSplashScreen();
-		new Importer().execute(this);
+		new AsyncSetUpTask().execute(this);
 	}
 
 	public void showRaceFragment() {
 		setContentView(R.layout.base_activity);
-		application = (RadioTour) getApplication();
 		raceFragment = new RaceFragment();
-
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.changeLayout, raceFragment);
@@ -120,11 +119,9 @@ public class RadioTourActivity extends Activity implements Observer,
 		}, 2000);
 	}
 
-	public void importDriverandTeams() {
+	public void setUpDomainObjects() {
 		application = (RadioTour) getApplication();
-		application.getRiders().clear();
-		application.getTeams().clear();
-		application.getRiderPerStage().clear();
+		application.clearInfos();
 
 		for (BicycleRider rider : getHelper().getBicycleRiderDao()
 				.queryForAll()) {
@@ -133,10 +130,9 @@ public class RadioTourActivity extends Activity implements Observer,
 
 		SharedPreferencesHelper.initializePreferences(getApplicationContext());
 
-		Stage stage;
-
-		stage = getHelper().getStageDao().queryForId(
+		Stage stage = getHelper().getStageDao().queryForId(
 				SharedPreferencesHelper.preferences().getSelectedStage());
+
 		if (stage == null) {
 			stage = new Stage("Start", "Ziel");
 			stage.setWholeDistance(1337D);
@@ -170,16 +166,16 @@ public class RadioTourActivity extends Activity implements Observer,
 		if (v instanceof TextView) {
 			final TextView temp = (TextView) v;
 			Integer checkedID;
+			final String textViewString = temp.getText().toString();
 			try {
-				checkedID = Integer.valueOf(temp.getText().toString());
+				checkedID = Integer.valueOf(textViewString);
 			} catch (NumberFormatException e) {
-				Log.i(getClass().getSimpleName(), e.getMessage()
-						+ " Try to parse Text another way");
-				Integer indexSpace = temp.getText().toString().indexOf(" ");
-				checkedID = Integer.valueOf(temp.getText().toString()
-						.substring(0, indexSpace));
+				final Integer indexSpace = textViewString.indexOf(" ");
+				checkedID = Integer.valueOf(textViewString.substring(0,
+						indexSpace));
 			}
-			RiderStageConnection conn = application.getRiderStage(checkedID);
+			final RiderStageConnection conn = application
+					.getRiderStage(checkedID);
 			conn.setRiderState(RiderState.ACTIV);
 			getHelper().getRiderStageDao().update(conn);
 
@@ -200,21 +196,13 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void onRowLayoutClick(View tableRow, Set<Integer> dragObject) {
-		Log.i(getClass().getSimpleName(),
-				"onRowLayoutClick #1" + System.currentTimeMillis());
 		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
-		Log.i(getClass().getSimpleName(),
-				"onRowLayoutClick #2" + System.currentTimeMillis());
 		clearCheckedIntegers();
 	}
 
 	public void clearCheckedIntegersOnclick(View v) {
 		clearCheckedIntegers();
 	}
-
-	private DatabaseHelper databaseHelper = null;
-
-	private RadioTour application;
 
 	@Override
 	protected void onDestroy() {
@@ -344,8 +332,6 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	@Override
 	public void update(Observable observable, Object data) {
-		Log.i(getClass().getSimpleName(),
-				"update " + System.currentTimeMillis());
 		onRowLayoutClick((View) data, checkedIntegers);
 	}
 
@@ -374,7 +360,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		TextViewDialog newFragment = new TextViewDialog(fragment, judgement);
+		JudgementDialog newFragment = new JudgementDialog(fragment, judgement);
 		newFragment.show(ft, "textViewDialog");
 	}
 
@@ -399,9 +385,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void updateStage(Stage actualStage) {
-		if (application.getActualSelectedStage() != null
-				&& actualStage.getId() == application.getActualSelectedStage()
-						.getId()) {
+		if (newSelectionEqualsOldSelection(actualStage)) {
 			return;
 		}
 		application.setActualSelectedStage(actualStage);
@@ -417,6 +401,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	private boolean newSelectionEqualsOldSelection(Stage actualStage) {
+		return application.getActualSelectedStage() != null
+				&& actualStage.getId() == application.getActualSelectedStage()
+						.getId();
+	}
+
 	private RaceSituation getNewestRaceSituation(Stage stage)
 			throws SQLException {
 		RuntimeExceptionDao<RaceSituation, Long> raceSituationDao = databaseHelper
@@ -430,15 +420,8 @@ public class RadioTourActivity extends Activity implements Observer,
 			databaseHelper.getRaceSituationDao().create(rs);
 			return rs;
 		}
-		rs.addAll(getGroups(rs));
+		rs.addAll(getHelper().getGroupDao().queryForEq("racesituation", rs));
 		return rs;
 	}
 
-	private List<Group> getGroups(RaceSituation rs) throws SQLException {
-		QueryBuilder<Group, Integer> queryBuilder = getHelper().getGroupDao()
-				.queryBuilder();
-		queryBuilder.where().eq("racesituation", rs);
-		return getHelper().getGroupDao().query(queryBuilder.prepare());
-
-	}
 }

@@ -56,7 +56,7 @@ public class VirtualRankingFragment extends ListFragment {
 		map.put(R.id.startnummer, new RiderSortStrategy.SortByStartNr());
 		map.put(R.id.fahrername, new RiderSortStrategy.SortByName());
 		map.put(R.id.team, new RiderSortStrategy.SortByTeam());
-		map.put(R.id.virtualRank, new RiderSortStrategy.SortByVirtualRank());
+		map.put(R.id.virtualRank, new RiderSortStrategy.SortByOfficialRank());
 		map.put(R.id.timeBoni, new RiderSortStrategy.SortByTimeBoni());
 		map.put(R.id.timeOfficial, new RiderSortStrategy.SortByOfficialTime());
 		map.put(R.id.handicapOfficial,
@@ -70,7 +70,7 @@ public class VirtualRankingFragment extends ListFragment {
 	private void setSortableHeaderview() {
 
 		View v = getActivity().getLayoutInflater().inflate(
-				R.layout.virtual_ranking_item_singlerace, null);
+				R.layout.virtual_ranking_item, null);
 		latestSort = (TextView) v.findViewById(R.id.startnummer);
 		latestSort.setTypeface(Typeface.DEFAULT_BOLD);
 		OnClickListener listener = getClickListener();

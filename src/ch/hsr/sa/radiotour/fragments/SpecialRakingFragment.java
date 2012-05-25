@@ -1,12 +1,12 @@
 package ch.hsr.sa.radiotour.fragments;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.app.Fragment;
@@ -34,7 +34,6 @@ import ch.hsr.sa.radiotour.domain.SpecialPointHolder;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
 
 public class SpecialRakingFragment extends Fragment {
 	private ArrayAdapter<SpecialRanking> adapterForSpecialRankingSpinner;
@@ -44,42 +43,50 @@ public class SpecialRakingFragment extends Fragment {
 	private Judgement actualJudgement;
 	private RuntimeExceptionDao<SpecialRanking, Integer> specialDatabaseDao;
 	private RuntimeExceptionDao<Judgement, Integer> judgementDatabaseDao;
+	private Spinner judgementSpinner;
+	private RadioTourActivity activity;
+	private RadioTour application;
 
 	private final Comparator<SpecialPointHolder> comparator = new Comparator<SpecialPointHolder>() {
 
 		@Override
-		public int compare(SpecialPointHolder object2,
-				SpecialPointHolder object1) {
-			if (object1.getPointBoni() - object2.getPointBoni() != 0) {
-				return object1.getPointBoni() - object2.getPointBoni();
+		public int compare(SpecialPointHolder holder,
+				SpecialPointHolder anotherHolder) {
+			if (anotherHolder.getPointBoni() - holder.getPointBoni() != 0) {
+				return anotherHolder.getPointBoni() - holder.getPointBoni();
 			}
-			if (object1.getTimeBoni() - object2.getTimeBoni() != 0) {
-				return object1.getTimeBoni() - object2.getTimeBoni();
+			if (anotherHolder.getTimeBoni() - holder.getTimeBoni() != 0) {
+				return anotherHolder.getTimeBoni() - holder.getTimeBoni();
 			}
-			return object1.getRider() - object2.getRider();
+			return anotherHolder.getRider().getStartNr()
+					- holder.getRider().getStartNr();
 		}
 	};
+
 	private final OnItemSelectedListener listener = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parentView,
 				View selectedItemView, int position, long id) {
 			actualSpecialRanking = adapterForSpecialRankingSpinner
 					.getItem(position);
-			LinearLayout llparent = (LinearLayout) v
-					.findViewById(R.id.llayout_driver_set);
-			llparent.removeAllViews();
+			clearTextFields();
 			fillJudgements();
 
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			LinearLayout llparent = (LinearLayout) v
-					.findViewById(R.id.llayout_driver_set);
-			llparent.removeAllViews();
-
+			clearTextFields();
 		}
 	};
+
+	public LinearLayout clearTextFields() {
+		LinearLayout llparent = (LinearLayout) v
+				.findViewById(R.id.llayout_driver_set);
+		llparent.removeAllViews();
+		return llparent;
+	}
+
 	private final OnItemSelectedListener listener2 = new OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView<?> parentView,
@@ -90,21 +97,15 @@ public class SpecialRakingFragment extends Fragment {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			LinearLayout llparent = (LinearLayout) v
-					.findViewById(R.id.llayout_driver_set);
-			llparent.removeAllViews();
-
+			clearTextFields();
 		}
 	};
-	private Spinner secondSpinner;
 
 	private void fillJudgementInfo() {
 		if (v == null) {
 			return;
 		}
-		LinearLayout llparent = (LinearLayout) v
-				.findViewById(R.id.llayout_driver_set);
-		llparent.removeAllViews();
+		LinearLayout llparent = clearTextFields();
 		for (int i = 0; i < actualSpecialRanking.getNrOfWinningDrivers(); i++) {
 			LinearLayout ll = (LinearLayout) getActivity().getLayoutInflater()
 					.inflate(R.layout.driverset_judgement, null);
@@ -159,12 +160,14 @@ public class SpecialRakingFragment extends Fragment {
 		final Spinner spinner = (Spinner) view
 				.findViewById(R.id.spinner_special_ranking);
 
-		secondSpinner = (Spinner) view.findViewById(R.id.spinner_judgement);
+		judgementSpinner = (Spinner) view.findViewById(R.id.spinner_judgement);
 
-		specialDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getSpecialRankingDao();
-		judgementDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getJudgementDao();
+		activity = ((RadioTourActivity) getActivity());
+
+		application = (RadioTour) activity.getApplication();
+
+		specialDatabaseDao = activity.getHelper().getSpecialRankingDao();
+		judgementDatabaseDao = activity.getHelper().getJudgementDao();
 
 		Button addSpecialRanking = (Button) view
 				.findViewById(R.id.button_add_new_special_ranking);
@@ -172,8 +175,8 @@ public class SpecialRakingFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				((RadioTourActivity) getActivity()).showSpecialRankingDialog(
-						SpecialRakingFragment.this, null);
+				activity.showSpecialRankingDialog(SpecialRakingFragment.this,
+						null);
 			}
 		});
 		Button editSpecialRanking = (Button) view
@@ -182,8 +185,7 @@ public class SpecialRakingFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				((RadioTourActivity) getActivity()).showSpecialRankingDialog(
-						SpecialRakingFragment.this,
+				activity.showSpecialRankingDialog(SpecialRakingFragment.this,
 						(SpecialRanking) spinner.getSelectedItem());
 			}
 		});
@@ -202,35 +204,29 @@ public class SpecialRakingFragment extends Fragment {
 
 		});
 
-		Button deleButton = (Button) view
+		Button deleteRankingButton = (Button) view
 				.findViewById(R.id.button_delete_special_ranking);
-		deleButton.setOnClickListener(new OnClickListener() {
+		deleteRankingButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				SpecialRanking temp = (SpecialRanking) spinner
+				final SpecialRanking temp = (SpecialRanking) spinner
 						.getSelectedItem();
-				try {
-					for (Judgement judgement : getJudgement(temp)) {
-						adapterForJudgementSpinner.remove(judgement);
-						judgementDatabaseDao.delete(judgement);
-					}
-					adapterForSpecialRankingSpinner.remove(temp);
-					specialDatabaseDao.delete(temp);
 
-				} catch (SQLException e) {
-					Log.e(getClass().getSimpleName(), e.getMessage());
-				}
+				adapterForJudgementSpinner.clear();
+				judgementDatabaseDao.delete(getJudgement(temp));
+				adapterForSpecialRankingSpinner.remove(temp);
+				specialDatabaseDao.delete(temp);
 
 			}
 		});
-		Button deleButton2 = (Button) view
+		Button deleteJudgementButton = (Button) view
 				.findViewById(R.id.button_delete_judgement);
-		deleButton2.setOnClickListener(new OnClickListener() {
+		deleteJudgementButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Judgement temp = (Judgement) secondSpinner.getSelectedItem();
+				Judgement temp = (Judgement) judgementSpinner.getSelectedItem();
 				adapterForJudgementSpinner.remove(temp);
 				judgementDatabaseDao.delete(temp);
 				fillJudgements();
@@ -243,8 +239,7 @@ public class SpecialRakingFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						actualJudgement = new Judgement("Neue Wertung", 12.5,
-								((RadioTour) getActivity().getApplication())
-										.getActualSelectedStage());
+								application.getActualSelectedStage());
 						if (actualSpecialRanking == null) {
 							actualSpecialRanking = (SpecialRanking) spinner
 									.getSelectedItem();
@@ -253,8 +248,8 @@ public class SpecialRakingFragment extends Fragment {
 							}
 						}
 						actualJudgement.setRanking(actualSpecialRanking);
-						((RadioTourActivity) getActivity()).showTextViewDialog(
-								SpecialRakingFragment.this, actualJudgement);
+						activity.showTextViewDialog(SpecialRakingFragment.this,
+								actualJudgement);
 
 					}
 				});
@@ -271,10 +266,10 @@ public class SpecialRakingFragment extends Fragment {
 		adapterForJudgementSpinner
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		secondSpinner.setAdapter(adapterForJudgementSpinner);
+		judgementSpinner.setAdapter(adapterForJudgementSpinner);
 		spinner.setAdapter(adapterForSpecialRankingSpinner);
 		spinner.setOnItemSelectedListener(listener);
-		secondSpinner.setOnItemSelectedListener(listener2);
+		judgementSpinner.setOnItemSelectedListener(listener2);
 		v = view;
 		return view;
 	}
@@ -286,29 +281,18 @@ public class SpecialRakingFragment extends Fragment {
 				.addAll(specialDatabaseDao.queryForAll());
 	}
 
-	public List<Judgement> getJudgement(SpecialRanking ranking)
-			throws SQLException {
-		QueryBuilder<Judgement, Integer> queryBuilder = judgementDatabaseDao
-				.queryBuilder();
-		queryBuilder
-				.where()
-				.eq("specialranking", ranking)
-				.and()
-				.eq("etappe",
-						((RadioTour) getActivity().getApplication())
-								.getActualSelectedStage());
-		return judgementDatabaseDao.query(queryBuilder.prepare());
+	private List<Judgement> getJudgement(SpecialRanking ranking) {
+		final Map<String, Object> map = new HashMap<String, Object>();
+		map.put("specialranking", ranking);
+		map.put("etappe", ((RadioTour) getActivity().getApplication())
+				.getActualSelectedStage());
+		return judgementDatabaseDao.queryForFieldValues(map);
 	}
 
-	public void fillJudgements() {
+	private void fillJudgements() {
 		adapterForJudgementSpinner.clear();
-		try {
-			adapterForJudgementSpinner
-					.addAll(getJudgement(actualSpecialRanking));
-			secondSpinner.setSelection(adapterForJudgementSpinner.getCount());
-		} catch (SQLException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
+		adapterForJudgementSpinner.addAll(getJudgement(actualSpecialRanking));
+		judgementSpinner.setSelection(adapterForJudgementSpinner.getCount());
 		setVirtualRanking();
 	}
 
@@ -326,7 +310,8 @@ public class SpecialRakingFragment extends Fragment {
 				}
 				if (!map.containsKey(tempRidernr)) {
 					SpecialPointHolder tempPointHolder = new SpecialPointHolder();
-					tempPointHolder.setRider(tempRidernr);
+					tempPointHolder.setRider(((RadioTour) v.getContext()
+							.getApplicationContext()).getRider(tempRidernr));
 					map.put(tempRidernr, tempPointHolder);
 				}
 				if (temp.getRanking().isPointBoni()) {
@@ -356,7 +341,7 @@ public class SpecialRakingFragment extends Fragment {
 		adapterForJudgementSpinner.add(judgement);
 		int postion = adapterForJudgementSpinner.getPosition(judgement);
 		fillJudgements();
-		secondSpinner.setSelection(postion);
+		judgementSpinner.setSelection(postion);
 	}
 
 }

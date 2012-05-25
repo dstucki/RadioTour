@@ -12,6 +12,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -272,7 +273,15 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getDriverNumbers()) {
 			temp = app.getRiderStage(i);
-			temp.setVirtualDeficit(date);
+			
+			try {
+				temp.setVirtualDeficit(date);
+			} catch (NullPointerException e) {
+				Log.i(getClass().getSimpleName(), temp + "");
+				Log.i(getClass().getSimpleName(), i + "");
+				Log.i(getClass().getSimpleName(), date + "");
+
+			}
 			modificationAvoider.add(temp);
 		}
 		return modificationAvoider;

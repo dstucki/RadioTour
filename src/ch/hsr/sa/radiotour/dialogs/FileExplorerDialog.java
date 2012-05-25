@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.technicalservices.importer;
+package ch.hsr.sa.radiotour.dialogs;
 
 import java.io.File;
 import java.io.FileFilter;

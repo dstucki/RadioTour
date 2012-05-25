@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.MaillotsListAdapter;
@@ -264,6 +267,14 @@ public class AdminFragment extends Fragment {
 	}
 
 	private void importDriver(File file) {
+
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+			return;
+		}
 		try {
 			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
 					BicycleRider.class, true);
@@ -276,13 +287,7 @@ public class AdminFragment extends Fragment {
 		} catch (SQLException e1) {
 			Log.e(getClass().getSimpleName(), e1.getMessage());
 		}
-		CSVReader reader = null;
-		try {
-			reader = new CSVReader(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
 
-		}
 		BicycleRider bicycleRider;
 		for (String[] riderAsString : reader.readFile()) {
 			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
@@ -298,7 +303,66 @@ public class AdminFragment extends Fragment {
 	}
 
 	private void importDriverWithTime(File file) {
-		// TODO Auto-generated method stub
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+			return;
+		}
+
+		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
+		RiderStageConnection conn;
+		List<String[]> list = reader.readFile();
+		String[] riderStageString1 = list.get(0);
+		Calendar leaderOfficialTime = Calendar.getInstance(TimeZone
+				.getDefault());
+		try {
+			leaderOfficialTime.setTime(formater.parse(riderStageString1[4]));
+
+		} catch (ParseException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+			Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
+			return;
+		}
+
+		conn = app.getRiderStage(Integer.valueOf(riderStageString1[1]));
+		conn.setOfficialDeficit(new Date(0, 0, 0, 0, 0, 0));
+		conn.setOfficialTime(leaderOfficialTime.getTime());
+		conn.setOfficialRank(Integer.valueOf(riderStageString1[0]));
+		riderStageDao.update(conn);
+		Date followerOfficialDeficit;
+
+		for (String[] riderStageString : list.subList(1, list.size())) {
+			try {
+				followerOfficialDeficit = formater.parse(riderStageString[4]);
+				Log.i(getClass().getSimpleName(),
+						followerOfficialDeficit.getTime() + " the time");
+			} catch (ParseException e) {
+				Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
+				return;
+			}
+			Log.i(getClass().getSimpleName(), followerOfficialDeficit + "");
+			conn = app.getRiderStage(Integer.valueOf(riderStageString[1]));
+			conn.setOfficialDeficit(followerOfficialDeficit);
+			Log.d(getClass().getSimpleName(), "follow defizit: "
+					+ followerOfficialDeficit.getTime());
+			Log.d(getClass().getSimpleName(), "leader officia: "
+					+ leaderOfficialTime.getTime());
+
+			Calendar followerOfficialTime = (Calendar) leaderOfficialTime
+					.clone();
+			followerOfficialTime.add(Calendar.HOUR_OF_DAY,
+					followerOfficialDeficit.getHours());
+			followerOfficialTime.add(Calendar.MINUTE,
+					followerOfficialDeficit.getMinutes());
+			followerOfficialTime.add(Calendar.SECOND,
+					followerOfficialDeficit.getSeconds());
+			conn.setOfficialTime(followerOfficialTime.getTime());
+
+			conn.setOfficialRank(Integer.valueOf(riderStageString[0]));
+			riderStageDao.update(conn);
+		}
 
 	}
 
