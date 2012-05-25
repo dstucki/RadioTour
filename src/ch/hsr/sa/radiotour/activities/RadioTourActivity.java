@@ -25,11 +25,11 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.dialogs.EditRiderDialog;
 import ch.hsr.sa.radiotour.dialogs.FileExplorerDialog;
 import ch.hsr.sa.radiotour.dialogs.FragmentDialog;
+import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.dialogs.KmPickerDialog;
 import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
 import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
 import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
-import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
@@ -122,32 +122,33 @@ public class RadioTourActivity extends Activity implements Observer,
 	public void setUpDomainObjects() {
 		application = (RadioTour) getApplication();
 		application.clearInfos();
+		databaseHelper = DatabaseHelper.getHelper(this);
 
-		for (BicycleRider rider : getHelper().getBicycleRiderDao()
+		for (BicycleRider rider : databaseHelper.getBicycleRiderDao()
 				.queryForAll()) {
 			application.add(rider);
 		}
 
 		SharedPreferencesHelper.initializePreferences(getApplicationContext());
 
-		Stage stage = getHelper().getStageDao().queryForId(
+		Stage stage = databaseHelper.getStageDao().queryForId(
 				SharedPreferencesHelper.preferences().getSelectedStage());
 
 		if (stage == null) {
 			stage = new Stage("Start", "Ziel");
 			stage.setWholeDistance(1337D);
-			getHelper().getStageDao().create(stage);
+			databaseHelper.getStageDao().create(stage);
 		}
 
 		updateStage(stage);
 
-		List<RiderStageConnection> conns = getHelper().getRiderStageDao()
+		List<RiderStageConnection> conns = databaseHelper.getRiderStageDao()
 				.queryForEq("etappe", stage);
 		if (conns.size() == 0) {
 			RiderStageConnection conn;
 			for (BicycleRider rider : application.getRiders()) {
 				conn = new RiderStageConnection(stage, rider);
-				getHelper().getRiderStageDao().create(conn);
+				databaseHelper.getRiderStageDao().create(conn);
 				application.add(conn);
 			}
 		} else {
@@ -177,7 +178,7 @@ public class RadioTourActivity extends Activity implements Observer,
 			final RiderStageConnection conn = application
 					.getRiderStage(checkedID);
 			conn.setRiderState(RiderState.ACTIV);
-			getHelper().getRiderStageDao().update(conn);
+			databaseHelper.getRiderStageDao().update(conn);
 
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);
@@ -211,14 +212,6 @@ public class RadioTourActivity extends Activity implements Observer,
 			OpenHelperManager.releaseHelper();
 			databaseHelper = null;
 		}
-	}
-
-	public DatabaseHelper getHelper() {
-		if (databaseHelper == null) {
-			databaseHelper = OpenHelperManager.getHelper(this,
-					DatabaseHelper.class);
-		}
-		return databaseHelper;
 	}
 
 	public void onRaceButtonClick(View v) {
@@ -315,7 +308,8 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		MarchTableDialog newFragment = new MarchTableDialog();
+		MarchTableDialog newFragment = new MarchTableDialog(
+				application.getActualSelectedStage());
 		newFragment.show(ft, "marchDialog");
 	}
 
@@ -420,7 +414,7 @@ public class RadioTourActivity extends Activity implements Observer,
 			databaseHelper.getRaceSituationDao().create(rs);
 			return rs;
 		}
-		rs.addAll(getHelper().getGroupDao().queryForEq("racesituation", rs));
+		rs.addAll(databaseHelper.getGroupDao().queryForEq("racesituation", rs));
 		return rs;
 	}
 

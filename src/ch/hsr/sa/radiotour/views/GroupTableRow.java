@@ -38,6 +38,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private final Map<Integer, TextView> mapTextView = new HashMap<Integer, TextView>();
 	private LinearLayout odd, even;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
+	private Group group;
+	private final Context context;
 	private RadioTour app;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
@@ -46,9 +48,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		this.context = context;
 		createUI();
 	}
-
-	private Group group;
-	private final Context context;
 
 	public GroupTableRow(Context context, Group group) {
 		super(context);
@@ -59,7 +58,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	}
 
 	private void createUI() {
-		DatabaseHelper helper = ((RadioTourActivity) context).getHelper();
+		DatabaseHelper helper = DatabaseHelper.getHelper(context);
 		riderStageDao = helper.getRiderStageDao();
 		app = (RadioTour) context.getApplicationContext();
 
@@ -273,7 +272,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getDriverNumbers()) {
 			temp = app.getRiderStage(i);
-			
+
 			try {
 				temp.setVirtualDeficit(date);
 			} catch (NullPointerException e) {

@@ -15,11 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class EditRiderDialog extends DialogFragment {
 
@@ -110,9 +110,9 @@ public class EditRiderDialog extends DialogFragment {
 		} catch (ParseException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
-		((RadioTourActivity) getActivity()).getHelper().getBicycleRiderDao()
+		DatabaseHelper.getHelper(getActivity()).getBicycleRiderDao()
 				.update(rider);
-		((RadioTourActivity) getActivity()).getHelper().getRiderStageDao()
+		DatabaseHelper.getHelper(getActivity()).getRiderStageDao()
 				.update(connecter);
 	}
 

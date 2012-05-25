@@ -12,10 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class JudgementDialog extends DialogFragment {
 
@@ -84,7 +84,7 @@ public class JudgementDialog extends DialogFragment {
 				android.R.layout.simple_spinner_item);
 		stageAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		stageAdapter.addAll(((RadioTourActivity) getActivity()).getHelper()
+		stageAdapter.addAll(DatabaseHelper.getHelper(getActivity())
 				.getStageDao().queryForAll());
 		spinner.setAdapter(stageAdapter);
 		spinner.setSelection(stageAdapter.getPosition(judgement.getStage()));

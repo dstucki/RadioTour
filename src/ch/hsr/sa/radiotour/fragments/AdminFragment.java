@@ -35,10 +35,12 @@ import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class AdminFragment extends Fragment {
@@ -51,7 +53,7 @@ public class AdminFragment extends Fragment {
 	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
 	private RuntimeExceptionDao<BicycleRider, Integer> riderDbDao;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
-	private RuntimeExceptionDao<Maillot, Integer> maillotDbDao;
+	private DatabaseHelper helper;
 	private Spinner stageSpinner;
 	private final OnClickListener saveListener = new OnClickListener() {
 
@@ -152,10 +154,10 @@ public class AdminFragment extends Fragment {
 		View view = inflater.inflate(R.layout.admin_fragment, container, false);
 		activity = (RadioTourActivity) getActivity();
 		app = (RadioTour) activity.getApplication();
-		stageDbDao = activity.getHelper().getStageDao();
-		riderDbDao = activity.getHelper().getBicycleRiderDao();
-		riderStageDao = activity.getHelper().getRiderStageDao();
-		maillotDbDao = activity.getHelper().getMaillotRuntimeDao();
+		helper = DatabaseHelper.getHelper(activity);
+		stageDbDao = helper.getStageDao();
+		riderDbDao = helper.getBicycleRiderDao();
+		riderStageDao = helper.getRiderStageDao();
 		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
 		destination = (EditText) view
@@ -181,8 +183,7 @@ public class AdminFragment extends Fragment {
 				android.R.layout.simple_spinner_item);
 		adapterForStageSpinner
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adapterForStageSpinner.addAll(activity.getHelper().getStageDao()
-				.queryForAll());
+		adapterForStageSpinner.addAll(helper.getStageDao().queryForAll());
 		stageSpinner.setAdapter(adapterForStageSpinner);
 		stageSpinner.setSelection(adapterForStageSpinner.getPosition(app
 				.getActualSelectedStage()));
@@ -191,8 +192,8 @@ public class AdminFragment extends Fragment {
 
 		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
 		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
-				(ArrayList<Maillot>) activity.getHelper()
-						.getMaillotRuntimeDao().queryForAll()));
+				(ArrayList<Maillot>) helper.getMaillotRuntimeDao()
+						.queryForAll()));
 
 		return view;
 	}
@@ -233,7 +234,7 @@ public class AdminFragment extends Fragment {
 
 	private void importMarchTable(File file) {
 		try {
-			pointOfRaceDao = activity.getHelper().getPointOfRaceDao();
+			pointOfRaceDao = helper.getPointOfRaceDao();
 			QueryBuilder<PointOfRace, Integer> queryBuilder = pointOfRaceDao
 					.queryBuilder();
 			queryBuilder.where().eq("etappe", stageSpinner.getSelectedItem());
@@ -267,29 +268,16 @@ public class AdminFragment extends Fragment {
 	}
 
 	private void importDriver(File file) {
-
-		CSVReader reader = null;
+		List<String[]> list;
 		try {
-			reader = new CSVReader(new FileInputStream(file));
+			list = getArrayListFromCSV(file);
 		} catch (FileNotFoundException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
 			return;
 		}
-		try {
-			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
-					BicycleRider.class, true);
-			TableUtils.createTable(activity.getHelper().getConnectionSource(),
-					BicycleRider.class);
-			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
-					RiderStageConnection.class, true);
-			TableUtils.createTable(activity.getHelper().getConnectionSource(),
-					RiderStageConnection.class);
-		} catch (SQLException e1) {
-			Log.e(getClass().getSimpleName(), e1.getMessage());
-		}
+		dropAndCreateTable(Stage.class, RiderStageConnection.class);
 
 		BicycleRider bicycleRider;
-		for (String[] riderAsString : reader.readFile()) {
+		for (String[] riderAsString : list) {
 			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
 					riderAsString[1], riderAsString[2], riderAsString[3], "");
 			riderDbDao.create(bicycleRider);
@@ -299,21 +287,24 @@ public class AdminFragment extends Fragment {
 			app.add(bicycleRider);
 			app.add(conn);
 		}
+	}
 
+	private ArrayList<String[]> getArrayListFromCSV(File file)
+			throws FileNotFoundException {
+		CSVReader reader = new CSVReader(new FileInputStream(file));
+		return reader.readFile();
 	}
 
 	private void importDriverWithTime(File file) {
-		CSVReader reader = null;
-		try {
-			reader = new CSVReader(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-			return;
-		}
 
 		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 		RiderStageConnection conn;
-		List<String[]> list = reader.readFile();
+		List<String[]> list;
+		try {
+			list = getArrayListFromCSV(file);
+		} catch (FileNotFoundException e1) {
+			return;
+		}
 		String[] riderStageString1 = list.get(0);
 		Calendar leaderOfficialTime = Calendar.getInstance(TimeZone
 				.getDefault());
@@ -321,7 +312,6 @@ public class AdminFragment extends Fragment {
 			leaderOfficialTime.setTime(formater.parse(riderStageString1[4]));
 
 		} catch (ParseException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
 			Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
 			return;
 		}
@@ -336,19 +326,12 @@ public class AdminFragment extends Fragment {
 		for (String[] riderStageString : list.subList(1, list.size())) {
 			try {
 				followerOfficialDeficit = formater.parse(riderStageString[4]);
-				Log.i(getClass().getSimpleName(),
-						followerOfficialDeficit.getTime() + " the time");
 			} catch (ParseException e) {
 				Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
-				return;
+				continue;
 			}
-			Log.i(getClass().getSimpleName(), followerOfficialDeficit + "");
 			conn = app.getRiderStage(Integer.valueOf(riderStageString[1]));
 			conn.setOfficialDeficit(followerOfficialDeficit);
-			Log.d(getClass().getSimpleName(), "follow defizit: "
-					+ followerOfficialDeficit.getTime());
-			Log.d(getClass().getSimpleName(), "leader officia: "
-					+ leaderOfficialTime.getTime());
 
 			Calendar followerOfficialTime = (Calendar) leaderOfficialTime
 					.clone();
@@ -359,7 +342,6 @@ public class AdminFragment extends Fragment {
 			followerOfficialTime.add(Calendar.SECOND,
 					followerOfficialDeficit.getSeconds());
 			conn.setOfficialTime(followerOfficialTime.getTime());
-
 			conn.setOfficialRank(Integer.valueOf(riderStageString[0]));
 			riderStageDao.update(conn);
 		}
@@ -367,18 +349,6 @@ public class AdminFragment extends Fragment {
 	}
 
 	public void importStages(File file) {
-		try {
-			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
-					Stage.class, true);
-			TableUtils.createTable(activity.getHelper().getConnectionSource(),
-					Stage.class);
-			TableUtils.dropTable(activity.getHelper().getConnectionSource(),
-					RiderStageConnection.class, true);
-			TableUtils.createTable(activity.getHelper().getConnectionSource(),
-					RiderStageConnection.class);
-		} catch (SQLException e1) {
-			Log.e(getClass().getSimpleName(), e1.getMessage());
-		}
 		try {
 			CSVReader reader = new CSVReader(new FileInputStream(file));
 			Stage temp;
@@ -388,6 +358,7 @@ public class AdminFragment extends Fragment {
 				stageDbDao.create(temp);
 			}
 			adapterForStageSpinner.clear();
+			dropAndCreateTable(Stage.class, RiderStageConnection.class);
 			adapterForStageSpinner.addAll(stageDbDao.queryForAll());
 		} catch (FileNotFoundException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
@@ -398,4 +369,15 @@ public class AdminFragment extends Fragment {
 		((MaillotsListAdapter) maillot_lv.getAdapter()).add(m);
 	}
 
+	private void dropAndCreateTable(Class<?>... classes) {
+		ConnectionSource src = helper.getConnectionSource();
+		for (int i = 0; i < classes.length; i++) {
+			try {
+				TableUtils.dropTable(src, classes[i], true);
+				TableUtils.createTable(src, classes[i]);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
