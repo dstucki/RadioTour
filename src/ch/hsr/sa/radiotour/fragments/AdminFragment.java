@@ -83,7 +83,7 @@ public class AdminFragment extends Fragment {
 		}
 	};
 
-	private final OnClickListener maillotListener = new OnClickListener() {
+	private final OnClickListener addMaillotListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			((RadioTourActivity) getActivity())
@@ -173,7 +173,7 @@ public class AdminFragment extends Fragment {
 		view.findViewById(R.id.btn_import_driver_time).setOnClickListener(
 				importListener);
 		view.findViewById(R.id.btn_addmaillot).setOnClickListener(
-				maillotListener);
+				addMaillotListener);
 
 		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
 				android.R.layout.simple_spinner_item);

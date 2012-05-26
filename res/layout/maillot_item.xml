@@ -9,7 +9,7 @@
         android:id="@+id/maillot_name"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/lb_default" />
+        android:text="@string/lb_default" android:padding="10dp" android:textSize="15dp"/>
 
     <ImageView
         android:id="@+id/maillot_color"
@@ -23,17 +23,17 @@
 
     <TextView
         android:id="@+id/maillot_points"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="@string/lb_emptyvalues" />
+        android:text="@string/lb_emptyvalues" android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/maillot_time"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="@string/lb_emptyvalues" />
+        android:text="@string/lb_emptyvalues" android:textSize="15dp"/>
 
     <Button
         android:id="@+id/maillot_delete"

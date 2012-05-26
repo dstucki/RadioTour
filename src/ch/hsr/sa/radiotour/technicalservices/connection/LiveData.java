@@ -73,15 +73,11 @@ public class LiveData extends Observable {
 				jObject = new JSONArray();
 			}
 		} catch (ClientProtocolException e) {
-			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (JSONException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (IOException e) {
-			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
-
 		}
 		setChanged();
 		notifyObservers(this);

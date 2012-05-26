@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,14 +39,13 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 		TextView name = (TextView) v.findViewById(R.id.maillot_name);
 		name.setText(maillot.getMaillot());
 		TextView points = (TextView) v.findViewById(R.id.maillot_points);
-		points.setText(maillot.getPoints() + "");
+		points.setText(String.valueOf(maillot.getPoints()));
 
 		TextView time = (TextView) v.findViewById(R.id.maillot_time);
-		time.setText(maillot.getTime() + "");
+		time.setText(String.valueOf(maillot.getTime()));
 
 		ImageView image = (ImageView) v.findViewById(R.id.maillot_color);
-		image.setImageDrawable(getContext().getResources().getDrawable(
-				R.drawable.maillot_red));
+		image.setImageDrawable(getMailloColor(maillot.getColor()));
 
 		Button delete = (Button) v.findViewById(R.id.maillot_delete);
 		delete.setOnClickListener(new OnClickListener() {
@@ -64,6 +65,28 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 	public void setMaillots(List<Maillot> maillots) {
 		this.maillots = (ArrayList<Maillot>) maillots;
 		notifyDataSetChanged();
+	}
 
+	private Drawable getMailloColor(int color) {
+		switch (color) {
+		case Color.YELLOW:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_yellow);
+		case Color.GREEN:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_green);
+		case Color.RED:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_red);
+		case Color.BLACK:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_reddot);
+		case Color.MAGENTA:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_pink);
+		default:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_white);
+		}
 	}
 }

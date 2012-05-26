@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.dialogs;
 import android.app.DialogFragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,16 +53,20 @@ public class MaillotDialog extends DialogFragment {
 	}
 
 	private void saveMaillot() {
-		maillot.setMaillot(((EditText) v.findViewById(R.id.edittxt_maillot))
-				.getText().toString());
-		maillot.setPoints(Integer.valueOf(((EditText) v
-				.findViewById(R.id.edittxt_points)).getText().toString()));
-		maillot.setTime(Long.valueOf(((EditText) v
-				.findViewById(R.id.edittxt_time)).getText().toString()));
-		maillot.setColor(getColorFromButtonID(((RadioGroup) v
-				.findViewById(R.id.rg_color)).getCheckedRadioButtonId()));
-		DatabaseHelper.getHelper(getActivity()).getMaillotRuntimeDao()
-				.create(maillot);
+		try {
+			maillot.setMaillot(((EditText) v.findViewById(R.id.edittxt_maillot))
+					.getText().toString());
+			maillot.setPoints(Integer.valueOf(((EditText) v
+					.findViewById(R.id.edittxt_points)).getText().toString()));
+			maillot.setTime(Long.valueOf(((EditText) v
+					.findViewById(R.id.edittxt_time)).getText().toString()));
+			maillot.setColor(getColorFromButtonID(((RadioGroup) v
+					.findViewById(R.id.rg_color)).getCheckedRadioButtonId()));
+			DatabaseHelper.getHelper(getActivity()).getMaillotRuntimeDao()
+					.create(maillot);
+		} catch (NumberFormatException e) {
+			Log.e(getClass().getSimpleName(), "no points added to maillot");
+		}
 
 	}
 
@@ -73,6 +78,10 @@ public class MaillotDialog extends DialogFragment {
 			return Color.GREEN;
 		case R.id.rdbtn_red:
 			return Color.RED;
+		case R.id.rdbtn_reddot:
+			return Color.BLACK;
+		case R.id.rdbtn_pink:
+			return Color.MAGENTA;
 		default:
 			return Color.WHITE;
 

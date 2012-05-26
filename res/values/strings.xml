@@ -20,12 +20,12 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="tb_position">Position</string>
-    <string name="tb_startnr">Start-Nr.</string>
-    <string name="tb_name">Name</string>
-    <string name="tb_team">Team</string>
+    <string name="tb_startnr">Start-Nr.:</string>
+    <string name="tb_name">Name:</string>
+    <string name="tb_team">Team:</string>
     <string name="tb_rang">Rang</string>
-    <string name="lb_birthday">Geburtstag</string>
-    <string name="lb_notes">Notiz</string>
+    <string name="lb_birthday">Geburtstag:</string>
+    <string name="lb_notes">Notiz:</string>
     <string name="lb_importetappe">Etappen importieren</string>
     <string name="lb_importmtable">Marschtabelle importieren</string>
     <string name="lb_importrider">Fahrer importieren</string>
@@ -50,11 +50,9 @@
     <string name="lb_racetime">Rennzeit:</string>
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verb.:</string>
-        <string name="lb_fieldstate">Feld:</string>
-        <string name="lb_leadstate">Spitze:</string>
-            <string name="lb_rtstate">RT:</string>
-        
-        
+    <string name="lb_fieldstate">Feld:</string>
+    <string name="lb_leadstate">Spitze:</string>
+    <string name="lb_rtstate">RT:</string>
     <string name="lb_gpsstate">GPS:</string>
     <string name="lb_distance">Renn km:</string>
     <string name="lb_hour">Stunden</string>
@@ -62,6 +60,7 @@
     <string name="lb_sec">Sekunden</string>
     <string name="lb_numberofwinners">Anzahl Gewinner</string>
     <string name="hd_setdistance">Rennkilometer festlegen:</string>
+    <string name="hd_getimportpath">Pfad für den Import auswählen:</string>
     <string name="hd_marchtable">Marschtabelle</string>
     <string name="lb_save">Speichern</string>
     <string name="lb_cancel">Abbrechen</string>
@@ -105,6 +104,8 @@
     <string name="addmaillot">Maillot hinzufügen</string>
     <string name="distance">Distanz</string>
     <string name="maillot_red">Rot</string>
+    <string name="maillot_pink">Pink</string>
+    <string name="maillot_reddot">Rot gepunktet</string>
     <string name="maillot_yellow">Gelb</string>
     <string name="maillot_green">Grün</string>
     <string name="maillot_white">Weiss</string>

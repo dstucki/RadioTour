@@ -19,28 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:paddingBottom="40dp">
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_spezialklassement"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tv_spezialklassement"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lb_spezialkl" />
-
-                <Button
-                    android:id="@+id/button_add_new_special_ranking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/new_group" />
-            </LinearLayout>
+                android:text="@string/lb_spezialkl"
+                android:textSize="20dp" android:paddingBottom="10dp"/>
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -55,11 +41,11 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:id="@+id/button_edit_special_ranking"
+                    android:id="@+id/button_add_new_special_ranking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/edit" />
+                    android:text="@string/new_group" />
 
                 <Button
                     android:id="@+id/button_delete_special_ranking"
@@ -67,6 +53,14 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="@string/lb_delete" />
+
+                <Button
+                    android:id="@+id/button_edit_special_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/edit" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -75,28 +69,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:paddingBottom="20dp">
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_wertung"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tv_wertung"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lb_wertung" />
-
-                <Button
-                    android:id="@+id/button_add_new_judgement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/new_group" />
-            </LinearLayout>
+                android:text="@string/lb_wertung"
+                android:textSize="20dp" android:paddingBottom="10dp"/>
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -111,10 +91,16 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:id="@+id/button_delete_judgement"
-                    android:layout_width="120dp"
+                    android:id="@+id/button_add_new_judgement"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:text="@string/new_group" />
+
+                <Button
+                    android:id="@+id/button_delete_judgement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/lb_delete" />
             </LinearLayout>
         </LinearLayout>

@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="100dp"
@@ -48,60 +50,91 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:inputType="time" >
-
-                <requestFocus android:layout_width="wrap_content" />
-
             </EditText>
-
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_color"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="10dp" >
 
-            <RadioButton
-                android:id="@+id/rdbtn_red"
+            <TextView
+                android:id="@+id/textViewcolor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Farbe" />
+
+            <RadioGroup
+                android:id="@+id/rg_color"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="@string/maillot_red"
-                android:textSize="14dp" />
+                android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/rdbtn_green"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="@string/maillot_green"
-                android:textSize="14dp" />
+                <RadioButton
+                    android:id="@+id/rdbtn_red"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_red"
+                    android:textSize="14dp" />
 
-            <RadioButton
-                android:id="@+id/rdbtn_yellow"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="@string/maillot_yellow"
-                android:textSize="14dp" />
+                <RadioButton
+                    android:id="@+id/rdbtn_green"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_green"
+                    android:textSize="14dp" />
 
-            <RadioButton
-                android:id="@+id/rdbtn_white"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="@string/maillot_white"
-                android:textSize="14dp" />
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/rdbtn_yellow"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_yellow"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_pink"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_pink"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_reddot"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_reddot"
+                    android:textSize="14dp" />
+
+                <RadioButton
+                    android:id="@+id/rdbtn_white"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:text="@string/maillot_white"
+                    android:textSize="14dp" />
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/lb_cancel" />
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/lb_save" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lb_cancel" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lb_save" />
+    </LinearLayout>
 
 </LinearLayout>

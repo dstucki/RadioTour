@@ -55,6 +55,8 @@ public class FileExplorerDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		v = inflater.inflate(R.layout.fileexplorer, container, false);
+		getDialog().setTitle(
+				getResources().getString(R.string.hd_getimportpath));
 		breadCrumb = (TextView) v.findViewById(R.id.path);
 		lv = (ListView) v.findViewById(R.id.list_file_explorer);
 		lv.setOnItemClickListener(itemListener);
