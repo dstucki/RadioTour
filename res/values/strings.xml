@@ -44,6 +44,9 @@
     <string name="lb_connectionstate">Verb.:</string>
     <string name="lb_gpsstate">GPS:</string>
     <string name="lb_distance">Rennkilometer:</string>
+    <string name="lb_hour">Stunden</string>
+    <string name="lb_min">Minuten</string>
+    <string name="lb_sec">Sekunden</string>
     <string name="hd_setdistance">Rennkilometer festlegen:</string>
     <string name="hd_marchtable">Marschtabelle</string>
     <string name="lb_save">Speichern</string>
@@ -95,6 +98,5 @@
     <string name="point_money">Punkte / Geld</string>
     <string name="march_table">Marschtabelle</string>
     <string name="err_marchtable">Fehler beim darstellen der Marschtabelle, Dialog wird geschlossen</string>
-    
 
 </resources>
