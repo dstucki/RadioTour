@@ -20,8 +20,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class LiveData extends Observable {
 	private final String URL = "http://bentele.me/radiotour/";
 	private ConnectionStatus connectionState;
@@ -70,10 +68,10 @@ public class LiveData extends Observable {
 				jObject = new JSONObject();
 			}
 		} catch (ClientProtocolException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
+			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (IOException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
+			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 
 		}

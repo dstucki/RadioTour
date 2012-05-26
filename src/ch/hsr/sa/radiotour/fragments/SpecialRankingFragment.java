@@ -107,24 +107,24 @@ public class SpecialRankingFragment extends Fragment {
 			return;
 		}
 		LinearLayout llparent = clearTextFields();
-		for (int i = 0; i < actualSpecialRanking.getNrOfWinningDrivers(); i++) {
+		for (int i = 0; i < actualJudgement.getNrOfWinningDrivers(); i++) {
 			LinearLayout ll = (LinearLayout) getActivity().getLayoutInflater()
 					.inflate(R.layout.driverset_judgement, null);
 			((TextView) ll.findViewById(R.id.txt_rank_in_words))
 					.setText((i + 1) + ".");
 			((EditText) ll.findViewById(R.id.edtxt_for_number_insert))
-					.setText(actualJudgement.getWinningRiders()[i] + "");
+					.setText(actualJudgement.getWinningRiders().get(i) + "");
 			llparent.addView(ll);
 		}
 	}
 
 	private void saveJudgement() throws NullPointerException {
-		int[] tempArray = new int[actualSpecialRanking.getNrOfWinningDrivers()];
+		ArrayList<Integer> tempArray = new ArrayList<Integer>();
 		LinearLayout llparent = (LinearLayout) v
 				.findViewById(R.id.llayout_driver_set);
 		Set<Integer> tempSet = new HashSet<Integer>();
 
-		for (int i = 0; i < actualSpecialRanking.getNrOfWinningDrivers(); i++) {
+		for (int i = 0; i < actualJudgement.getNrOfWinningDrivers(); i++) {
 			LinearLayout ll = (LinearLayout) llparent.getChildAt(i);
 			((TextView) ll.findViewById(R.id.txt_rank_error_show)).setText("");
 			int temp = 0;
@@ -145,7 +145,7 @@ public class SpecialRankingFragment extends Fragment {
 				return;
 			}
 			tempSet.add(temp);
-			tempArray[i] = temp;
+			tempArray.add(temp);
 
 		}
 		actualJudgement.setWinningRiders(tempArray);
@@ -251,8 +251,8 @@ public class SpecialRankingFragment extends Fragment {
 							}
 						}
 						actualJudgement.setRanking(actualSpecialRanking);
-						activity.showTextViewDialog(SpecialRankingFragment.this,
-								actualJudgement);
+						activity.showTextViewDialog(
+								SpecialRankingFragment.this, actualJudgement);
 					}
 				});
 
@@ -303,26 +303,29 @@ public class SpecialRankingFragment extends Fragment {
 				.findViewById(R.id.listview_place_for_special_ranking);
 
 		HashMap<Integer, SpecialPointHolder> map = new HashMap<Integer, SpecialPointHolder>();
-		for (int i = 0; i < adapterForJudgementSpinner.getCount(); i++) {
-			Judgement temp = adapterForJudgementSpinner.getItem(i);
-			for (int j = 0; j < temp.getRanking().getNrOfWinningDrivers(); j++) {
-				int tempRidernr = temp.getWinningRiders()[j];
+		for (Judgement temp : judgementDatabaseDao.queryForEq("specialranking",
+				actualSpecialRanking)) {
+
+			for (int j = 0; j < temp.getNrOfWinningDrivers(); j++) {
+				int tempRidernr = temp.getWinningRiders().get(j);
 				if (tempRidernr == 0) {
 					continue;
 				}
 				if (!map.containsKey(tempRidernr)) {
 					SpecialPointHolder tempPointHolder = new SpecialPointHolder();
-					tempPointHolder.setRider(((RadioTour) v.getContext()
-							.getApplicationContext()).getRider(tempRidernr));
+					tempPointHolder.setRider(application.getRider(tempRidernr));
 					map.put(tempRidernr, tempPointHolder);
 				}
-				if (temp.getRanking().isPointBoni()) {
-					map.get(tempRidernr).addPointBoni(
-							temp.getRanking().getPointBonis().get(j));
+				if (temp.isPointBoni()) {
+					Integer pointBoni = temp.getPointBonis().get(j);
+					Log.i(getClass().getSimpleName(), pointBoni + "");
+					map.get(tempRidernr).addPointBoni(pointBoni);
 				}
-				if (temp.getRanking().isTimeBoni()) {
-					map.get(tempRidernr).addTimeBoni(
-							temp.getRanking().getTimeBonis().get(j));
+				if (temp.isTimeBoni()) {
+					Integer timeBoni = temp.getTimeBonis().get(j);
+					Log.i(getClass().getSimpleName(), timeBoni + "");
+
+					map.get(tempRidernr).addTimeBoni(timeBoni);
 				}
 
 			}

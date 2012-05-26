@@ -67,6 +67,64 @@
             android:text="" />
     </LinearLayout>
 
+        
+        
+        
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lb_numberofwinners" />
+
+        <EditText
+            android:id="@+id/edtxt_nr_of_winners"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/chbx_timeboni"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tb_timebonus" />
+
+        <CheckBox
+            android:id="@+id/chbx_pointboni"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tb_pointsbonus" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llayout_table_textview_holder"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+
+</LinearLayout>        
+        
     <Button
         android:id="@+id/dismissButton"
         android:layout_width="480dp"

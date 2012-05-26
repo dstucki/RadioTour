@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/26 11:11:42
+# generated on 2012/05/26 03:53:01
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.Judgement
@@ -11,10 +11,6 @@ generatedId=true
 # --field-end--
 # --field-start--
 fieldName=name
-# --field-end--
-# --field-start--
-fieldName=winningRiders
-dataPersister=SERIALIZABLE
 # --field-end--
 # --field-start--
 fieldName=ranking
@@ -30,6 +26,29 @@ fieldName=stage
 columnName=etappe
 foreign=true
 foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=nrOfWinningDrivers
+# --field-end--
+# --field-start--
+fieldName=timeBoni
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=pointBoni
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=pointBonis
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=timeBonis
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=winningRiders
+dataPersister=SERIALIZABLE
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -168,6 +187,9 @@ foreign=true
 foreignAutoRefresh=true
 # --field-end--
 # --field-start--
+fieldName=bonusTime
+# --field-end--
+# --field-start--
 fieldName=bonusPoints
 # --field-end--
 # --field-start--
@@ -189,9 +211,6 @@ dataPersister=DATE_LONG
 fieldName=virtualDeficit
 dataPersister=DATE_LONG
 # --field-end--
-# --field-start--
-fieldName=bonusTime
-# --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
@@ -205,25 +224,6 @@ generatedId=true
 # --field-end--
 # --field-start--
 fieldName=name
-# --field-end--
-# --field-start--
-fieldName=nrOfWinningDrivers
-# --field-end--
-# --field-start--
-fieldName=timeBoni
-dataPersister=BOOLEAN
-# --field-end--
-# --field-start--
-fieldName=pointBoni
-dataPersister=BOOLEAN
-# --field-end--
-# --field-start--
-fieldName=pointBonis
-dataPersister=SERIALIZABLE
-# --field-end--
-# --field-start--
-fieldName=timeBonis
-dataPersister=SERIALIZABLE
 # --field-end--
 # --table-fields-end--
 # --table-end--

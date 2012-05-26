@@ -14,6 +14,8 @@ public class RiderStageConnection {
 	private Rider rider;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
+	@DatabaseField()
+	private int bonusTime;
 	@DatabaseField
 	private int bonusPoints;
 	@DatabaseField
@@ -26,11 +28,9 @@ public class RiderStageConnection {
 	private Date officialTime;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date virtualDeficit;
-	@DatabaseField()
-	private int bonusTime;
 
-	public RiderStageConnection(Stage stage, Rider rider,
-			Date officialTime, Date officialDeficit) {
+	public RiderStageConnection(Stage stage, Rider rider, Date officialTime,
+			Date officialDeficit) {
 		this.stage = stage;
 		this.rider = rider;
 		this.officialTime = officialTime;
