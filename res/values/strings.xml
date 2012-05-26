@@ -51,7 +51,7 @@
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verb.:</string>
     <string name="lb_gpsstate">GPS:</string>
-    <string name="lb_distance">Rennkilometer:</string>
+    <string name="lb_distance">Renn km:</string>
     <string name="lb_hour">Stunden</string>
     <string name="lb_min">Minuten</string>
     <string name="lb_sec">Sekunden</string>
