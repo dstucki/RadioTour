@@ -8,11 +8,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class RaceSituation {
+public class RaceSituation implements JsonSendable {
 	private List<Group> groups;
 	@DatabaseField(id = true)
 	private long timestamp;
@@ -30,9 +32,9 @@ public class RaceSituation {
 	public RaceSituation() {
 		groups = new LinkedList<Group>();
 		timestamp = new Date().getTime();
-
 	}
 
+	@Override
 	public JSONObject toJSON() throws JSONException {
 		JSONArray ar = new JSONArray();
 		for (Group group : groups) {
@@ -40,8 +42,7 @@ public class RaceSituation {
 		}
 		JSONObject json = new JSONObject();
 		json.put("timestamp", timestamp);
-		json.put("racekm", racekm);
-		json.put("group", ar);
+		json.put("situation", ar);
 		return json;
 	}
 
@@ -84,4 +85,5 @@ public class RaceSituation {
 	public void setRacekm(float racekm) {
 		this.racekm = racekm;
 	}
+
 }

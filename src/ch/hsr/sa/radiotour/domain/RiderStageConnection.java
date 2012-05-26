@@ -2,12 +2,17 @@ package ch.hsr.sa.radiotour.domain;
 
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendable;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class RiderStageConnection {
+public class RiderStageConnection implements JsonSendable {
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "rider")
@@ -29,8 +34,8 @@ public class RiderStageConnection {
 	@DatabaseField()
 	private int bonusTime;
 
-	public RiderStageConnection(Stage stage, Rider rider,
-			Date officialTime, Date officialDeficit) {
+	public RiderStageConnection(Stage stage, Rider rider, Date officialTime,
+			Date officialDeficit) {
 		this.stage = stage;
 		this.rider = rider;
 		this.officialTime = officialTime;
@@ -137,6 +142,15 @@ public class RiderStageConnection {
 
 	public void setOfficialRank(int officialRank) {
 		this.officialRank = officialRank;
+	}
+
+	@Override
+	public JSONObject toJSON() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put("ridernr", rider.getStartNr());
+		json.put("racekm", this.getRiderState());
+		json.put("timestamp", new Date().getTime());
+		return json;
 	}
 
 }

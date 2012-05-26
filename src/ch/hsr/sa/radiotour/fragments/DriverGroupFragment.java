@@ -23,7 +23,7 @@ import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
-import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
+import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendingQueue;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
@@ -275,7 +275,6 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	private void syncToDb() {
-
 		Log.i(getClass().getSimpleName(),
 				"synctoDB #1 " + System.currentTimeMillis());
 
@@ -304,7 +303,7 @@ public class DriverGroupFragment extends Fragment {
 
 		app.setSituation(situation);
 
-		JSONConnectionQueue.getInstance().addToQueue(situation);
+		JsonSendingQueue.getInstance().addToQueue(situation);
 
 	}
 
@@ -353,7 +352,6 @@ public class DriverGroupFragment extends Fragment {
 			break;
 		case R.id.defekt:
 			newState = RiderState.DEFECT;
-
 			break;
 		case R.id.sturz:
 			newState = RiderState.FALL;
@@ -366,12 +364,12 @@ public class DriverGroupFragment extends Fragment {
 			newState = RiderState.NOT_STARTED;
 			removeDriver(i);
 			break;
-
 		}
 		RiderStageConnection riderStageConnection = ((RadioTour) getActivity()
 				.getApplication()).getRiderStage(i);
 		riderStageConnection.setRiderState(newState);
 		riderStageDao.update(riderStageConnection);
+		JsonSendingQueue.getInstance().addToQueue(riderStageConnection);
 	}
 
 	private void removeDriver(int i) {

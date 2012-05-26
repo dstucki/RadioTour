@@ -14,7 +14,7 @@ import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
-import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
+import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendingQueue;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 
 public class RadioTour extends Application {
@@ -32,7 +32,7 @@ public class RadioTour extends Application {
 
 			@Override
 			public void run() {
-				JSONConnectionQueue.getInstance().start();
+				JsonSendingQueue.getInstance().start();
 			}
 		}, THREAD_NAME);
 		thread.setPriority(Thread.MIN_PRIORITY);

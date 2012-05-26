@@ -4,7 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="100dp"
     android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:background="#0F0000"
     android:orientation="horizontal" >
 
@@ -217,18 +216,19 @@
                     android:id="@+id/distance_value"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="#333333"
                     android:padding="5dp"
-                    android:text="@string/lb_defaultdistance" android:layout_weight="1"/>
+                    android:text="@string/lb_defaultdistance" />
 
                 <TextView
                     android:id="@+id/distancetogo"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/lb_defaultdistance"
+                    android:layout_weight="1"
                     android:background="#333333"
-                    android:padding="5dp" android:layout_weight="1"/>
-
+                    android:padding="5dp"
+                    android:text="@string/lb_defaultdistance" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -246,7 +246,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical" >
 
             <TextView
@@ -300,14 +300,47 @@
                 android:text="@string/start" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/img_connection"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/trafficlight_red"
-            android:padding="5dp"
-            android:text="@string/lb_connectionstate"
-            android:layout_marginRight="5dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/img_connection"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:drawableRight="@drawable/trafficlight_red"
+                android:padding="2dp"
+                android:text="@string/lb_connectionstate" />
+
+            <TextView
+                android:id="@+id/img_fieldconnection"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:drawableRight="@drawable/trafficlight_red"
+                android:padding="2dp"
+                android:text="@string/lb_fieldstate" />
+
+            <TextView
+                android:id="@+id/img_leadconnection"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:drawableRight="@drawable/trafficlight_red"
+                android:padding="2dp"
+                android:text="@string/lb_leadstate" />
+
+            <TextView
+                android:id="@+id/img_rtconnection"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:drawableRight="@drawable/trafficlight_red"
+                android:padding="2dp"
+                android:text="@string/lb_rtstate" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -17,15 +17,22 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
 public class LiveData extends Observable {
-	private final String URL = "http://bentele.me/radiotour/";
+	private final String STATUS_URL = "http://www.tourlive.ch/tds12/json_public/status.php";
+	private final int SPITZE = 0;
+	private final int RADIOTOUR = 1;
+	private final int FELD = 2;
 	private ConnectionStatus connectionState;
-	private JSONObject jObject;
+	private ConnectionStatus spitze;
+	private ConnectionStatus radiotour;
+	private ConnectionStatus feld;
+	private JSONArray jObject;
 	private final ScheduledExecutorService scheduler = Executors
 			.newScheduledThreadPool(1);
 
@@ -33,7 +40,7 @@ public class LiveData extends Observable {
 		final Runnable runner = new Runnable() {
 			@Override
 			public void run() {
-				getNewLiveDataFromURL(URL);
+				getNewLiveDataFromURL(STATUS_URL);
 			};
 		};
 		@SuppressWarnings({ "rawtypes", "unused" })
@@ -60,16 +67,17 @@ public class LiveData extends Observable {
 				while ((line = reader.readLine()) != null) {
 					distance.append(line);
 				}
-				try {
-					jObject = new JSONObject(distance.toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				jObject = new JSONObject(distance.toString())
+						.getJSONArray("sources");
+				checkConnection();
 			} else {
 				connectionState = ConnectionStatus.RED;
-				jObject = new JSONObject();
+				jObject = new JSONArray();
 			}
 		} catch (ClientProtocolException e) {
+			Log.e(getClass().getSimpleName(), e.getMessage());
+			connectionState = ConnectionStatus.RED;
+		} catch (JSONException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (IOException e) {
@@ -85,11 +93,26 @@ public class LiveData extends Observable {
 		return connectionState;
 	}
 
+	public ConnectionStatus getSpitzeState() {
+		return spitze;
+	}
+
+	public ConnectionStatus getFeldState() {
+		return feld;
+	}
+
+	public ConnectionStatus getRadiotourState() {
+		return radiotour;
+	}
+
 	public String getSpitzeFeldKm() {
 		String value = " - ";
-
 		try {
-			value = jObject.getString("spitzefeld_km");
+			int spi = Integer.valueOf(jObject.getJSONArray(SPITZE)
+					.getJSONObject(0).getString("rennkilometer"));
+			int fel = Integer.valueOf(jObject.getJSONArray(FELD)
+					.getJSONObject(0).getString("rennkilometer"));
+			value = String.valueOf(spi - fel) + " km";
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -98,18 +121,18 @@ public class LiveData extends Observable {
 
 	public String getSpitzeFeldTime() {
 		String value = " - ";
-		try {
-			value = jObject.getString("spitzefeld_time");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		// TODO: implement time calculation here
 		return value;
 	}
 
 	public String getSpitzeRTKm() {
 		String value = " - ";
 		try {
-			value = jObject.getString("spitzert_km");
+			int spi = Integer.valueOf(jObject.getJSONArray(SPITZE)
+					.getJSONObject(0).getString("rennkilometer"));
+			int rt = Integer.valueOf(jObject.getJSONArray(RADIOTOUR)
+					.getJSONObject(0).getString("rennkilometer"));
+			value = String.valueOf(spi - rt) + " km";
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -118,11 +141,26 @@ public class LiveData extends Observable {
 
 	public String getSpitzeRTTime() {
 		String value = " - ";
-		try {
-			value = jObject.getString("spitzert_time");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		// TODO: implement time calculation here
 		return value;
+	}
+
+	private void checkConnection() throws JSONException {
+		if (jObject.getJSONArray(SPITZE).getJSONObject(0).getString("online") == "true") {
+			spitze = ConnectionStatus.GREEN;
+		} else {
+			spitze = ConnectionStatus.RED;
+		}
+		if (jObject.getJSONArray(FELD).getJSONObject(0).getString("online") == "true") {
+			feld = ConnectionStatus.GREEN;
+		} else {
+			feld = ConnectionStatus.RED;
+		}
+		if (jObject.getJSONArray(RADIOTOUR).getJSONObject(0)
+				.getString("online") == "true") {
+			radiotour = ConnectionStatus.GREEN;
+		} else {
+			radiotour = ConnectionStatus.RED;
+		}
 	}
 }

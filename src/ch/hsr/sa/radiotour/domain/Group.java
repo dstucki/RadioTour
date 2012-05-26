@@ -109,7 +109,7 @@ public class Group extends Observable implements Comparable<Group> {
 			json.put("isLeader", isLeader);
 			json.put("isField", isField);
 			if (!isField) {
-				json.put("drivernumb", new JSONArray(driverNumbers));
+				json.put("drivernumber", new JSONArray(driverNumbers));
 			}
 			json.put("handicaptime", getHandicapInMilliseconds());
 		} catch (JSONException e) {

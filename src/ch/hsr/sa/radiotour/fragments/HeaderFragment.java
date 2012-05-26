@@ -207,6 +207,18 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 							.findViewById(R.id.img_connection);
 					ConnectionStatus connectionState = livedata
 							.getConnectionState();
+					updateConnectionIMGs(
+							livedata.getFeldState(),
+							(TextView) getView().findViewById(
+									R.id.img_fieldconnection));
+					updateConnectionIMGs(
+							livedata.getSpitzeState(),
+							(TextView) getView().findViewById(
+									R.id.img_leadconnection));
+					updateConnectionIMGs(
+							livedata.getRadiotourState(),
+							(TextView) getView().findViewById(
+									R.id.img_rtconnection));
 
 					if (updateConnectionIMGs(connectionState, connectionImage)) {
 
