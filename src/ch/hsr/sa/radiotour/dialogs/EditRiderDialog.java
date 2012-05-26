@@ -16,7 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
@@ -25,7 +25,7 @@ public class EditRiderDialog extends DialogFragment {
 
 	private static final String BIRTHDAY_TEMPLATE = "dd.MM.yyyy";
 	private final RiderStageConnection connecter;
-	private final BicycleRider rider;
+	private final Rider rider;
 	private final VirtualRankingAdapter adapter;
 	private View v;
 
@@ -44,7 +44,7 @@ public class EditRiderDialog extends DialogFragment {
 			((EditText) v.findViewById(R.id.edittxt_name)).setText(rider
 					.getName());
 			((EditText) v.findViewById(R.id.edittxt_team)).setText(rider
-					.getTeam());
+					.getTeam().getName());
 			((EditText) v.findViewById(R.id.edittxt_day))
 					.setText(new SimpleDateFormat(BIRTHDAY_TEMPLATE)
 							.format(rider.getBirthday()));
@@ -101,8 +101,9 @@ public class EditRiderDialog extends DialogFragment {
 				.toString());
 		rider.setNote(((EditText) v.findViewById(R.id.edittxt_note)).getText()
 				.toString());
-		rider.setTeam(((EditText) v.findViewById(R.id.edittxt_team)).getText()
-				.toString());
+		rider.getTeam().setName(
+				((EditText) v.findViewById(R.id.edittxt_team)).getText()
+						.toString());
 		try {
 			rider.setBirthday(new SimpleDateFormat(BIRTHDAY_TEMPLATE)
 					.parse(((EditText) v.findViewById(R.id.edittxt_day))
@@ -114,6 +115,8 @@ public class EditRiderDialog extends DialogFragment {
 				.update(rider);
 		DatabaseHelper.getHelper(getActivity()).getRiderStageDao()
 				.update(connecter);
+		DatabaseHelper.getHelper(getActivity()).getTeamDao()
+				.update(rider.getTeam());
 	}
 
 	@Override

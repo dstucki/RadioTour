@@ -11,7 +11,7 @@ public class RiderStageConnection {
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "rider")
-	private BicycleRider rider;
+	private Rider rider;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
 	@DatabaseField
@@ -29,7 +29,7 @@ public class RiderStageConnection {
 	@DatabaseField()
 	private int bonusTime;
 
-	public RiderStageConnection(Stage stage, BicycleRider rider,
+	public RiderStageConnection(Stage stage, Rider rider,
 			Date officialTime, Date officialDeficit) {
 		this.stage = stage;
 		this.rider = rider;
@@ -41,7 +41,7 @@ public class RiderStageConnection {
 
 	}
 
-	public RiderStageConnection(Stage stage, BicycleRider rider) {
+	public RiderStageConnection(Stage stage, Rider rider) {
 		this.stage = stage;
 		this.rider = rider;
 		this.riderState = RiderState.ACTIV;
@@ -55,11 +55,11 @@ public class RiderStageConnection {
 		this.id = id;
 	}
 
-	public BicycleRider getRider() {
+	public Rider getRider() {
 		return rider;
 	}
 
-	public void setRider(BicycleRider rider) {
+	public void setRider(Rider rider) {
 		this.rider = rider;
 	}
 

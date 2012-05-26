@@ -30,11 +30,12 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.MaillotsListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
+import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
 
@@ -51,7 +52,7 @@ public class AdminFragment extends Fragment {
 	private RadioTourActivity activity;
 	private EditText start, destination, distance;
 	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
-	private RuntimeExceptionDao<BicycleRider, Integer> riderDbDao;
+	private RuntimeExceptionDao<Rider, Integer> riderDbDao;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private DatabaseHelper helper;
 	private Spinner stageSpinner;
@@ -74,7 +75,7 @@ public class AdminFragment extends Fragment {
 			stageSpinner.setSelection(adapterForStageSpinner
 					.getPosition(actualStage));
 			RiderStageConnection conn;
-			for (BicycleRider rider : app.getRiders()) {
+			for (Rider rider : app.getRiders()) {
 				conn = new RiderStageConnection(actualStage, rider);
 				riderStageDao.create(conn);
 			}
@@ -115,7 +116,7 @@ public class AdminFragment extends Fragment {
 					app.add(conn);
 				}
 			} else {
-				for (BicycleRider rider : app.getRiders()) {
+				for (Rider rider : app.getRiders()) {
 					final RiderStageConnection tempConn = new RiderStageConnection(
 							actualStage, rider);
 					new Thread(new Runnable() {
@@ -268,13 +269,16 @@ public class AdminFragment extends Fragment {
 		} catch (FileNotFoundException e) {
 			return;
 		}
-		dropAndCreateTable(Stage.class, RiderStageConnection.class);
+		dropAndCreateTable(Rider.class, RiderStageConnection.class);
 
-		BicycleRider bicycleRider;
+		Rider bicycleRider;
 		for (String[] riderAsString : list) {
-			bicycleRider = new BicycleRider(Integer.valueOf(riderAsString[0]),
-					riderAsString[1], riderAsString[2], riderAsString[3], "");
+			Team team = app.getTeam(riderAsString[2]) == null ? new Team(
+					riderAsString[2]) : app.getTeam(riderAsString[2]);
+			bicycleRider = new Rider(Integer.valueOf(riderAsString[0]),
+					riderAsString[1], team);
 			riderDbDao.create(bicycleRider);
+			helper.getTeamDao().createOrUpdate(team);
 			final RiderStageConnection conn = new RiderStageConnection(
 					app.getActualSelectedStage(), bicycleRider);
 			riderStageDao.create(conn);
@@ -344,6 +348,8 @@ public class AdminFragment extends Fragment {
 
 	public void importStages(File file) {
 		try {
+			dropAndCreateTable(Stage.class, RiderStageConnection.class);
+
 			CSVReader reader = new CSVReader(new FileInputStream(file));
 			Stage temp;
 			for (String[] array : reader.readFile()) {
@@ -352,7 +358,6 @@ public class AdminFragment extends Fragment {
 				stageDbDao.create(temp);
 			}
 			adapterForStageSpinner.clear();
-			dropAndCreateTable(Stage.class, RiderStageConnection.class);
 			adapterForStageSpinner.addAll(stageDbDao.queryForAll());
 		} catch (FileNotFoundException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());

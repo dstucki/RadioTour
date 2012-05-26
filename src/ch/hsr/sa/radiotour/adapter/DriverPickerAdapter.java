@@ -16,6 +16,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
@@ -70,9 +71,9 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		int counter = 0;
 		RiderStageConnection conn;
 
-		for (Integer driverNumber : team.getDriverNumbers()) {
+		for (Rider rider : team.getDriverNumbers()) {
 			conn = ((RadioTour) context.getApplicationContext())
-					.getRiderStage(driverNumber);
+					.getRiderStage(rider.getStartNr());
 
 			if (conn != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
@@ -89,7 +90,7 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 					temp.setOnClickListener((RadioTourActivity) context);
 					temp.setOnLongClickListener(longClickListener);
 				}
-				temp.setText(Integer.toString(driverNumber));
+				temp.setText(Integer.toString(rider.getStartNr()));
 				temp.setTextColor(conn.getRiderState().getTextColor());
 				temp.setBackgroundColor((conn.getRiderState()
 						.getBackgroundColor()));

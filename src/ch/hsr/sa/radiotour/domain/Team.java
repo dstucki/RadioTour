@@ -1,26 +1,27 @@
 package ch.hsr.sa.radiotour.domain;
 
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "Team")
 public class Team {
 
-	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private TreeSet<Integer> driverNumbers;
-	@DatabaseField
+	private List<Rider> riders;
+	@DatabaseField(id = true)
 	private String name;
+	@DatabaseField
+	private String shortName;
 
 	public Team(String name) {
+		this();
 		this.name = name;
-		this.driverNumbers = new TreeSet<Integer>();
 	}
 
 	public Team() {
-
+		riders = new ArrayList<Rider>();
 	}
 
 	public String getName() {
@@ -31,12 +32,29 @@ public class Team {
 		this.name = name;
 	}
 
-	public TreeSet<Integer> getDriverNumbers() {
-		return driverNumbers;
+	public List<Rider> getDriverNumbers() {
+
+		return riders;
 	}
 
-	public void setDriverNumbers(TreeSet<Integer> driverNumbers) {
-		this.driverNumbers = driverNumbers;
+	public void addRider(Rider r) {
+		riders.add(r);
+	}
+
+	public void setDriverNumbers(List<Rider> riders) {
+		this.riders = riders;
+	}
+
+	public String getShortName() {
+		if ("".equals(shortName) || null == shortName) {
+			int endIndex = name.length() >= 3 ? 3 : name.length();
+			return name.substring(0, endIndex);
+		}
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 }

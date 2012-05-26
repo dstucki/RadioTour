@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import android.util.Log;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
@@ -18,7 +19,7 @@ import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 
 public class RadioTour extends Application {
-	private final LinkedHashMap<Integer, BicycleRider> riders = new LinkedHashMap<Integer, BicycleRider>();
+	private final LinkedHashMap<Integer, Rider> riders = new LinkedHashMap<Integer, Rider>();
 	private final Map<Integer, RiderStageConnection> riderPerStage = new LinkedHashMap<Integer, RiderStageConnection>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
 	private final LinkedList<Group> groups = new LinkedList<Group>();
@@ -39,15 +40,15 @@ public class RadioTour extends Application {
 		thread.start();
 	}
 
-	public List<BicycleRider> getRiders() {
-		return new ArrayList<BicycleRider>(riders.values());
+	public List<Rider> getRiders() {
+		return new ArrayList<Rider>(riders.values());
 	}
 
 	public List<Integer> getRiderNumbers() {
 		return new ArrayList<Integer>(riders.keySet());
 	}
 
-	public BicycleRider getRider(int startNr) {
+	public Rider getRider(int startNr) {
 		return riders.get(startNr);
 	}
 
@@ -55,12 +56,23 @@ public class RadioTour extends Application {
 		return new ArrayList<Team>(teams.values());
 	}
 
-	public void add(BicycleRider rider) {
+	public void add(Rider rider) {
 		riders.put(rider.getStartNr(), rider);
-		if (!teams.containsKey(rider.getTeam())) {
-			teams.put(rider.getTeam(), new Team(rider.getTeam()));
+		if (!teams.containsKey(rider.getTeam().getName())) {
+			teams.put(rider.getTeam().getName(), new Team(rider.getTeam()
+					.getName()));
 		}
-		teams.get(rider.getTeam()).getDriverNumbers().add(rider.getStartNr());
+		Log.i(getClass().getSimpleName(), teams + "");
+		Log.i(getClass().getSimpleName(), rider + "");
+		Log.i(getClass().getSimpleName(), rider.getTeam() + "");
+		Log.i(getClass().getSimpleName(), rider.getTeam().getDriverNumbers()
+				+ "");
+
+		teams.get(rider.getTeam().getName()).addRider(rider);
+	}
+
+	public Team getTeam(String teamName) {
+		return teams.get(teamName);
 	}
 
 	public List<Group> getGroups() {
@@ -109,5 +121,9 @@ public class RadioTour extends Application {
 		teams.clear();
 		riderPerStage.clear();
 		groups.clear();
+	}
+
+	public void add(Team team) {
+		teams.put(team.getName(), team);
 	}
 }

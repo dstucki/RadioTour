@@ -30,9 +30,9 @@ import ch.hsr.sa.radiotour.dialogs.KmPickerDialog;
 import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
 import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
 import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
@@ -124,8 +124,11 @@ public class RadioTourActivity extends Activity implements Observer,
 		application.clearInfos();
 		databaseHelper = DatabaseHelper.getHelper(this);
 
-		for (BicycleRider rider : databaseHelper.getBicycleRiderDao()
-				.queryForAll()) {
+		for (Team team : databaseHelper.getTeamDao().queryForAll()) {
+			application.add(team);
+		}
+
+		for (Rider rider : databaseHelper.getBicycleRiderDao().queryForAll()) {
 			application.add(rider);
 		}
 
@@ -147,7 +150,7 @@ public class RadioTourActivity extends Activity implements Observer,
 				.queryForEq("etappe", stage);
 		if (conns.size() == 0) {
 			RiderStageConnection conn;
-			for (BicycleRider rider : application.getRiders()) {
+			for (Rider rider : application.getRiders()) {
 				conn = new RiderStageConnection(stage, rider);
 				databaseHelper.getRiderStageDao().create(conn);
 				application.add(conn);
@@ -156,9 +159,6 @@ public class RadioTourActivity extends Activity implements Observer,
 			for (RiderStageConnection conn : conns) {
 				application.add(conn);
 			}
-		}
-		for (Team team : application.getTeams()) {
-			databaseHelper.getTeamDao().create(team);
 		}
 
 	}

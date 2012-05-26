@@ -57,8 +57,8 @@ public abstract class RiderSortStrategy implements
 	public static class SortByTeam extends RiderSortStrategy {
 		@Override
 		public int compare(RiderStageConnection arg0, RiderStageConnection arg1) {
-			return arg0.getRider().getTeamShort()
-					.compareTo(arg1.getRider().getTeamShort());
+			return arg0.getRider().getTeam().getName()
+					.compareTo(arg1.getRider().getTeam().getName());
 		}
 
 	}
@@ -104,7 +104,6 @@ public abstract class RiderSortStrategy implements
 	public static class SortByTimeBoni extends RiderSortStrategy {
 		@Override
 		public int compare(RiderStageConnection arg0, RiderStageConnection arg1) {
-			// FIXME: TIME_BONI implement
 			return arg0.getBonusTime() - arg1.getBonusTime();
 		}
 	}

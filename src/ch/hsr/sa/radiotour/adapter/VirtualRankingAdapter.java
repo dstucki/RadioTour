@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
 import ch.hsr.sa.radiotour.utils.StringUtils;
@@ -56,7 +56,7 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 			v = vi.inflate(R.layout.virtual_ranking_item, null);
 		}
 		final RiderStageConnection conn = connecters.get(position);
-		final BicycleRider rider = conn.getRider();
+		final Rider rider = conn.getRider();
 		if (rider != null) {
 			try {
 				TextView temp = (TextView) v.findViewById(R.id.rang);
@@ -66,7 +66,7 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				temp = (TextView) v.findViewById(R.id.fahrername);
 				temp.setText(rider.getName());
 				temp = (TextView) v.findViewById(R.id.team);
-				temp.setText(rider.getTeamShort());
+				temp.setText(rider.getTeam().getShortName());
 
 				temp = (TextView) v.findViewById(R.id.virtualRank);
 				temp.setText(conn.getOfficialRank() + "");

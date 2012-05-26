@@ -24,10 +24,8 @@ public class SpecialRanking {
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private ArrayList<Integer> timeBonis;
 
-	public SpecialRanking(String name, int nrOfwinningDrivers,
-			boolean timeBoni, boolean pointBoni, List<Integer> timeBonis,
-			List<Integer> pointBonis) {
-		this.name = name;
+	public SpecialRanking(int nrOfwinningDrivers, boolean timeBoni,
+			boolean pointBoni, List<Integer> timeBonis, List<Integer> pointBonis) {
 		this.nrOfWinningDrivers = nrOfwinningDrivers;
 		this.timeBoni = timeBoni;
 		this.pointBoni = pointBoni;

@@ -1,15 +1,15 @@
 package ch.hsr.sa.radiotour.domain;
 
 public class SpecialPointHolder {
-	private BicycleRider rider;
+	private Rider rider;
 	private int timeBoni = 0;
 	private int pointBoni = 0;
 
-	public BicycleRider getRider() {
+	public Rider getRider() {
 		return rider;
 	}
 
-	public void setRider(BicycleRider rider) {
+	public void setRider(Rider rider) {
 		this.rider = rider;
 	}
 

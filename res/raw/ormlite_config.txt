@@ -1,53 +1,6 @@
 #
-# generated on 2012/05/22 02:20:34
+# generated on 2012/05/26 11:11:42
 #
-# --table-start--
-dataClass=ch.hsr.sa.radiotour.domain.BicycleRider
-tableName=Rider
-# --table-fields-start--
-# --field-start--
-fieldName=startNr
-id=true
-# --field-end--
-# --field-start--
-fieldName=name
-# --field-end--
-# --field-start--
-fieldName=team
-# --field-end--
-# --field-start--
-fieldName=teamShort
-# --field-end--
-# --field-start--
-fieldName=country
-# --field-end--
-# --field-start--
-fieldName=comment
-# --field-end--
-# --field-start--
-fieldName=birthday
-# --field-end--
-# --field-start--
-fieldName=category
-# --field-end--
-# --field-start--
-fieldName=note
-# --field-end--
-# --field-start--
-fieldName=uci
-# --field-end--
-# --field-start--
-fieldName=neo
-# --field-end--
-# --field-start--
-fieldName=language
-# --field-end--
-# --field-start--
-fieldName=url
-# --field-end--
-# --table-fields-end--
-# --table-end--
-#################################
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.Judgement
 tableName=judgement
@@ -162,6 +115,39 @@ foreignAutoRefresh=true
 # --table-end--
 #################################
 # --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.Rider
+tableName=rider
+# --table-fields-start--
+# --field-start--
+fieldName=startNr
+id=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=team
+columnName=team
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=country
+# --field-end--
+# --field-start--
+fieldName=birthday
+# --field-end--
+# --field-start--
+fieldName=note
+# --field-end--
+# --field-start--
+fieldName=neo
+dataPersister=BOOLEAN
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.RiderStageConnection
 tableName=riderstageconnection
 # --table-fields-start--
@@ -267,11 +253,11 @@ dataClass=ch.hsr.sa.radiotour.domain.Team
 tableName=Team
 # --table-fields-start--
 # --field-start--
-fieldName=driverNumbers
-dataPersister=SERIALIZABLE
+fieldName=name
+id=true
 # --field-end--
 # --field-start--
-fieldName=name
+fieldName=shortName
 # --field-end--
 # --table-fields-end--
 # --table-end--

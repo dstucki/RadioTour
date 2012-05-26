@@ -24,6 +24,7 @@ public class SpecialRankingDialog extends DialogFragment {
 	private CheckBox time, point;
 	private LinearLayout tableHolder;
 	private final SpecialRakingFragment fragment;
+	private boolean hasToSetName = false;
 
 	private final OnClickListener listener = new OnClickListener() {
 
@@ -44,6 +45,7 @@ public class SpecialRankingDialog extends DialogFragment {
 		this.fragment = fragment;
 		if (specialRanking == null) {
 			this.specialRanking = createStandardSpecialRanking();
+			hasToSetName = true;
 		}
 
 	}
@@ -138,8 +140,7 @@ public class SpecialRankingDialog extends DialogFragment {
 		pointBonis.add(3);
 		pointBonis.add(2);
 		pointBonis.add(1);
-		return new SpecialRanking(getResources().getString(R.string.lb_newkla),
-				3, true, true, timeBonis, pointBonis);
+		return new SpecialRanking(3, true, true, timeBonis, pointBonis);
 	}
 
 	@Override
@@ -148,6 +149,7 @@ public class SpecialRankingDialog extends DialogFragment {
 		getDialog().setTitle(getResources().getString(R.string.hd_marchtable));
 		v = inflater.inflate(R.layout.special_ranking_dialog_fragment,
 				container, false);
+
 		tableHolder = (LinearLayout) v
 				.findViewById(R.id.llayout_table_textview_holder);
 
@@ -170,7 +172,10 @@ public class SpecialRankingDialog extends DialogFragment {
 				dismiss();
 			}
 		});
-
+		if (hasToSetName) {
+			specialRanking
+					.setName(getResources().getString(R.string.lb_newkla));
+		}
 		fillInformation();
 		return v;
 	}

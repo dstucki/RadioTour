@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.domain.BicycleRider;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Maillot;
@@ -40,7 +40,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static DatabaseHelper helper;
 
 	// the DAO object we use to access the BicycleRider table
-	private RuntimeExceptionDao<BicycleRider, Integer> riderRuntimeDao = null;
+	private RuntimeExceptionDao<Rider, Integer> riderRuntimeDao = null;
 	private RuntimeExceptionDao<Team, String> teamRuntimeDao = null;
 	private RuntimeExceptionDao<Group, Integer> groupRuntimeDao = null;
 	private RuntimeExceptionDao<Stage, Integer> stageRuntimeDao = null;
@@ -72,7 +72,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
-			TableUtils.createTable(connectionSource, BicycleRider.class);
+			TableUtils.createTable(connectionSource, Rider.class);
 			TableUtils.createTable(connectionSource, Team.class);
 			TableUtils.createTable(connectionSource, Group.class);
 			TableUtils.createTable(connectionSource, Stage.class);
@@ -99,7 +99,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource,
 			int oldVersion, int newVersion) {
 		try {
-			TableUtils.dropTable(connectionSource, BicycleRider.class, true);
+			TableUtils.dropTable(connectionSource, Rider.class, true);
 			TableUtils.dropTable(connectionSource, Team.class, true);
 			TableUtils.dropTable(connectionSource, Group.class, true);
 			TableUtils.dropTable(connectionSource, Stage.class, true);
@@ -122,9 +122,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * for our BicycleRider class. It will create it or just give the cached
 	 * value. RuntimeExceptionDao only through RuntimeExceptions.
 	 */
-	public RuntimeExceptionDao<BicycleRider, Integer> getBicycleRiderDao() {
+	public RuntimeExceptionDao<Rider, Integer> getBicycleRiderDao() {
 		if (riderRuntimeDao == null) {
-			riderRuntimeDao = getRuntimeExceptionDao(BicycleRider.class);
+			riderRuntimeDao = getRuntimeExceptionDao(Rider.class);
 		}
 		return riderRuntimeDao;
 	}
