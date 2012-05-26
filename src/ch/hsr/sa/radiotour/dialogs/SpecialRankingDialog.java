@@ -52,7 +52,8 @@ public class SpecialRankingDialog extends DialogFragment {
 		name = (EditText) v.findViewById(R.id.edtxt_name_special_ranking);
 		name.setText(specialRanking.getName());
 		nrOfWinner = (EditText) v.findViewById(R.id.edtxt_nr_of_winners);
-		nrOfWinner.setText(specialRanking.getNrOfWinningDrivers() + "");
+		nrOfWinner.setText(String.valueOf(specialRanking
+				.getNrOfWinningDrivers()));
 		nrOfWinner.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
@@ -107,10 +108,12 @@ public class SpecialRankingDialog extends DialogFragment {
 			EditText editText = (EditText) v
 					.findViewById(R.id.txtview_timeboni);
 			editText.setEnabled(specialRanking.isTimeBoni());
-			editText.setText(specialRanking.getTimeBonis().get(i) + "");
+			editText.setText(String.valueOf(specialRanking.getTimeBonis()
+					.get(i)));
 			editText = (EditText) v.findViewById(R.id.txtview_pointboni);
 			editText.setEnabled(specialRanking.isPointBoni());
-			editText.setText(specialRanking.getPointBonis().get(i) + "");
+			editText.setText(String.valueOf(specialRanking.getPointBonis().get(
+					i)));
 
 			tableHolder.addView(v);
 		}
@@ -135,14 +138,14 @@ public class SpecialRankingDialog extends DialogFragment {
 		pointBonis.add(3);
 		pointBonis.add(2);
 		pointBonis.add(1);
-		return new SpecialRanking("Test Klassement", 3, true, true, timeBonis,
-				pointBonis);
+		return new SpecialRanking(getResources().getString(R.string.lb_newkla),
+				3, true, true, timeBonis, pointBonis);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getDialog().setTitle("Marschtabelle");
+		getDialog().setTitle(getResources().getString(R.string.hd_marchtable));
 		v = inflater.inflate(R.layout.special_ranking_dialog_fragment,
 				container, false);
 		tableHolder = (LinearLayout) v
@@ -163,7 +166,6 @@ public class SpecialRankingDialog extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				save();
-
 				fragment.setSpecialRankingFromDialog(specialRanking);
 				dismiss();
 			}

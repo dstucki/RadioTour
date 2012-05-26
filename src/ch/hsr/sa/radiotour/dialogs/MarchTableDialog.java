@@ -30,7 +30,7 @@ public class MarchTableDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getDialog().setTitle("Marschtabelle");
+		getDialog().setTitle(getResources().getString(R.string.hd_marchtable));
 		v = inflater.inflate(R.layout.march_table_dialog, container, false);
 
 		ListView lv = (ListView) v.findViewById(R.id.listView_march_table);

@@ -23,7 +23,7 @@ public class KmPickerDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getDialog().setTitle("Rennkilometer festlegen:");
+		getDialog().setTitle(getResources().getString(R.string.hd_setdistance));
 		View v = inflater.inflate(R.layout.km_picker_dialog, container, false);
 
 		value = ((EditText) v.findViewById(R.id.racekmvalue));
@@ -31,7 +31,6 @@ public class KmPickerDialog extends DialogFragment {
 
 		Button button = (Button) v.findViewById(R.id.dismissButton);
 		button.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				dismiss();
@@ -42,7 +41,6 @@ public class KmPickerDialog extends DialogFragment {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
 				Float dist = new Float(value.getText().toString());
 				gpshandler.setDistance(dist);
 				gpshandler.updateLocation();

@@ -16,7 +16,6 @@ public class StringUtils {
 		additionalHours += date.getDay() * 24;
 
 		if (date.getHours() != 0) {
-
 			tempString.append(formatter.format(additionalHours
 					+ date.getHours()));
 			tempString.append(':');

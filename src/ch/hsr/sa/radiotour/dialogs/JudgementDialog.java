@@ -52,9 +52,8 @@ public class JudgementDialog extends DialogFragment {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
-
 		}
+
 	};
 
 	public JudgementDialog(SpecialRakingFragment fragment, Judgement judgement) {
@@ -73,7 +72,7 @@ public class JudgementDialog extends DialogFragment {
 		spinner = (Spinner) v.findViewById(R.id.spinner_stage);
 
 		name.setText(judgement.getName());
-		distance.setText(judgement.getDistance() + "");
+		distance.setText(String.valueOf(judgement.getDistance()));
 
 		v.findViewById(R.id.dismissButton).setOnClickListener(
 				onAbortButtonListener);

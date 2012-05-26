@@ -25,11 +25,11 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.dialogs.EditRiderDialog;
 import ch.hsr.sa.radiotour.dialogs.FileExplorerDialog;
 import ch.hsr.sa.radiotour.dialogs.FragmentDialog;
+import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.dialogs.KmPickerDialog;
 import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
 import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
 import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
-import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.domain.BicycleRider;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
@@ -134,7 +134,8 @@ public class RadioTourActivity extends Activity implements Observer,
 				SharedPreferencesHelper.preferences().getSelectedStage());
 
 		if (stage == null) {
-			stage = new Stage("Start", "Ziel");
+			stage = new Stage(getResources().getString(R.string.start),
+					getResources().getString(R.string.destination));
 			stage.setWholeDistance(1337D);
 			getHelper().getStageDao().create(stage);
 		}

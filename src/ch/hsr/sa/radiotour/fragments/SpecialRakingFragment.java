@@ -134,13 +134,13 @@ public class SpecialRakingFragment extends Fragment {
 			} catch (Exception e) {
 				Log.e(getClass().getSimpleName(), e.getMessage());
 				((TextView) ll.findViewById(R.id.txt_rank_error_show))
-						.setText("Ungültige Nummer, Speicherung abgebrochen");
+						.setText(getResources().getString(
+								R.string.lb_invalidnumber));
 			}
-			Log.d(getClass().getSimpleName(), "before duplicate");
 			if (temp != 0 && tempSet.contains(temp)) {
-				Log.d(getClass().getSimpleName(), "Duplicate badibadi");
 				((TextView) ll.findViewById(R.id.txt_rank_error_show))
-						.setText("Mehrfachzuweisung, Speicherung abgebrochen");
+						.setText(getResources().getString(
+								R.string.lb_doubleassing));
 				return;
 			}
 			tempSet.add(temp);
@@ -198,10 +198,9 @@ public class SpecialRakingFragment extends Fragment {
 				try {
 					saveJudgement();
 				} catch (NullPointerException e) {
-					Log.e(getClass().getSimpleName(), "");
+					Log.e(getClass().getSimpleName(), e.getMessage());
 				}
 			}
-
 		});
 
 		Button deleteRankingButton = (Button) view
@@ -212,12 +211,10 @@ public class SpecialRakingFragment extends Fragment {
 			public void onClick(View v) {
 				final SpecialRanking temp = (SpecialRanking) spinner
 						.getSelectedItem();
-
 				adapterForJudgementSpinner.clear();
 				judgementDatabaseDao.delete(getJudgement(temp));
 				adapterForSpecialRankingSpinner.remove(temp);
 				specialDatabaseDao.delete(temp);
-
 			}
 		});
 		Button deleteJudgementButton = (Button) view
@@ -238,7 +235,8 @@ public class SpecialRakingFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						actualJudgement = new Judgement("Neue Wertung", 12.5,
+						actualJudgement = new Judgement(getResources()
+								.getString(R.string.lb_newjudgement), 12.5,
 								application.getActualSelectedStage());
 						if (actualSpecialRanking == null) {
 							actualSpecialRanking = (SpecialRanking) spinner
@@ -250,7 +248,6 @@ public class SpecialRakingFragment extends Fragment {
 						actualJudgement.setRanking(actualSpecialRanking);
 						activity.showTextViewDialog(SpecialRakingFragment.this,
 								actualJudgement);
-
 					}
 				});
 

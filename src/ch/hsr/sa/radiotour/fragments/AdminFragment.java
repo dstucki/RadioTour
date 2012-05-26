@@ -63,7 +63,6 @@ public class AdminFragment extends Fragment {
 		}
 	};
 	private final OnClickListener newListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			final Stage actualStage = new Stage("Start", "Ende");
@@ -82,7 +81,6 @@ public class AdminFragment extends Fragment {
 	};
 
 	private final OnClickListener maillotListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			((RadioTourActivity) getActivity())
@@ -90,7 +88,6 @@ public class AdminFragment extends Fragment {
 		}
 	};
 	private final OnClickListener deleteListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			Stage actualStage = (Stage) stageSpinner.getSelectedItem();
@@ -120,7 +117,6 @@ public class AdminFragment extends Fragment {
 					final RiderStageConnection tempConn = new RiderStageConnection(
 							actualStage, rider);
 					new Thread(new Runnable() {
-
 						@Override
 						public void run() {
 							riderStageDao.create(tempConn);
@@ -136,7 +132,6 @@ public class AdminFragment extends Fragment {
 		}
 	};
 	private final OnClickListener importListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			lastClickedImportId = v.getId();
@@ -201,7 +196,7 @@ public class AdminFragment extends Fragment {
 		if (selectedItem != null) {
 			start.setText(selectedItem.getStart());
 			destination.setText(selectedItem.getDestination());
-			distance.setText(selectedItem.getWholeDistance() + "");
+			distance.setText(String.valueOf(selectedItem.getWholeDistance()));
 		}
 	}
 
@@ -262,7 +257,6 @@ public class AdminFragment extends Fragment {
 		} catch (ParseException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
-
 		return new PointOfRace(altitude, distance, name, date, 0);
 	}
 
@@ -336,8 +330,6 @@ public class AdminFragment extends Fragment {
 		for (String[] riderStageString : list.subList(1, list.size())) {
 			try {
 				followerOfficialDeficit = formater.parse(riderStageString[4]);
-				Log.i(getClass().getSimpleName(),
-						followerOfficialDeficit.getTime() + " the time");
 			} catch (ParseException e) {
 				Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
 				return;
@@ -345,10 +337,6 @@ public class AdminFragment extends Fragment {
 			Log.i(getClass().getSimpleName(), followerOfficialDeficit + "");
 			conn = app.getRiderStage(Integer.valueOf(riderStageString[1]));
 			conn.setOfficialDeficit(followerOfficialDeficit);
-			Log.d(getClass().getSimpleName(), "follow defizit: "
-					+ followerOfficialDeficit.getTime());
-			Log.d(getClass().getSimpleName(), "leader officia: "
-					+ leaderOfficialTime.getTime());
 
 			Calendar followerOfficialTime = (Calendar) leaderOfficialTime
 					.clone();

@@ -22,7 +22,7 @@ public class DriverDetailFragment extends Fragment {
 	public void setDriver(BicycleRider item) {
 		TextView viewStartNr = (TextView) getView().findViewById(
 				R.id.driverStartNr);
-		viewStartNr.setText(item.getStartNr() + "");
+		viewStartNr.setText(String.valueOf(item.getStartNr()));
 		TextView viewName = (TextView) getView().findViewById(R.id.driverName);
 		viewName.setText(item.getName());
 		TextView viewTeam = (TextView) getView().findViewById(R.id.driverTeam);

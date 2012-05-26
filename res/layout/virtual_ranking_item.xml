@@ -6,14 +6,13 @@
     android:stretchColumns="3">
 
     <TableRow >
-
         <TextView
             android:id="@+id/rang"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:gravity="right"
-            android:text="Position"
+            android:text="@string/tb_position"
             android:textSize="20dp" />
 
         <TextView
@@ -22,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:gravity="right"
-            android:text="Start-Nr."
+            android:text="@string/tb_startnr"
             android:textSize="20dp" />
 
         <TextView
@@ -32,7 +31,7 @@
             android:layout_column="3"
             android:gravity="left"
             android:layout_marginLeft="5dp"
-            android:text="Name"
+            android:text="@string/tb_name"
             android:textSize="20dp" />
 
         <TextView
@@ -41,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_column="4"
             android:gravity="left"
-            android:text="Team"
+            android:text="@string/tb_team"
             android:textSize="20dp" />
          <LinearLayout
             android:id="@+id/llayout_land"
@@ -72,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_column="6"
             android:gravity="center"
+            android:contentDescription="@string/driver_country"
             android:textSize="20dp" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_column="7"
             android:gravity="left"
-            android:text="Rang"
+            android:text="@string/tb_rang"
             android:textSize="20dp" />
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_column="8"
             android:gravity="left"
-            android:text="Zeitbonus"
+            android:text="@string/tb_timebonus"
             android:textSize="20dp" />
         <TextView
             android:id="@+id/virtualDeficit"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_column="9"
             android:gravity="left"
-            android:text="Virt. Rückstand"
+            android:text="@string/tb_virtdeficite"
             android:textSize="20dp" />
 
         <TextView
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_column="10"
             android:gravity="left"
-            android:text="Offizielle Zeit"
+            android:text="@string/tb_officialtime"
             android:textSize="20dp" />
 
         <TextView
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_column="11"
             android:gravity="left"
-            android:text="Offizieller Rückstand"
+            android:text="@string/tb_officialdeficte"
             android:textSize="20dp" />
     </TableRow>
 

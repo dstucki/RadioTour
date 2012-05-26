@@ -34,10 +34,9 @@ public class LiveData extends Observable {
 			@Override
 			public void run() {
 				getNewLiveDataFromURL(URL);
-
 			};
 		};
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({ "rawtypes", "unused" })
 		final ScheduledFuture schedulrate = scheduler.scheduleAtFixedRate(
 				runner, 2, 10000, TimeUnit.MILLISECONDS);
 	}
@@ -87,7 +86,8 @@ public class LiveData extends Observable {
 	}
 
 	public String getSpitzeFeldKm() {
-		String value = "No connection";
+		String value = " - ";
+
 		try {
 			value = jObject.getString("spitzefeld_km");
 		} catch (JSONException e) {
@@ -97,7 +97,7 @@ public class LiveData extends Observable {
 	}
 
 	public String getSpitzeFeldTime() {
-		String value = "No connection";
+		String value = " - ";
 		try {
 			value = jObject.getString("spitzefeld_time");
 		} catch (JSONException e) {

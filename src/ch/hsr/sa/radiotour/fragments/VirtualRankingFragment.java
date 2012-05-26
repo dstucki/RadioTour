@@ -42,7 +42,6 @@ public class VirtualRankingFragment extends ListFragment {
 									position), adapter);
 				}
 			}
-
 		});
 		adapter = new VirtualRankingAdapter(getActivity(),
 				R.layout.picklist_item, R.id.startNr1,
@@ -87,7 +86,6 @@ public class VirtualRankingFragment extends ListFragment {
 		ImageView image = (ImageView) v.findViewById(R.id.land_image);
 		image.setImageDrawable(null);
 		((TextView) v.findViewById(R.id.land_text)).setText(R.string.land);
-
 		getListView().addHeaderView(v);
 
 	}
@@ -104,7 +102,7 @@ public class VirtualRankingFragment extends ListFragment {
 				try {
 					adapter.sort(strategy);
 				} catch (NullPointerException e) {
-					Log.d(getClass().getSimpleName(), e.getMessage()
+					Log.e(getClass().getSimpleName(), e.getMessage()
 							+ " occured");
 				}
 				strategy.switchAscending();

@@ -17,7 +17,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/doctor"
-            android:textSize="20px" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/sturz"
@@ -25,7 +25,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/fall"
-            android:textSize="20px" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/defekt"
@@ -33,7 +33,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/defect"
-            android:textSize="20px" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/aufgabe"
@@ -41,14 +41,14 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/giveup"
-            android:textSize="20px" />
+            android:textSize="20dp" />
          <TextView
             android:id="@+id/not_started"
             android:layout_width="96dp"
             android:layout_height="35dp"
             android:gravity="center"
             android:text="@string/not_started_abbreviation"
-            android:textSize="20px" />
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:onClick="clearCheckedIntegersOnclick"
             android:text="@string/clear_selection"
-            android:textSize="20px" />
+            android:textSize="20dp" />
     </LinearLayout>
 
 </LinearLayout>

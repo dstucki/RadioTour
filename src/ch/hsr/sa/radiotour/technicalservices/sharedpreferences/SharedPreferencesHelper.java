@@ -16,7 +16,6 @@ public class SharedPreferencesHelper {
 	}
 
 	public static void initializePreferences(Context con) {
-
 		if (helper == null) {
 			helper = new SharedPreferencesHelper(con);
 		}

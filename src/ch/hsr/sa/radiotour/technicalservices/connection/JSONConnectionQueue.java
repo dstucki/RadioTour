@@ -45,7 +45,6 @@ public class JSONConnectionQueue {
 					}
 				} else {
 					Thread.currentThread().sleep(10000);
-
 				}
 			} catch (JSONException e) {
 				Log.e(getClass().getSimpleName(), e.getMessage());
@@ -67,7 +66,6 @@ public class JSONConnectionQueue {
 		httpost.setHeader("Accept", "application/json");
 		httpost.setHeader("Content-type", "application/json");
 
-		@SuppressWarnings("unchecked")
 		HttpResponse response = httpclient.execute(httpost);
 		Log.d(getClass().getSimpleName(), response.getStatusLine().toString()
 				+ " " + response.getStatusLine().getStatusCode());

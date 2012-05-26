@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.fragments;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -9,6 +8,7 @@ import java.util.TreeSet;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,7 @@ public class DriverGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
 	private LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
-	private final HashMap<Integer, GroupTableRow> driverTableRow = new HashMap<Integer, GroupTableRow>();
+	private final SparseArray<GroupTableRow> driverTableRow = new SparseArray<GroupTableRow>();
 	private TableLayout.LayoutParams standardParams;
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
@@ -146,7 +146,6 @@ public class DriverGroupFragment extends Fragment {
 		getView().findViewById(R.id.tableRowGroup2).setOnClickListener(
 				clickListener);
 		clickListener.addObserver((RadioTourActivity) getActivity());
-
 	}
 
 	public void setDragListener(GroupingDragListener listener) {
@@ -380,7 +379,6 @@ public class DriverGroupFragment extends Fragment {
 			break;
 		case R.id.sturz:
 			newState = RiderState.FALL;
-
 			break;
 		case R.id.aufgabe:
 			newState = RiderState.GIVEUP;

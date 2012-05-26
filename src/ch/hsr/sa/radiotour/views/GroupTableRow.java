@@ -273,14 +273,14 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getDriverNumbers()) {
 			temp = app.getRiderStage(i);
-			
+
 			try {
 				temp.setVirtualDeficit(date);
 			} catch (NullPointerException e) {
 				Log.i(getClass().getSimpleName(), temp + "");
 				Log.i(getClass().getSimpleName(), i + "");
 				Log.i(getClass().getSimpleName(), date + "");
-
+				Log.e(getClass().getSimpleName(), e.getMessage());
 			}
 			modificationAvoider.add(temp);
 		}

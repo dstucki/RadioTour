@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.util.Log;
 import ch.hsr.sa.radiotour.technicalservices.connection.ConnectionStatus;
 
 public class GPSLocationListener extends Observable implements LocationListener {
@@ -91,14 +90,14 @@ public class GPSLocationListener extends Observable implements LocationListener 
 	public void getGPSData() {
 		if (actualLocation != null) {
 			if (actualLocation.hasAltitude()) {
-				altitude = ((int) actualLocation.getAltitude()) + "";
+				altitude = (String.valueOf(actualLocation.getAltitude()));
 			} else {
-				altitude = "No GPS";
+				altitude = " - ";
 			}
 			if (actualLocation.hasAccuracy()) {
-				accuracy = round(actualLocation.getAccuracy()) + "";
+				accuracy = String.valueOf(round(actualLocation.getAccuracy()));
 			} else {
-				accuracy = "No GPS";
+				accuracy = " - ";
 			}
 		}
 	}
@@ -121,9 +120,6 @@ public class GPSLocationListener extends Observable implements LocationListener 
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle arg2) {
-		Log.d(getClass().getSimpleName(), arg2.describeContents() + "");
-		Log.d(getClass().getSimpleName(), arg2.toString());
-
 		if (status == LocationProvider.AVAILABLE) {
 			connectionState = ConnectionStatus.GREEN;
 		} else {
