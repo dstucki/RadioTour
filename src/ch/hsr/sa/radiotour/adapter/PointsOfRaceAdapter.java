@@ -12,10 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.fragments.HeaderFragment;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.listener.GPSLocationListener;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
@@ -42,7 +42,7 @@ public class PointsOfRaceAdapter extends ArrayAdapter<PointOfRace> implements
 		if (point.isAlreadypassed() != HeaderFragment.mGPS.getDistanceInKm() > point
 				.getDistance()) {
 			point.setAlreadypassed(!point.isAlreadypassed());
-			((RadioTourActivity) getContext()).getHelper().getPointOfRaceDao()
+			DatabaseHelper.getHelper(getContext()).getPointOfRaceDao()
 					.update(point);
 			setActualPoint(point);
 		}

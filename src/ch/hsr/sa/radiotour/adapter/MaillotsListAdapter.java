@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.Maillot;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 	private ArrayList<Maillot> maillots;
@@ -51,8 +51,8 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 			@Override
 			public void onClick(View v) {
-				((RadioTourActivity) getContext()).getHelper()
-						.getMaillotRuntimeDao().delete(maillot);
+				DatabaseHelper.getHelper(getContext()).getMaillotRuntimeDao()
+						.delete(maillot);
 				maillots.remove(maillot);
 				notifyDataSetChanged();
 			}

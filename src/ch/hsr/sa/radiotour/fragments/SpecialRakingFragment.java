@@ -32,6 +32,7 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.SpecialPointHolder;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -166,8 +167,10 @@ public class SpecialRakingFragment extends Fragment {
 
 		application = (RadioTour) activity.getApplication();
 
-		specialDatabaseDao = activity.getHelper().getSpecialRankingDao();
-		judgementDatabaseDao = activity.getHelper().getJudgementDao();
+		specialDatabaseDao = DatabaseHelper.getHelper(activity)
+				.getSpecialRankingDao();
+		judgementDatabaseDao = DatabaseHelper.getHelper(activity)
+				.getJudgementDao();
 
 		Button addSpecialRanking = (Button) view
 				.findViewById(R.id.button_add_new_special_ranking);

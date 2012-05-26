@@ -24,6 +24,7 @@ import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.connection.JSONConnectionQueue;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
@@ -42,16 +43,16 @@ public class DriverGroupFragment extends Fragment {
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private RadioTour app;
 	private RadioTourActivity activity;
+	private DatabaseHelper helper;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		tableRows.clear();
 		driverTableRow.clear();
-		groupDatabaseDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getGroupDao();
-		riderStageDao = ((RadioTourActivity) getActivity()).getHelper()
-				.getRiderStageDao();
+		helper = DatabaseHelper.getHelper(getActivity());
+		groupDatabaseDao = helper.getGroupDao();
+		riderStageDao = helper.getRiderStageDao();
 		activity = (RadioTourActivity) getActivity();
 		app = (RadioTour) activity.getApplication();
 
@@ -299,17 +300,11 @@ public class DriverGroupFragment extends Fragment {
 		Log.i(getClass().getSimpleName(),
 				"synctoDB #3" + System.currentTimeMillis());
 
-		activity.getHelper().getRaceSituationDao().create(situation);
-		Log.i(getClass().getSimpleName(),
-				"synctoDB #4" + System.currentTimeMillis());
+		helper.getRaceSituationDao().create(situation);
 
 		app.setSituation(situation);
-		Log.i(getClass().getSimpleName(),
-				"synctoDB #5" + System.currentTimeMillis());
 
 		JSONConnectionQueue.getInstance().addToQueue(situation);
-		Log.i(getClass().getSimpleName(),
-				"synctoDB #6" + System.currentTimeMillis());
 
 	}
 
@@ -318,15 +313,11 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	public void moveDriverNr(View destination, Set<Integer> riderNumbers) {
-		Log.i(getClass().getSimpleName(),
-				"moveDriverNr #1" + System.currentTimeMillis());
 
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}
 		GroupTableRow groupTableRow = null;
-		Log.i(getClass().getSimpleName(),
-				"moveDriverNr #2" + System.currentTimeMillis());
 
 		if (destination instanceof TableRow) {
 			if (hasToCreateNewGroup((TableRow) destination)) {
@@ -334,14 +325,10 @@ public class DriverGroupFragment extends Fragment {
 			}
 			groupTableRow = (GroupTableRow) destination;
 		}
-		Log.i(getClass().getSimpleName(),
-				"moveDriverNr #3" + System.currentTimeMillis());
 
 		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
 		modificationAvoider.addAll(riderNumbers);
 		for (Integer i : modificationAvoider) {
-			Log.i(getClass().getSimpleName(), "moveDriverNr #4 : id : " + i
-					+ " " + System.currentTimeMillis());
 
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
@@ -351,19 +338,10 @@ public class DriverGroupFragment extends Fragment {
 				driverTableRow.put(i, groupTableRow);
 			}
 		}
-		Log.i(getClass().getSimpleName(),
-				"moveDriverNr #5 " + " " + System.currentTimeMillis());
 		if (groupTableRow != null) {
-			Log.i(getClass().getSimpleName(),
-					"moveDriverNr #6 " + " " + System.currentTimeMillis());
-
-			Log.i(getClass().getSimpleName(),
-					"moveDriverNr #7 " + " " + System.currentTimeMillis());
 
 		}
 		removeEmptyTableRows();
-		Log.i(getClass().getSimpleName(),
-				"moveDriverNr #8 " + " " + System.currentTimeMillis());
 
 	}
 

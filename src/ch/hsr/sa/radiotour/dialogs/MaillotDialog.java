@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class MaillotDialog extends DialogFragment {
 	private View v;
@@ -60,7 +60,7 @@ public class MaillotDialog extends DialogFragment {
 				.findViewById(R.id.edittxt_time)).getText().toString()));
 		maillot.setColor(getColorFromButtonID(((RadioGroup) v
 				.findViewById(R.id.rg_color)).getCheckedRadioButtonId()));
-		((RadioTourActivity) getActivity()).getHelper().getMaillotRuntimeDao()
+		DatabaseHelper.getHelper(getActivity()).getMaillotRuntimeDao()
 				.create(maillot);
 
 	}

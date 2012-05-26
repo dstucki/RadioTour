@@ -93,5 +93,8 @@
     <string name="maillot_white">Weiss</string>
     <string name="time_sec">Zeit (s)</string>
     <string name="point_money">Punkte / Geld</string>
+    <string name="march_table">Marschtabelle</string>
+    <string name="err_marchtable">Fehler beim darstellen der Marschtabelle, Dialog wird geschlossen</string>
+    
 
 </resources>

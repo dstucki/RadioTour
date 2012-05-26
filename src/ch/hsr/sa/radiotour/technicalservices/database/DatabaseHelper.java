@@ -17,6 +17,7 @@ import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.domain.Team;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -36,6 +37,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// increase the database version
 	private static final int DATABASE_VERSION = 2;
 
+	private static DatabaseHelper helper;
+
 	// the DAO object we use to access the BicycleRider table
 	private RuntimeExceptionDao<BicycleRider, Integer> riderRuntimeDao = null;
 	private RuntimeExceptionDao<Team, String> teamRuntimeDao = null;
@@ -51,6 +54,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
 				R.raw.ormlite_config);
+		helper = this;
+	}
+
+	public static synchronized DatabaseHelper getHelper(Context context) {
+		if (helper == null) {
+			helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+		}
+		return helper;
 	}
 
 	/**
