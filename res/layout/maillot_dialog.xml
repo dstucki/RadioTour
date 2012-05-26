@@ -55,50 +55,41 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rg_color"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <RadioGroup
-                android:id="@+id/rg_color"
+            <RadioButton
+                android:id="@+id/rdbtn_red"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:text="@string/maillot_red"
+                android:textSize="14dp" />
 
-                <RadioButton
-                    android:id="@+id/rdbtn_red"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maillot_red"
-                    android:textSize="14dp" />
+            <RadioButton
+                android:id="@+id/rdbtn_green"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maillot_green"
+                android:textSize="14dp" />
 
-                <RadioButton
-                    android:id="@+id/rdbtn_green"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maillot_green"
-                    android:textSize="14dp" />
+            <RadioButton
+                android:id="@+id/rdbtn_yellow"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maillot_yellow"
+                android:textSize="14dp" />
 
-                <RadioButton
-                    android:id="@+id/rdbtn_yellow"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maillot_yellow"
-                    android:textSize="14dp" />
-
-                <RadioButton
-                    android:id="@+id/rdbtn_white"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/maillot_white"
-                    android:textSize="14dp" />
-            </RadioGroup>
-
-        </LinearLayout>
-
+            <RadioButton
+                android:id="@+id/rdbtn_white"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/maillot_white"
+                android:textSize="14dp" />
+        </RadioGroup>
     </LinearLayout>
-
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="150dp"

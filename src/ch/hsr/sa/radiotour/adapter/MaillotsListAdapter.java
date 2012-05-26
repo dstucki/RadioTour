@@ -34,19 +34,19 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 		final Maillot maillot = maillots.get(position);
 
-		TextView name = (TextView) v.findViewById(R.id.tv10000);
+		TextView name = (TextView) v.findViewById(R.id.maillot_name);
 		name.setText(maillot.getMaillot());
-		TextView points = (TextView) v.findViewById(R.id.textView14);
+		TextView points = (TextView) v.findViewById(R.id.maillot_points);
 		points.setText(maillot.getPoints() + "");
 
-		TextView time = (TextView) v.findViewById(R.id.textView57);
+		TextView time = (TextView) v.findViewById(R.id.maillot_time);
 		time.setText(maillot.getTime() + "");
 
-		ImageView image = (ImageView) v.findViewById(R.id.imageView1);
+		ImageView image = (ImageView) v.findViewById(R.id.maillot_color);
 		image.setImageDrawable(getContext().getResources().getDrawable(
 				R.drawable.maillot_red));
 
-		Button delete = (Button) v.findViewById(R.id.button1);
+		Button delete = (Button) v.findViewById(R.id.maillot_delete);
 		delete.setOnClickListener(new OnClickListener() {
 
 			@Override

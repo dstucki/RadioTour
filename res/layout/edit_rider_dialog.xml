@@ -14,24 +14,26 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Startnr.:" />
+            android:text="@string/tb_startnr" />
 
         <EditText
             android:id="@+id/edittxt_startnr"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:editable="false" />
+            android:editable="false"
+            android:inputType="text" />
 
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Name:" />
+            android:text="@string/tb_name" />
 
         <EditText
             android:id="@+id/edittxt_name"
             android:layout_width="300dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" 
+            android:inputType="text"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,19 +46,20 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Team:" />
+            android:text="@string/tb_team" />
 
         <EditText
             android:id="@+id/edittxt_team"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:editable="false" />
+            android:editable="false"
+            android:inputType="text" />
 
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Geburtstag:" />
+            android:text="@string/lb_birthday" />
 
         <EditText
             android:id="@+id/edittxt_day"
@@ -109,12 +112,13 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Notiz:" />
+            android:text="@string/lb_notes" />
 
         <EditText
             android:id="@+id/edittxt_note"
             android:layout_width="300dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -123,27 +127,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal" >
+        <Button
+            android:id="@+id/btn_abort"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/lb_cancel" />
 
-            <Button
-                android:id="@+id/btn_abort"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Abbruch" />
-
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Speichern" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/lb_save" />
     </LinearLayout>
 
 </LinearLayout>

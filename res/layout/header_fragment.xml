@@ -225,7 +225,9 @@
                     android:id="@+id/distancetogo"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:text="0 km" android:background="#333333" android:padding="5dp"/>
+                    android:text="@string/lb_defaultdistance"
+                    android:background="#333333"
+                    android:padding="5dp"/>
 
             </LinearLayout>
         </LinearLayout>

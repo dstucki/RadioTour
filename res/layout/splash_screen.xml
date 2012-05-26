@@ -10,16 +10,18 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:paddingBottom="30dp"
+        android:saveEnabled="false"
         android:text="@string/splashscreen"
-        android:textSize="30dp" android:layout_gravity="center" android:saveEnabled="false"/>
+        android:textSize="30dp" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </LinearLayout>

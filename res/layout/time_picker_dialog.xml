@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Abbruch" />
+        android:text="@string/lb_cancel" />
 
     <Button
         android:id="@+id/saveButton"
@@ -24,6 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Speichern" />
+        android:text="@string/lb_save" />
 
 </LinearLayout>
