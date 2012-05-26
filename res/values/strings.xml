@@ -8,6 +8,7 @@
     <string name="driver_country">Land</string>
     <string name="driver_start_nr">Startnummer</string>
     <string name="driver_detail_name">Detail Fahrer</string>
+    <string name="driver_birthday">01.01.1990</string>
     <string name="lb_time">Zeit:</string>
     <string name="top">Spitze</string>
     <string name="new_group">Neu</string>
@@ -23,7 +24,14 @@
     <string name="tb_name">Name</string>
     <string name="tb_team">Team</string>
     <string name="tb_rang">Rang</string>
+    <string name="lb_birthday">Geburtstag</string>
+    <string name="lb_notes">Notiz</string>
+    <string name="lb_importetappe">Etappen importieren</string>
+    <string name="lb_importmtable">Marschtabelle importieren</string>
+    <string name="lb_importrider">Fahrer importieren</string>
+    <string name="lb_importridertime">Fahrer mit Zeiten importieren</string>
     <string name="tb_timebonus">Zeitbonus</string>
+    <string name="tb_pointsbonus">Punktebonus</string>
     <string name="tb_virtdeficite">Virt. Rückstand</string>
     <string name="tb_officialtime">Offizielle Zeit</string>
     <string name="tb_officialdeficte">Offizieller Rückstand</string>
@@ -43,10 +51,11 @@
     <string name="lb_defaultaltitude">0 müM</string>
     <string name="lb_connectionstate">Verb.:</string>
     <string name="lb_gpsstate">GPS:</string>
-    <string name="lb_distance">Rennkilometer:</string>
+    <string name="lb_distance">Renn km:</string>
     <string name="lb_hour">Stunden</string>
     <string name="lb_min">Minuten</string>
     <string name="lb_sec">Sekunden</string>
+    <string name="lb_numberofwinners">Anzahl Gewinner</string>
     <string name="hd_setdistance">Rennkilometer festlegen:</string>
     <string name="hd_marchtable">Marschtabelle</string>
     <string name="lb_save">Speichern</string>

@@ -96,23 +96,20 @@
 
                 <Spinner
                     android:id="@+id/spinner1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content">
                 </Spinner>
 
                 <Button
                     android:id="@+id/btn_save_stage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/lb_save" />
 
                 <Button
                     android:id="@+id/btn_delete_stage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/lb_delete" />
             </LinearLayout>
 
@@ -152,7 +149,8 @@
                     android:id="@+id/edtxt_destination_stage"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/destination" />
+                    android:text="@string/destination" 
+                    android:inputType="text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -186,25 +184,25 @@
                 android:id="@+id/btn_import_stage"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Import von Etappen" />
+                android:text="@string/lb_importetappe" />
 
             <Button
                 android:id="@+id/btn_import_match_table"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Import von Marschtabellen" />
+                android:text="@string/lb_importmtable" />
 
             <Button
                 android:id="@+id/btn_import_driver"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Import von Fahrern" />
+                android:text="@string/lb_importrider" />
 
             <Button
                 android:id="@+id/btn_import_driver_time"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Import von Fahrern mit Zeiten" />
+                android:text="@string/lb_importridertime" />
         </LinearLayout>
     </LinearLayout>
 

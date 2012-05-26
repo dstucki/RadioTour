@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/tabbar"
-        android:layout_width="480dp"
+        android:layout_width="460dp"
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
 
@@ -61,7 +61,7 @@
 
     <LinearLayout
         android:id="@+id/tourinfo"
-        android:layout_width="540dp"
+        android:layout_width="560dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp" >
@@ -189,13 +189,13 @@
 
         <LinearLayout
             android:id="@+id/tourinfo_row4"
-            android:layout_width="140dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/speed_value"
-                android:layout_width="140dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:background="#333333"
                 android:padding="5dp"
@@ -203,29 +203,31 @@
 
             <TextView
                 android:id="@+id/altitude_value"
-                android:layout_width="140dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:background="#333333"
                 android:padding="5dp"
                 android:text="@string/lb_defaultaltitude" />
 
             <LinearLayout
-                android:layout_width="140dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/distance_value"
-                    android:layout_width="70dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#333333"
                     android:padding="5dp"
-                    android:text="@string/lb_defaultdistance" />
+                    android:text="@string/lb_defaultdistance" android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/distancetogo"
-                    android:layout_width="70dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="0 km" android:background="#333333" android:padding="5dp"/>
+                    android:text="@string/lb_defaultdistance"
+                    android:background="#333333"
+                    android:padding="5dp" android:layout_weight="1"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -233,7 +235,7 @@
 
     <LinearLayout
         android:id="@+id/timing"
-        android:layout_width="270dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="right"

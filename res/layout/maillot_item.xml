@@ -6,13 +6,13 @@
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/tv10000"
+        android:id="@+id/maillot_name"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/lb_default" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/maillot_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,21 +22,21 @@
         android:src="@drawable/maillot_red" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/maillot_points"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="15" />
+        android:text="@string/lb_emptyvalues" />
 
     <TextView
-        android:id="@+id/textView57"
+        android:id="@+id/maillot_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="00:30" />
+        android:text="@string/lb_emptyvalues" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/maillot_delete"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/lb_delete" />

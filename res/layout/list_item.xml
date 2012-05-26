@@ -10,7 +10,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:text="Start-Nr."
+        android:text="@string/tb_startnr"
         android:textSize="20dp" >
     </TextView>
     <TextView
@@ -20,7 +20,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:text="getCountry"
+        android:text="@string/driver_country"
         android:textSize="20dp" >
     </TextView>
 
@@ -31,7 +31,7 @@
           android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:text="getTeam"
+        android:text="@string/driver_team"
         android:textSize="20dp" >
     </TextView>
 
@@ -42,7 +42,7 @@
           android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:text="getName"
+        android:text="@string/driver_name"
         android:textSize="20dp" >
     </TextView>
 
@@ -53,7 +53,7 @@
           android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:text="getBirthday"
+        android:text="@string/driver_birthday"
         android:textSize="20dp" >
     </TextView>
 
