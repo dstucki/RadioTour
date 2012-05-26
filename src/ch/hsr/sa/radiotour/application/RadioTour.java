@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
-import android.util.Log;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.Rider;
@@ -62,12 +61,6 @@ public class RadioTour extends Application {
 			teams.put(rider.getTeam().getName(), new Team(rider.getTeam()
 					.getName()));
 		}
-		Log.i(getClass().getSimpleName(), teams + "");
-		Log.i(getClass().getSimpleName(), rider + "");
-		Log.i(getClass().getSimpleName(), rider.getTeam() + "");
-		Log.i(getClass().getSimpleName(), rider.getTeam().getDriverNumbers()
-				+ "");
-
 		teams.get(rider.getTeam().getName()).addRider(rider);
 	}
 

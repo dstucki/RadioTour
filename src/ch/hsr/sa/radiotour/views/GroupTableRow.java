@@ -1,10 +1,8 @@
 package ch.hsr.sa.radiotour.views;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -13,6 +11,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,8 +33,8 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 public class GroupTableRow extends TableRow implements TimePickerIF {
 	private TextView description;
 	private TextView time, lastTime;
-	private final Map<Integer, LinearLayout> map = new HashMap<Integer, LinearLayout>();
-	private final Map<Integer, TextView> mapTextView = new HashMap<Integer, TextView>();
+	private final SparseArray<LinearLayout> map = new SparseArray<LinearLayout>();
+	private final SparseArray<TextView> mapTextView = new SparseArray<TextView>();
 	private LinearLayout odd, even;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private Group group;
@@ -200,10 +199,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			});
 			txtViewToAdd.setOnClickListener((RadioTourActivity) context);
 		}
-	}
-
-	public boolean hasRiderNr(Integer riderNr) {
-		return map.containsKey(riderNr);
 	}
 
 	private LinearLayout getParentLayout(Integer riderNr) {

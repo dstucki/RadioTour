@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
-import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
+import ch.hsr.sa.radiotour.fragments.SpecialRankingFragment;
 
 public class SpecialRankingDialog extends DialogFragment {
 	private View v;
@@ -23,7 +23,7 @@ public class SpecialRankingDialog extends DialogFragment {
 	private EditText name, nrOfWinner;
 	private CheckBox time, point;
 	private LinearLayout tableHolder;
-	private final SpecialRakingFragment fragment;
+	private final SpecialRankingFragment fragment;
 	private boolean hasToSetName = false;
 
 	private final OnClickListener listener = new OnClickListener() {
@@ -39,7 +39,7 @@ public class SpecialRankingDialog extends DialogFragment {
 		}
 	};
 
-	public SpecialRankingDialog(SpecialRakingFragment fragment,
+	public SpecialRankingDialog(SpecialRankingFragment fragment,
 			SpecialRanking specialRanking) {
 		this.specialRanking = specialRanking;
 		this.fragment = fragment;

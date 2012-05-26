@@ -41,7 +41,7 @@ public class KmPickerDialog extends DialogFragment {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Float dist = new Float(value.getText().toString());
+				Float dist = Float.valueOf(value.getText().toString());
 				gpshandler.setDistance(dist);
 				gpshandler.updateLocation();
 				dismiss();

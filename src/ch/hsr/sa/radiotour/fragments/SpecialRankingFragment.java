@@ -36,7 +36,7 @@ import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-public class SpecialRakingFragment extends Fragment {
+public class SpecialRankingFragment extends Fragment {
 	private ArrayAdapter<SpecialRanking> adapterForSpecialRankingSpinner;
 	private ArrayAdapter<Judgement> adapterForJudgementSpinner;
 	private View v;
@@ -178,7 +178,7 @@ public class SpecialRakingFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				activity.showSpecialRankingDialog(SpecialRakingFragment.this,
+				activity.showSpecialRankingDialog(SpecialRankingFragment.this,
 						null);
 			}
 		});
@@ -188,7 +188,7 @@ public class SpecialRakingFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				activity.showSpecialRankingDialog(SpecialRakingFragment.this,
+				activity.showSpecialRankingDialog(SpecialRankingFragment.this,
 						(SpecialRanking) spinner.getSelectedItem());
 			}
 		});
@@ -201,7 +201,9 @@ public class SpecialRakingFragment extends Fragment {
 				try {
 					saveJudgement();
 				} catch (NullPointerException e) {
-					Log.e(getClass().getSimpleName(), e.getMessage());
+					Log.e(getClass().getSimpleName(),
+							e.getMessage() == null ? "NullPointer in Saving Judgemnent"
+									: e.getMessage());
 				}
 			}
 		});
@@ -249,7 +251,7 @@ public class SpecialRakingFragment extends Fragment {
 							}
 						}
 						actualJudgement.setRanking(actualSpecialRanking);
-						activity.showTextViewDialog(SpecialRakingFragment.this,
+						activity.showTextViewDialog(SpecialRankingFragment.this,
 								actualJudgement);
 					}
 				});

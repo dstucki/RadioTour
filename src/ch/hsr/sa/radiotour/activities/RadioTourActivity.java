@@ -41,7 +41,7 @@ import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.fragments.HeaderFragment;
 import ch.hsr.sa.radiotour.fragments.RaceFragment;
-import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
+import ch.hsr.sa.radiotour.fragments.SpecialRankingFragment;
 import ch.hsr.sa.radiotour.fragments.VirtualRankingFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
@@ -63,7 +63,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	private RaceFragment raceFragment;
 	private VirtualRankingFragment rankingFragment;
 	private AdminFragment adminFragment;
-	private SpecialRakingFragment specialRankingFragment;
+	private SpecialRankingFragment specialRankingFragment;
 	private DatabaseHelper databaseHelper = null;
 	private RadioTour application;
 
@@ -246,7 +246,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void onSpecialButtonClick(View v) {
-		specialRankingFragment = new SpecialRakingFragment();
+		specialRankingFragment = new SpecialRankingFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.changeLayout, specialRankingFragment);
@@ -330,7 +330,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		onRowLayoutClick((View) data, checkedIntegers);
 	}
 
-	public void showSpecialRankingDialog(SpecialRakingFragment fragment,
+	public void showSpecialRankingDialog(SpecialRankingFragment fragment,
 			SpecialRanking selectedItem) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag(
@@ -345,7 +345,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "textViewDialog");
 	}
 
-	public void showTextViewDialog(SpecialRakingFragment fragment,
+	public void showTextViewDialog(SpecialRankingFragment fragment,
 			Judgement judgement) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag(

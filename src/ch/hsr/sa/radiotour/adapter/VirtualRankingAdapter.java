@@ -16,6 +16,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
+import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.sorting.RiderSortStrategy;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
@@ -57,43 +58,58 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 		}
 		final RiderStageConnection conn = connecters.get(position);
 		final Rider rider = conn.getRider();
+		final RiderState state = conn.getRiderState();
 		if (rider != null) {
 			try {
 				TextView temp = (TextView) v.findViewById(R.id.rang);
 				temp.setText((position + 1) + "");
+				temp.setTextColor(state.getTextColor());
+
 				temp = (TextView) v.findViewById(R.id.startnummer);
 				temp.setText(rider.getStartNr() + "");
+				temp.setTextColor(state.getTextColor());
+
 				temp = (TextView) v.findViewById(R.id.fahrername);
 				temp.setText(rider.getName());
+				temp.setTextColor(state.getTextColor());
+
 				temp = (TextView) v.findViewById(R.id.team);
 				temp.setText(rider.getTeam().getShortName());
+				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.virtualRank);
 				temp.setText(conn.getOfficialRank() + "");
+				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.timeBoni);
 				temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
 						0, conn.getBonusTime())));
+				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.timeOfficial);
 				temp.setText(StringUtils.getTimeAsString(conn.getOfficialTime()));
+				temp.setTextColor(state.getTextColor());
+
 				temp = (TextView) v.findViewById(R.id.handicapOfficial);
 				temp.setText(StringUtils.getTimeAsString(conn
 						.getOfficialDeficit()));
+				temp.setTextColor(state.getTextColor());
+
 				temp = (TextView) v.findViewById(R.id.virtualDeficit);
 				temp.setText(StringUtils.getTimeAsString(conn
 						.getVirtualDeficit()));
+				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.land_text);
 				temp.setText(rider.getCountry());
+				temp.setTextColor(state.getTextColor());
 
 				ImageView country = (ImageView) v.findViewById(R.id.land_image);
 				country.setImageResource(context.getResources().getIdentifier(
 						StringUtils.getCountryFlag(rider.getCountry()),
 						"drawable", context.getPackageName()));
 
-				parent.getChildAt(position).setBackgroundColor(
-						conn.getRiderState().getBackgroundColor());
+				v.setBackgroundColor(conn.getRiderState().getBackgroundColor());
 
 			} catch (NullPointerException e) {
 				Log.d(getClass().getSimpleName(), e.getMessage()

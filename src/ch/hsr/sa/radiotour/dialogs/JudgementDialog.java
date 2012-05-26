@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Stage;
-import ch.hsr.sa.radiotour.fragments.SpecialRakingFragment;
+import ch.hsr.sa.radiotour.fragments.SpecialRankingFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class JudgementDialog extends DialogFragment {
@@ -23,7 +23,7 @@ public class JudgementDialog extends DialogFragment {
 	private EditText name, distance;
 	private Spinner spinner;
 	private ArrayAdapter<Stage> stageAdapter;
-	private final SpecialRakingFragment fragment;
+	private final SpecialRankingFragment fragment;
 
 	private final OnClickListener onSaveButtonListener = new OnClickListener() {
 
@@ -56,7 +56,7 @@ public class JudgementDialog extends DialogFragment {
 
 	};
 
-	public JudgementDialog(SpecialRakingFragment fragment, Judgement judgement) {
+	public JudgementDialog(SpecialRankingFragment fragment, Judgement judgement) {
 		super();
 		this.judgement = judgement;
 		this.fragment = fragment;
