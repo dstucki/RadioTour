@@ -19,6 +19,8 @@ public class RiderStageConnection implements JsonSendable {
 	private Rider rider;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
+	@DatabaseField()
+	private int bonusTime;
 	@DatabaseField
 	private int bonusPoints;
 	@DatabaseField
@@ -31,8 +33,6 @@ public class RiderStageConnection implements JsonSendable {
 	private Date officialTime;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date virtualDeficit;
-	@DatabaseField()
-	private int bonusTime;
 
 	public RiderStageConnection(Stage stage, Rider rider, Date officialTime,
 			Date officialDeficit) {

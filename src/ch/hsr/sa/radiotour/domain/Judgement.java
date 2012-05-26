@@ -1,5 +1,8 @@
 package ch.hsr.sa.radiotour.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -10,28 +13,37 @@ public class Judgement {
 	private int id;
 	@DatabaseField()
 	private String name;
-	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private int[] winningRiders;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "specialranking")
 	private SpecialRanking ranking;
 	@DatabaseField()
 	private double distance;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
+	@DatabaseField()
+	private int nrOfWinningDrivers;
+	@DatabaseField(dataType = DataType.BOOLEAN)
+	private boolean timeBoni;
+	@DatabaseField(dataType = DataType.BOOLEAN)
+	private boolean pointBoni;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ArrayList<Integer> pointBonis;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ArrayList<Integer> timeBonis;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ArrayList<Integer> winningRiders;
 
 	public Judgement(String name, double distance, Stage stage) {
-		super();
+		this();
 		this.name = name;
 		this.distance = distance;
 		this.stage = stage;
 	}
 
 	public Judgement() {
+		pointBonis = new ArrayList<Integer>();
+		timeBonis = new ArrayList<Integer>();
+		winningRiders = new ArrayList<Integer>();
 	};
-
-	public int[] getWinningRiders() {
-		return winningRiders;
-	}
 
 	public int getId() {
 		return id;
@@ -41,26 +53,12 @@ public class Judgement {
 		this.id = id;
 	}
 
-	public void setWinningRiders(int[] winningRiders) {
-		this.winningRiders = winningRiders;
-	}
-
-	public void addWinner(int rank, int riderNr) {
-		winningRiders[rank - 1] = riderNr;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	public SpecialRanking getRanking() {
 		return ranking;
 	}
 
 	public void setRanking(SpecialRanking ranking) {
 		this.ranking = ranking;
-		winningRiders = new int[ranking.getNrOfWinningDrivers()];
 	}
 
 	public String getName() {
@@ -85,6 +83,80 @@ public class Judgement {
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
+	}
+
+	public int getNrOfWinningDrivers() {
+		return nrOfWinningDrivers;
+	}
+
+	public void setNrOfWinningDrivers(int nrOfWinningDrivers) {
+		this.nrOfWinningDrivers = nrOfWinningDrivers;
+		int oldSize = pointBonis.size();
+		if (oldSize == nrOfWinningDrivers) {
+			return;
+		}
+		if (oldSize < nrOfWinningDrivers) {
+			while (pointBonis.size() < nrOfWinningDrivers) {
+				pointBonis.add(0);
+				timeBonis.add(0);
+				winningRiders.add(0);
+			}
+			return;
+		} else {
+			while (pointBonis.size() > nrOfWinningDrivers) {
+				pointBonis.remove(pointBonis.size() - 1);
+				timeBonis.remove(timeBonis.size() - 1);
+				winningRiders.remove(winningRiders.size() - 1);
+			}
+		}
+	}
+
+	public boolean isTimeBoni() {
+		return timeBoni;
+	}
+
+	public void setTimeBoni(boolean timeBoni) {
+		this.timeBoni = timeBoni;
+	}
+
+	public boolean isPointBoni() {
+		return pointBoni;
+	}
+
+	public void setPointBoni(boolean pointBoni) {
+		this.pointBoni = pointBoni;
+	}
+
+	public ArrayList<Integer> getPointBonis() {
+		return pointBonis;
+	}
+
+	public void setPointBonis(ArrayList<Integer> pointBonis) {
+		this.pointBonis = pointBonis;
+	}
+
+	public ArrayList<Integer> getTimeBonis() {
+		return timeBonis;
+	}
+
+	public void setTimeBonis(ArrayList<Integer> timeBonis) {
+		this.timeBonis = timeBonis;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public void setWinningRiders(ArrayList<Integer> tempArray) {
+		if (tempArray == null) {
+			return;
+		}
+		this.winningRiders = tempArray;
+	}
+
+	public List<Integer> getWinningRiders() {
+		return winningRiders;
 	}
 
 }

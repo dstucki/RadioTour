@@ -21,8 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class LiveData extends Observable {
 	private final String STATUS_URL = "http://www.tourlive.ch/tds12/json_public/status.php";
 	private final int SPITZE = 0;
@@ -75,13 +73,13 @@ public class LiveData extends Observable {
 				jObject = new JSONArray();
 			}
 		} catch (ClientProtocolException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
+			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (JSONException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 		} catch (IOException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
+			// Log.e(getClass().getSimpleName(), e.getMessage());
 			connectionState = ConnectionStatus.RED;
 
 		}
