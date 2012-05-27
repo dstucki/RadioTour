@@ -221,5 +221,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		riderStageDao = null;
 		raceSituationDao = null;
 		specialPointDao = null;
+		helper = null;
 	}
 }
