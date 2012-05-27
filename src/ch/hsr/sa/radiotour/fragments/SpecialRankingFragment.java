@@ -1,12 +1,7 @@
 package ch.hsr.sa.radiotour.fragments;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import android.app.Fragment;
@@ -19,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,127 +24,143 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.SpecialRankingListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Judgement;
+import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.SpecialPointHolder;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
-import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
+import ch.hsr.sa.radiotour.domain.Stage;
+import ch.hsr.sa.radiotour.fragments.controller.SpecialRankingController;
 
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-
+/**
+ * 
+ * Class to display all infos that are associated with SpecialRankings
+ * 
+ */
 public class SpecialRankingFragment extends Fragment {
-	private ArrayAdapter<SpecialRanking> adapterForSpecialRankingSpinner;
-	private ArrayAdapter<Judgement> adapterForJudgementSpinner;
-	private View v;
-	private SpecialRanking actualSpecialRanking;
-	private Judgement actualJudgement;
-	private RuntimeExceptionDao<SpecialRanking, Integer> specialDatabaseDao;
-	private RuntimeExceptionDao<Judgement, Integer> judgementDatabaseDao;
+	// Adapter for Spinners
+	private ArrayAdapter<SpecialRanking> specialAdapter;
+	private ArrayAdapter<Judgement> judgementAdapter;
+
+	// Spinners
 	private Spinner judgementSpinner;
-	private RadioTourActivity activity;
-	private RadioTour application;
+	private Spinner specialRankingSpinner;
 
-	private final Comparator<SpecialPointHolder> comparator = new Comparator<SpecialPointHolder>() {
+	// Controller
+	private SpecialRankingController controller;
 
-		@Override
-		public int compare(SpecialPointHolder holder,
-				SpecialPointHolder anotherHolder) {
-			if (anotherHolder.getPointBoni() - holder.getPointBoni() != 0) {
-				return anotherHolder.getPointBoni() - holder.getPointBoni();
-			}
-			if (anotherHolder.getTimeBoni() - holder.getTimeBoni() != 0) {
-				return anotherHolder.getTimeBoni() - holder.getTimeBoni();
-			}
-			return anotherHolder.getRider().getStartNr()
-					- holder.getRider().getStartNr();
-		}
-	};
-
-	private final OnItemSelectedListener listener = new OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parentView,
-				View selectedItemView, int position, long id) {
-			actualSpecialRanking = adapterForSpecialRankingSpinner
-					.getItem(position);
-			clearTextFields();
-			fillJudgements();
-
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-			clearTextFields();
-		}
-	};
-
-	public LinearLayout clearTextFields() {
-		LinearLayout llparent = (LinearLayout) v
-				.findViewById(R.id.llayout_driver_set);
+	/**
+	 * Removes all TextViews that are used for the input of the winning Rider
+	 * 
+	 * @return Layout from which all TextViews were removed
+	 */
+	private LinearLayout clearTextViews() {
+		LinearLayout llparent = (LinearLayout) getView().findViewById(
+				R.id.llayout_driver_set);
 		llparent.removeAllViews();
 		return llparent;
 	}
 
-	private final OnItemSelectedListener listener2 = new OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parentView,
-				View selectedItemView, int position, long id) {
-			actualJudgement = adapterForJudgementSpinner.getItem(position);
-			fillJudgementInfo();
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-			clearTextFields();
-		}
-	};
-
+	/**
+	 * Creates and adds the amount of TextViews that are required according to
+	 * the actual Selected {@link Judgement} Object. Calls
+	 * {@link SpecialRankingFragment#addTextViews(LinearLayout, List)}
+	 */
 	private void fillJudgementInfo() {
-		if (v == null) {
+		if (getView() == null) {
 			return;
 		}
-		LinearLayout llparent = clearTextFields();
-		for (int i = 0; i < actualJudgement.getNrOfWinningDrivers(); i++) {
-			LinearLayout ll = (LinearLayout) getActivity().getLayoutInflater()
-					.inflate(R.layout.driverset_judgement, null);
+		LinearLayout llparent = clearTextViews();
+		List<SpecialPointHolder> listPointHolder = controller
+				.getPointHolder(getActualJudgement());
+		addTextViews(llparent, listPointHolder);
+	}
+
+	/**
+	 * Adds the right amount of TextViews to the given layout
+	 * 
+	 * @param llparent
+	 *            layout where the {@link TextView} will be added
+	 * @param listPointHolder
+	 */
+	private void addTextViews(LinearLayout llparent,
+			List<SpecialPointHolder> listPointHolder) {
+		LinearLayout ll;
+		for (int i = 0; i < getActualJudgement().getNrOfWinningDrivers(); i++) {
+			ll = (LinearLayout) inflate(R.layout.driverset_judgement);
+			Rider rider = listPointHolder.get(i).getRider();
+			int startNr = rider == null ? 0 : rider.getStartNr();
+			((EditText) ll.findViewById(R.id.edtxt_for_number_insert))
+					.setText(startNr + "");
 			((TextView) ll.findViewById(R.id.txt_rank_in_words))
 					.setText((i + 1) + ".");
-			((EditText) ll.findViewById(R.id.edtxt_for_number_insert))
-					.setText(actualJudgement.getWinningRiders().get(i) + "");
 			llparent.addView(ll);
 		}
 	}
 
-	private void saveJudgement() throws NullPointerException {
-		ArrayList<Integer> tempArray = new ArrayList<Integer>();
-		LinearLayout llparent = (LinearLayout) v
-				.findViewById(R.id.llayout_driver_set);
+	/**
+	 * HelperMethod where a resource ID to a layout can be passed in. This ID
+	 * will be inflated and the view returned
+	 * 
+	 * @param resId
+	 *            layout ID that will be inflated
+	 * @return the inflated view
+	 */
+	private View inflate(int resId) {
+		return getActivity().getLayoutInflater().inflate(resId, null);
+	}
+
+	/**
+	 * Saves the {@link Judgement}. Aborts if illegal numbers are provided or a
+	 * number is assigned multiple
+	 * 
+	 */
+	private void saveJudgement() {
+		LinearLayout llparent = (LinearLayout) getView().findViewById(
+				R.id.llayout_driver_set);
 		Set<Integer> tempSet = new HashSet<Integer>();
 
-		for (int i = 0; i < actualJudgement.getNrOfWinningDrivers(); i++) {
-			LinearLayout ll = (LinearLayout) llparent.getChildAt(i);
-			((TextView) ll.findViewById(R.id.txt_rank_error_show)).setText("");
+		List<SpecialPointHolder> listPointHolder = controller
+				.getPointHolder(getActualJudgement());
+
+		SpecialPointHolder holder;
+		LinearLayout ll;
+		TextView error;
+		for (int i = 0; i < getActualJudgement().getNrOfWinningDrivers(); i++) {
+			ll = (LinearLayout) llparent.getChildAt(i);
+			error = ((TextView) ll.findViewById(R.id.txt_rank_error_show));
+			error.setText("");
+			holder = listPointHolder.get(i);
 			int temp = 0;
 			try {
-				temp = Integer.valueOf(((EditText) ll
-						.findViewById(R.id.edtxt_for_number_insert)).getText()
-						.toString());
+				temp = getInteger((TextView) ll
+						.findViewById(R.id.edtxt_for_number_insert));
+
 			} catch (Exception e) {
-				Log.e(getClass().getSimpleName(), e.getMessage());
-				((TextView) ll.findViewById(R.id.txt_rank_error_show))
-						.setText(getResources().getString(
-								R.string.lb_invalidnumber));
+				error.setText(getResources().getString(
+						R.string.lb_invalidnumber));
+				return;
 			}
 			if (temp != 0 && tempSet.contains(temp)) {
-				((TextView) ll.findViewById(R.id.txt_rank_error_show))
-						.setText(getResources().getString(
-								R.string.lb_doubleassing));
+				error.setText(getResources()
+						.getString(R.string.lb_doubleassing));
 				return;
 			}
 			tempSet.add(temp);
-			tempArray.add(temp);
-
+			holder.setRider(getApp().getRider(temp));
+			controller.update(holder);
 		}
-		actualJudgement.setWinningRiders(tempArray);
-		judgementDatabaseDao.update(actualJudgement);
 		setVirtualRanking();
+	}
+
+	/**
+	 * HelperMethod that parses the text from a TextView into an int
+	 * 
+	 * @param view
+	 *            from where the number should be parsed
+	 * 
+	 * @return number that is written in the TextView
+	 */
+	private int getInteger(TextView view) {
+		return Integer.valueOf(view.getText().toString());
 	}
 
 	@Override
@@ -158,195 +168,305 @@ public class SpecialRankingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.special_ranking_fragment,
 				container, false);
-		final Spinner spinner = (Spinner) view
-				.findViewById(R.id.spinner_special_ranking);
-
-		judgementSpinner = (Spinner) view.findViewById(R.id.spinner_judgement);
-
-		activity = ((RadioTourActivity) getActivity());
-
-		application = (RadioTour) activity.getApplication();
-
-		specialDatabaseDao = DatabaseHelper.getHelper(activity)
-				.getSpecialRankingDao();
-		judgementDatabaseDao = DatabaseHelper.getHelper(activity)
-				.getJudgementDao();
-
-		Button addSpecialRanking = (Button) view
-				.findViewById(R.id.button_add_new_special_ranking);
-		addSpecialRanking.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				activity.showSpecialRankingDialog(SpecialRankingFragment.this,
-						null);
-			}
-		});
-		Button editSpecialRanking = (Button) view
-				.findViewById(R.id.button_edit_special_ranking);
-		editSpecialRanking.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				activity.showSpecialRankingDialog(SpecialRankingFragment.this,
-						(SpecialRanking) spinner.getSelectedItem());
-			}
-		});
-		Button saveJudgement = (Button) view
-				.findViewById(R.id.button_save_judgement);
-		saveJudgement.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				try {
-					saveJudgement();
-				} catch (NullPointerException e) {
-					Log.e(getClass().getSimpleName(),
-							e.getMessage() == null ? "NullPointer in Saving Judgemnent"
-									: e.getMessage());
-				}
-			}
-		});
-
-		Button deleteRankingButton = (Button) view
-				.findViewById(R.id.button_delete_special_ranking);
-		deleteRankingButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				final SpecialRanking temp = (SpecialRanking) spinner
-						.getSelectedItem();
-				adapterForJudgementSpinner.clear();
-				judgementDatabaseDao.delete(getJudgement(temp));
-				adapterForSpecialRankingSpinner.remove(temp);
-				specialDatabaseDao.delete(temp);
-			}
-		});
-		Button deleteJudgementButton = (Button) view
-				.findViewById(R.id.button_delete_judgement);
-		deleteJudgementButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Judgement temp = (Judgement) judgementSpinner.getSelectedItem();
-				adapterForJudgementSpinner.remove(temp);
-				judgementDatabaseDao.delete(temp);
-				fillJudgements();
-			}
-		});
-
-		view.findViewById(R.id.button_add_new_judgement).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						actualJudgement = new Judgement(getResources()
-								.getString(R.string.lb_newjudgement), 12.5,
-								application.getActualSelectedStage());
-						if (actualSpecialRanking == null) {
-							actualSpecialRanking = (SpecialRanking) spinner
-									.getSelectedItem();
-							if (actualSpecialRanking == null) {
-								return;
-							}
-						}
-						actualJudgement.setRanking(actualSpecialRanking);
-						activity.showTextViewDialog(
-								SpecialRankingFragment.this, actualJudgement);
-					}
-				});
-
-		adapterForSpecialRankingSpinner = new ArrayAdapter<SpecialRanking>(
-				getActivity(), android.R.layout.simple_spinner_item);
-		adapterForSpecialRankingSpinner
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adapterForSpecialRankingSpinner
-				.addAll(specialDatabaseDao.queryForAll());
-
-		adapterForJudgementSpinner = new ArrayAdapter<Judgement>(getActivity(),
-				android.R.layout.simple_spinner_item);
-		adapterForJudgementSpinner
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		judgementSpinner.setAdapter(adapterForJudgementSpinner);
-		spinner.setAdapter(adapterForSpecialRankingSpinner);
-		spinner.setOnItemSelectedListener(listener);
-		judgementSpinner.setOnItemSelectedListener(listener2);
-		v = view;
+		controller = new SpecialRankingController(this);
+		assignClickListeners(view);
+		createSpecialSpinner(view);
+		createJudgementSpinner(view);
 		return view;
 	}
 
+	/**
+	 * creates the spinner and the adapter for the specialrankings
+	 * 
+	 * @param view
+	 *            where the spinner is found
+	 */
+	private void createSpecialSpinner(View view) {
+		specialRankingSpinner = (Spinner) view
+				.findViewById(R.id.spinner_special_ranking);
+		specialAdapter = new ArrayAdapter<SpecialRanking>(getActivity(),
+				android.R.layout.simple_spinner_item);
+		specialAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		specialAdapter.addAll(controller.getAllRankings());
+		specialRankingSpinner.setAdapter(specialAdapter);
+		specialRankingSpinner
+				.setOnItemSelectedListener(new SpecialRankingSelectedListener());
+	}
+
+	/**
+	 * creates the spinner and the adapter for the judgements
+	 * 
+	 * @param view
+	 *            where the spinner is found
+	 */
+	private void createJudgementSpinner(View view) {
+		judgementSpinner = (Spinner) view.findViewById(R.id.spinner_judgement);
+		judgementAdapter = new ArrayAdapter<Judgement>(getActivity(),
+				android.R.layout.simple_spinner_item);
+		judgementAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		judgementSpinner.setAdapter(judgementAdapter);
+		judgementSpinner
+				.setOnItemSelectedListener(new JudgementSelectedListener());
+	}
+
+	/**
+	 * assigns the OnClickListener to the Buttons in the Fragment.
+	 * 
+	 * @param view
+	 *            where all the Buttons were found
+	 */
+	private void assignClickListeners(View view) {
+		view.findViewById(R.id.button_add_new_special_ranking)
+				.setOnClickListener(new AddRankingListener());
+		view.findViewById(R.id.button_edit_special_ranking).setOnClickListener(
+				new EditRankingListener());
+		view.findViewById(R.id.button_delete_special_ranking)
+				.setOnClickListener(new DeleteRankingListener());
+		view.findViewById(R.id.button_save_judgement).setOnClickListener(
+				new SaveJudgementListener());
+		view.findViewById(R.id.button_delete_judgement).setOnClickListener(
+				new DeleteJudgementListener());
+		view.findViewById(R.id.button_add_new_judgement).setOnClickListener(
+				new AddJudgementListener());
+	}
+
+	/**
+	 * Method that can be accessed to add or update a {@link SpecialRanking}. It
+	 * will add the ranking to the spinner and update or create it in the
+	 * Database.
+	 * 
+	 * @param ranking
+	 *            SpecialRanking to be added to the spinner
+	 */
 	public void setSpecialRankingFromDialog(SpecialRanking ranking) {
-		specialDatabaseDao.createOrUpdate(ranking);
-		adapterForSpecialRankingSpinner.clear();
-		adapterForSpecialRankingSpinner
-				.addAll(specialDatabaseDao.queryForAll());
+		controller.createUpdateRanking(ranking);
+		specialAdapter.clear();
+		specialAdapter.addAll(controller.getAllRankings());
 	}
 
-	private List<Judgement> getJudgement(SpecialRanking ranking) {
-		final Map<String, Object> map = new HashMap<String, Object>();
-		map.put("specialranking", ranking);
-		map.put("etappe", ((RadioTour) getActivity().getApplication())
-				.getActualSelectedStage());
-		return judgementDatabaseDao.queryForFieldValues(map);
-	}
-
+	/**
+	 * clears {@link Judgement} from adapter and read them new from Database
+	 */
 	private void fillJudgements() {
-		adapterForJudgementSpinner.clear();
-		adapterForJudgementSpinner.addAll(getJudgement(actualSpecialRanking));
-		judgementSpinner.setSelection(adapterForJudgementSpinner.getCount());
-		setVirtualRanking();
+		judgementAdapter.clear();
+		if (getSpecialRanking() != null) {
+			judgementAdapter.addAll(controller.getJudgements(
+					getSpecialRanking(), getStage()));
+			judgementSpinner.setSelection(judgementAdapter.getCount());
+			setVirtualRanking();
+		}
 	}
 
+	/**
+	 * update the listview that shows the ranking of the actual selected
+	 * {@link SpecialRanking}
+	 */
 	private void setVirtualRanking() {
-		ListView lv = (ListView) v
-				.findViewById(R.id.listview_place_for_special_ranking);
-
-		HashMap<Integer, SpecialPointHolder> map = new HashMap<Integer, SpecialPointHolder>();
-		for (Judgement temp : judgementDatabaseDao.queryForEq("specialranking",
-				actualSpecialRanking)) {
-
-			for (int j = 0; j < temp.getNrOfWinningDrivers(); j++) {
-				int tempRidernr = temp.getWinningRiders().get(j);
-				if (tempRidernr == 0) {
-					continue;
-				}
-				if (!map.containsKey(tempRidernr)) {
-					SpecialPointHolder tempPointHolder = new SpecialPointHolder();
-					tempPointHolder.setRider(application.getRider(tempRidernr));
-					map.put(tempRidernr, tempPointHolder);
-				}
-				if (temp.isPointBoni()) {
-					Integer pointBoni = temp.getPointBonis().get(j);
-					Log.i(getClass().getSimpleName(), pointBoni + "");
-					map.get(tempRidernr).addPointBoni(pointBoni);
-				}
-				if (temp.isTimeBoni()) {
-					Integer timeBoni = temp.getTimeBonis().get(j);
-					Log.i(getClass().getSimpleName(), timeBoni + "");
-
-					map.get(tempRidernr).addTimeBoni(timeBoni);
-				}
-
-			}
-		}
+		ListView lv = (ListView) getView().findViewById(
+				R.id.listview_place_for_special_ranking);
 		if (lv.getHeaderViewsCount() == 0) {
-			lv.addHeaderView(getActivity().getLayoutInflater().inflate(
-					R.layout.textview_ranking_special_ranking, null));
+			lv.addHeaderView(inflate(R.layout.textview_ranking_special_ranking));
 		}
-		ArrayList<SpecialPointHolder> temp = new ArrayList<SpecialPointHolder>(
-				map.values());
-		Collections.sort(temp, comparator);
-		lv.setAdapter(new SpecialRankingListAdapter(getActivity(), temp));
+		lv.setAdapter(new SpecialRankingListAdapter(getActivity(), controller
+				.getVirtualMap(getSpecialRanking())));
+	}
+
+	/**
+	 * Method that can be accessed to add a {@link Judgement}. It will add the
+	 * Judgement to the spinner and create it in the Database.
+	 * 
+	 * @param judgement
+	 *            Judgement to be added to the spinner and database
+	 */
+
+	public void newJudgementCreated(Judgement judgement) {
+		controller.createJudgement(judgement);
+		judgementAdapter.add(judgement);
+		fillJudgements();
+		judgementSpinner.setSelection(judgementAdapter.getCount() - 1);
+	}
+
+	/**
+	 * HelperMethod to avoid having a field in the class
+	 * 
+	 * @return the actual Selected {@link SpecialRanking}
+	 */
+	private SpecialRanking getSpecialRanking() {
+		return (SpecialRanking) specialRankingSpinner.getSelectedItem();
+	}
+
+	/**
+	 * HelperMethod to avoid having a field in the class
+	 * 
+	 * @return the actual Selected {@link Judgement}
+	 */
+	private Judgement getActualJudgement() {
+		return (Judgement) judgementSpinner.getSelectedItem();
+	}
+
+	/**
+	 * HelperMethod to avoid having a field in the class
+	 * 
+	 * @return the actual Selected {@link Stage}
+	 */
+	private Stage getStage() {
+		return getApp().getActualSelectedStage();
+	}
+
+	/**
+	 * HelperMethod to avoid having a field in the class
+	 * 
+	 * @return the Application class {@link RadioTour}
+	 */
+	private RadioTour getApp() {
+		return (RadioTour) getActivity().getApplication();
+	}
+
+	/**
+	 * HelperMethod to avoid having a field in the class
+	 * 
+	 * @return the activity {@link RadioTourActivity}
+	 */
+
+	private RadioTourActivity getAct() {
+		return (RadioTourActivity) getActivity();
+	}
+
+	// Begin Spinner Listeners
+
+	/**
+	 * abstract {@link OnItemSelectedListener} where onNothingSelected is
+	 * already implemented
+	 * 
+	 */
+	private abstract class SpecialSelectedListener implements
+			OnItemSelectedListener {
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			clearTextViews();
+		}
+	}
+
+	/**
+	 * Class to handle selection changes where the items in the Spinner are of
+	 * the type {@link SpecialRanking}. Extends {@link SpecialSelectedListener}
+	 * 
+	 */
+	private class SpecialRankingSelectedListener extends
+			SpecialSelectedListener {
+		@Override
+		public void onItemSelected(AdapterView<?> parentView,
+				View selectedItemView, int position, long id) {
+			clearTextViews();
+			fillJudgements();
+		}
+
+	};
+
+	/**
+	 * Class to handle selection changes where the items in the Spinner are of
+	 * the type {@link Judgement}. Extends {@link SpecialSelectedListener}
+	 * 
+	 */
+	private class JudgementSelectedListener extends SpecialSelectedListener {
+		@Override
+		public void onItemSelected(AdapterView<?> parentView,
+				View selectedItemView, int position, long id) {
+			fillJudgementInfo();
+		}
+	};
+
+	// End Spinner Listeners
+
+	// Begin OnClickListeners
+	/**
+	 * ClickListener to handle adding of a {@link Judgement}
+	 * 
+	 */
+	private class AddJudgementListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			if (getSpecialRanking() == null) {
+				return;
+			}
+			getAct().showTextViewDialog(
+					SpecialRankingFragment.this,
+					controller.generateJudgement(getStage(),
+							getSpecialRanking()));
+		}
 
 	}
 
-	public void nameChangedJudgement(Judgement judgement) {
-		judgementDatabaseDao.create(judgement);
-		adapterForJudgementSpinner.add(judgement);
-		int postion = adapterForJudgementSpinner.getPosition(judgement);
-		fillJudgements();
-		judgementSpinner.setSelection(postion);
+	/**
+	 * ClickListener to handle deletion of a {@link Judgement}
+	 * 
+	 */
+	private class DeleteJudgementListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			final Judgement temp = getActualJudgement();
+			judgementAdapter.remove(getActualJudgement());
+			controller.delete(temp);
+			fillJudgements();
+		}
+
+	}
+
+	/**
+	 * ClickListener to handle saving of a {@link Judgement}
+	 * 
+	 */
+	private class SaveJudgementListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Log.i(getClass().getSimpleName(), "hee");
+			saveJudgement();
+		}
+	}
+
+	/**
+	 * ClickListener to handle adding of a {@link SpecialRanking}
+	 * 
+	 */
+	private class AddRankingListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			getAct().showSpecialRankingDialog(SpecialRankingFragment.this, null);
+		}
+	}
+
+	/**
+	 * ClickListener to handle edit of a {@link SpecialRanking}
+	 * 
+	 */
+	private class EditRankingListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			getAct().showSpecialRankingDialog(SpecialRankingFragment.this,
+					getSpecialRanking());
+		}
+	}
+
+	/**
+	 * ClickListener to handle deletion of a {@link SpecialRanking}
+	 * 
+	 */
+	private class DeleteRankingListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			final SpecialRanking temp = getSpecialRanking();
+			judgementAdapter.clear();
+			specialAdapter.remove(temp);
+			controller.delete(temp);
+			setVirtualRanking();
+		}
 	}
 
 }

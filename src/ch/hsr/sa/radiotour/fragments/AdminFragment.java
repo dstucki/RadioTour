@@ -1,16 +1,8 @@
 package ch.hsr.sa.radiotour.fragments;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -25,60 +17,41 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.MaillotsListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Maillot;
-import ch.hsr.sa.radiotour.domain.PointOfRace;
-import ch.hsr.sa.radiotour.domain.Rider;
-import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
-import ch.hsr.sa.radiotour.domain.Team;
-import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
-import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
-
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
+import ch.hsr.sa.radiotour.fragments.controller.AdminFragmentController;
 
 public class AdminFragment extends Fragment {
+	private AdminFragmentController controller;
 
 	private ArrayAdapter<Stage> adapterForStageSpinner;
 	private int lastClickedImportId;
 	private RadioTour app;
 	private RadioTourActivity activity;
 	private EditText start, destination, distance;
-	private RuntimeExceptionDao<Stage, Integer> stageDbDao;
-	private RuntimeExceptionDao<Rider, Integer> riderDbDao;
-	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
-	private DatabaseHelper helper;
 	private Spinner stageSpinner;
+
 	private final OnClickListener saveListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			Stage actualStage = (Stage) stageSpinner.getSelectedItem();
-			fillStageInformation(actualStage);
-			stageDbDao.update(actualStage);
+			fillStageInformation(getStage());
+			loadInformation(getStage());
+			controller.update(getStage());
 		}
 	};
 	private final OnClickListener newListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			final Stage actualStage = new Stage("Start", "Ende");
-			actualStage.setWholeDistance(150d);
-			stageDbDao.create(actualStage);
+			final Stage actualStage = new Stage("Start", "Ende", 150d);
+			controller.create(actualStage);
 			adapterForStageSpinner.add(actualStage);
-			stageSpinner.setSelection(adapterForStageSpinner
-					.getPosition(actualStage));
-			RiderStageConnection conn;
-			for (Rider rider : app.getRiders()) {
-				conn = new RiderStageConnection(actualStage, rider);
-				riderStageDao.create(conn);
-			}
+			stageSpinner.setSelection(
+					adapterForStageSpinner.getPosition(actualStage), true);
 			loadInformation(actualStage);
 		}
 	};
@@ -95,9 +68,7 @@ public class AdminFragment extends Fragment {
 		public void onClick(View v) {
 			Stage actualStage = (Stage) stageSpinner.getSelectedItem();
 			adapterForStageSpinner.remove(actualStage);
-			stageDbDao.delete(actualStage);
-			riderStageDao.delete(riderStageDao
-					.queryForEq("etappe", actualStage));
+			controller.delete(actualStage);
 		}
 	};
 
@@ -105,28 +76,9 @@ public class AdminFragment extends Fragment {
 		@Override
 		public void onItemSelected(AdapterView<?> parentView,
 				View selectedItemView, int position, long id) {
-			final Stage actualStage = adapterForStageSpinner.getItem(position);
+			final Stage actualStage = getStage();
 			activity.updateStage(actualStage);
-			app.getRiderPerStage().clear();
-			List<RiderStageConnection> conns = riderStageDao.queryForEq(
-					"etappe", actualStage);
-			if (conns.size() > 0) {
-				for (RiderStageConnection conn : riderStageDao.queryForEq(
-						"etappe", actualStage)) {
-					app.add(conn);
-				}
-			} else {
-				for (Rider rider : app.getRiders()) {
-					final RiderStageConnection tempConn = new RiderStageConnection(
-							actualStage, rider);
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							riderStageDao.create(tempConn);
-						}
-					}).start();
-				}
-			}
+			controller.stageChanged(actualStage);
 			loadInformation(actualStage);
 		}
 
@@ -141,7 +93,6 @@ public class AdminFragment extends Fragment {
 			activity.showFileExplorerDialog(AdminFragment.this);
 		}
 	};
-	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao;
 	private ListView maillot_lv;
 
 	@Override
@@ -150,18 +101,41 @@ public class AdminFragment extends Fragment {
 		View view = inflater.inflate(R.layout.admin_fragment, container, false);
 		activity = (RadioTourActivity) getActivity();
 		app = (RadioTour) activity.getApplication();
-		helper = DatabaseHelper.getHelper(activity);
-		stageDbDao = helper.getStageDao();
-		riderDbDao = helper.getBicycleRiderDao();
-		riderStageDao = helper.getRiderStageDao();
+		controller = new AdminFragmentController(this);
 		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
 		destination = (EditText) view
 				.findViewById(R.id.edtxt_destination_stage);
 		distance = (EditText) view.findViewById(R.id.edtxt_distance_stage);
 
+		asssignListeners(view);
+		createAndFillSpinner();
+
+		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
+		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
+				(ArrayList<Maillot>) controller.getMaillots()));
+
+		return view;
+	}
+
+	private void createAndFillSpinner() {
+		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
+				android.R.layout.simple_spinner_item);
+		adapterForStageSpinner
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapterForStageSpinner.addAll(controller.getStages());
+		stageSpinner.setAdapter(adapterForStageSpinner);
+		stageSpinner.setSelection(adapterForStageSpinner.getPosition(app
+				.getActualSelectedStage()));
+		loadInformation(getStage());
+		stageSpinner.setOnItemSelectedListener(stageListener);
+	}
+
+	private void asssignListeners(View view) {
 		view.findViewById(R.id.btn_new_stage).setOnClickListener(newListener);
 		view.findViewById(R.id.btn_save_stage).setOnClickListener(saveListener);
+		view.findViewById(R.id.btn_addmaillot).setOnClickListener(
+				addMaillotListener);
 		view.findViewById(R.id.btn_delete_stage).setOnClickListener(
 				deleteListener);
 		view.findViewById(R.id.btn_import_stage).setOnClickListener(
@@ -172,26 +146,6 @@ public class AdminFragment extends Fragment {
 				importListener);
 		view.findViewById(R.id.btn_import_driver_time).setOnClickListener(
 				importListener);
-		view.findViewById(R.id.btn_addmaillot).setOnClickListener(
-				addMaillotListener);
-
-		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
-				android.R.layout.simple_spinner_item);
-		adapterForStageSpinner
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adapterForStageSpinner.addAll(helper.getStageDao().queryForAll());
-		stageSpinner.setAdapter(adapterForStageSpinner);
-		stageSpinner.setSelection(adapterForStageSpinner.getPosition(app
-				.getActualSelectedStage()));
-		loadInformation((Stage) stageSpinner.getSelectedItem());
-		stageSpinner.setOnItemSelectedListener(stageListener);
-
-		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
-		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
-				(ArrayList<Maillot>) helper.getMaillotRuntimeDao()
-						.queryForAll()));
-
-		return view;
 	}
 
 	private void loadInformation(Stage selectedItem) {
@@ -209,174 +163,69 @@ public class AdminFragment extends Fragment {
 				.toString()));
 	}
 
-	public void setImportFile(File file) {
+	public void setImportFile(final File file) {
 		switch (lastClickedImportId) {
 		case R.id.btn_import_stage:
+
 			importStages(file);
 			break;
 		case R.id.btn_import_driver:
-			importDriver(file);
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						controller.importDriver(file, getStage());
+					} catch (FileNotFoundException e) {
+					}
+				}
+			}, "ImportDriver").start();
 			break;
 		case R.id.btn_import_driver_time:
-			importDriverWithTime(file);
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						controller.importRiderStageConnections(file);
+					} catch (FileNotFoundException e) {
+					}
+				}
+			}, "ImportRiderWithTime").start();
 			break;
 		case R.id.btn_import_match_table:
-			importMarchTable(file);
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						controller.importMarchTable(file, getStage());
+					} catch (FileNotFoundException e) {
+					}
+				}
+			}, "ImportMarchTable").start();
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void importMarchTable(File file) {
-		try {
-			pointOfRaceDao = helper.getPointOfRaceDao();
-			QueryBuilder<PointOfRace, Integer> queryBuilder = pointOfRaceDao
-					.queryBuilder();
-			queryBuilder.where().eq("etappe", stageSpinner.getSelectedItem());
-			pointOfRaceDao.delete(pointOfRaceDao.query(queryBuilder.prepare()));
-
-			CSVReader reader = new CSVReader(new FileInputStream(file));
-			PointOfRace point;
-			for (String[] line : reader.readFile()) {
-				point = convertStringArrayToPoint(line);
-				point.setStage((Stage) stageSpinner.getSelectedItem());
-				pointOfRaceDao.create(point);
-			}
-		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
-
-	}
-
-	private PointOfRace convertStringArrayToPoint(String[] pointAsString) {
-		int altitude = Integer.valueOf(pointAsString[0]);
-		String name = pointAsString[3];
-		double distance = Double.valueOf(pointAsString[1]);
-		Date date = null;
-		try {
-			date = new SimpleDateFormat("HH:mm").parse(pointAsString[6]);
-		} catch (ParseException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
-		return new PointOfRace(altitude, distance, name, date, 0);
-	}
-
-	private void importDriver(File file) {
-		List<String[]> list;
-		try {
-			list = getArrayListFromCSV(file);
-		} catch (FileNotFoundException e) {
-			return;
-		}
-		dropAndCreateTable(Rider.class, RiderStageConnection.class);
-
-		Rider bicycleRider;
-		for (String[] riderAsString : list) {
-			Team team = app.getTeam(riderAsString[2]) == null ? new Team(
-					riderAsString[2]) : app.getTeam(riderAsString[2]);
-			bicycleRider = new Rider(Integer.valueOf(riderAsString[0]),
-					riderAsString[1], team);
-			riderDbDao.create(bicycleRider);
-			helper.getTeamDao().createOrUpdate(team);
-			final RiderStageConnection conn = new RiderStageConnection(
-					app.getActualSelectedStage(), bicycleRider);
-			riderStageDao.create(conn);
-			app.add(bicycleRider);
-			app.add(conn);
-		}
-	}
-
-	private ArrayList<String[]> getArrayListFromCSV(File file)
-			throws FileNotFoundException {
-		CSVReader reader = new CSVReader(new FileInputStream(file));
-		return reader.readFile();
-	}
-
-	private void importDriverWithTime(File file) {
-
-		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
-		RiderStageConnection conn;
-		List<String[]> list;
-		try {
-			list = getArrayListFromCSV(file);
-		} catch (FileNotFoundException e1) {
-			return;
-		}
-		String[] riderStageString1 = list.get(0);
-		Calendar leaderOfficialTime = Calendar.getInstance(TimeZone
-				.getDefault());
-		try {
-			leaderOfficialTime.setTime(formater.parse(riderStageString1[4]));
-
-		} catch (ParseException e) {
-			Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
-			return;
-		}
-
-		conn = app.getRiderStage(Integer.valueOf(riderStageString1[1]));
-		conn.setOfficialDeficit(new Date(0, 0, 0, 0, 0, 0));
-		conn.setOfficialTime(leaderOfficialTime.getTime());
-		conn.setOfficialRank(Integer.valueOf(riderStageString1[0]));
-		riderStageDao.update(conn);
-		Date followerOfficialDeficit;
-
-		for (String[] riderStageString : list.subList(1, list.size())) {
-			try {
-				followerOfficialDeficit = formater.parse(riderStageString[4]);
-			} catch (ParseException e) {
-				Toast.makeText(app, e.getMessage(), Toast.LENGTH_SHORT);
-				continue;
-			}
-			conn = app.getRiderStage(Integer.valueOf(riderStageString[1]));
-			conn.setOfficialDeficit(followerOfficialDeficit);
-
-			Calendar followerOfficialTime = (Calendar) leaderOfficialTime
-					.clone();
-			followerOfficialTime.add(Calendar.HOUR_OF_DAY,
-					followerOfficialDeficit.getHours());
-			followerOfficialTime.add(Calendar.MINUTE,
-					followerOfficialDeficit.getMinutes());
-			followerOfficialTime.add(Calendar.SECOND,
-					followerOfficialDeficit.getSeconds());
-			conn.setOfficialTime(followerOfficialTime.getTime());
-			conn.setOfficialRank(Integer.valueOf(riderStageString[0]));
-			riderStageDao.update(conn);
-		}
-
-	}
-
 	public void importStages(File file) {
 		try {
-			dropAndCreateTable(Stage.class, RiderStageConnection.class);
-
-			CSVReader reader = new CSVReader(new FileInputStream(file));
-			Stage temp;
-			for (String[] array : reader.readFile()) {
-				temp = new Stage(array[0], array[1]);
-				temp.setWholeDistance(Double.valueOf(array[2]));
-				stageDbDao.create(temp);
-			}
-			adapterForStageSpinner.clear();
-			adapterForStageSpinner.addAll(stageDbDao.queryForAll());
+			controller.importStages(file);
 		} catch (FileNotFoundException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
+		adapterForStageSpinner.clear();
+		adapterForStageSpinner.addAll(controller.getStages());
+	}
+
+	private Stage getStage() {
+		return (Stage) stageSpinner.getSelectedItem();
 	}
 
 	public void newMaillotAdded(Maillot m) {
 		((MaillotsListAdapter) maillot_lv.getAdapter()).add(m);
 	}
 
-	private void dropAndCreateTable(Class<?>... classes) {
-		ConnectionSource src = helper.getConnectionSource();
-		for (int i = 0; i < classes.length; i++) {
-			try {
-				TableUtils.dropTable(src, classes[i], true);
-				TableUtils.createTable(src, classes[i]);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }

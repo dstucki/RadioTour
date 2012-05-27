@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class SpecialPointHolder {
+public class SpecialPointHolder implements Comparable<SpecialPointHolder> {
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "rider")
@@ -30,16 +30,16 @@ public class SpecialPointHolder {
 		return timeBoni;
 	}
 
-	public void addTimeBoni(int timeBoni) {
-		this.timeBoni += timeBoni;
+	public void setTimeBoni(int timeBoni) {
+		this.timeBoni = timeBoni;
 	}
 
 	public int getPointBoni() {
 		return pointBoni;
 	}
 
-	public void addPointBoni(int pointBoni) {
-		this.pointBoni += pointBoni;
+	public void setPointBoni(int pointBoni) {
+		this.pointBoni = pointBoni;
 	}
 
 	public int getRank() {
@@ -64,6 +64,11 @@ public class SpecialPointHolder {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	@Override
+	public int compareTo(SpecialPointHolder another) {
+		return getRank() - another.getRank();
 	}
 
 }

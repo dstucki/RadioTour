@@ -111,7 +111,7 @@ public class EditRiderDialog extends DialogFragment {
 		} catch (ParseException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
-		DatabaseHelper.getHelper(getActivity()).getBicycleRiderDao()
+		DatabaseHelper.getHelper(getActivity()).getRiderDao()
 				.update(rider);
 		DatabaseHelper.getHelper(getActivity()).getRiderStageDao()
 				.update(connecter);

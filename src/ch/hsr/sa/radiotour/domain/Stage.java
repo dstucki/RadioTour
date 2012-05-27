@@ -20,6 +20,11 @@ public class Stage {
 		this.destination = destination;
 	}
 
+	public Stage(String start, String destination, double distance) {
+		this(start, destination);
+		this.wholeDistance = distance;
+	}
+
 	public Stage() {
 
 	}

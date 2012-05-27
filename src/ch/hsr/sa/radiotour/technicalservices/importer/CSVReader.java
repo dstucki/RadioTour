@@ -9,9 +9,13 @@ import android.util.Log;
 
 public class CSVReader {
 	private InputStream in = null;
-	private String CSV_SEPARATOR = ";";
+	private final String CSV_SEPARATOR = ";";
 
 	public CSVReader(InputStream in) {
+		this.in = in;
+	}
+
+	public void setInputStream(InputStream in) {
 		this.in = in;
 	}
 
@@ -48,7 +52,4 @@ public class CSVReader {
 		return array;
 	}
 
-	public void setCSV_SEPARATOR(String csvSeparator) {
-		this.CSV_SEPARATOR = csvSeparator;
-	}
 }

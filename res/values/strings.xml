@@ -27,6 +27,7 @@
     <string name="lb_birthday">Geburtstag:</string>
     <string name="lb_notes">Notiz:</string>
     <string name="lb_importetappe">Etappen importieren</string>
+    <string name="lb_import">Import</string>
     <string name="lb_importmtable">Marschtabelle importieren</string>
     <string name="lb_importrider">Fahrer importieren</string>
     <string name="lb_importridertime">Fahrer mit Zeiten importieren</string>
@@ -99,7 +100,6 @@
     <string name="clear_selection">Auswahl aufheben</string>
     <string name="edit">bearbeiten</string>
     <string name="splashscreen">Bitte warten, Daten werden geladen</string>
-    <string name="new_word">neu</string>
     <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
     <string name="addmaillot">Maillot hinzufügen</string>
     <string name="distance">Distanz</string>

@@ -14,21 +14,21 @@
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/txtview_pointboni_special"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:text="@string/time_sec"
-        android:textSize="20dp" />
-
-    <TextView
         android:id="@+id/txtview_timeboni_special"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:singleLine="true"
         android:text="@string/point_money"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txtview_pointboni_special"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:text="@string/time_sec"
         android:textSize="20dp" />
 
 </LinearLayout>

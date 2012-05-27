@@ -147,7 +147,7 @@ public class JudgementDialog extends DialogFragment {
 		if (judgement.isTimeBoni()) {
 			judgement.setTimeBonis(timeboni);
 		}
-		fragment.nameChangedJudgement(judgement);
+		fragment.newJudgementCreated(judgement);
 
 	}
 
@@ -155,8 +155,8 @@ public class JudgementDialog extends DialogFragment {
 
 		@Override
 		public void onClick(View v) {
-			judgement.setNrOfWinningDrivers(Integer.valueOf(nrOfWinners
-					.getText().toString()));
+			judgement
+					.setNrOfWinningDrivers(getIntegerFromTextView(nrOfWinners));
 			judgement.setPointBoni(point.isChecked());
 			judgement.setTimeBoni(time.isChecked());
 			handleTextViewTable();

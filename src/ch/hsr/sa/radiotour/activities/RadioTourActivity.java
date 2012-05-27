@@ -128,7 +128,7 @@ public class RadioTourActivity extends Activity implements Observer,
 			application.add(team);
 		}
 
-		for (Rider rider : databaseHelper.getBicycleRiderDao().queryForAll()) {
+		for (Rider rider : databaseHelper.getRiderDao().queryForAll()) {
 			application.add(rider);
 		}
 

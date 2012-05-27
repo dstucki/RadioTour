@@ -127,7 +127,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * for our BicycleRider class. It will create it or just give the cached
 	 * value. RuntimeExceptionDao only through RuntimeExceptions.
 	 */
-	public RuntimeExceptionDao<Rider, Integer> getBicycleRiderDao() {
+	public RuntimeExceptionDao<Rider, Integer> getRiderDao() {
 		if (riderRuntimeDao == null) {
 			riderRuntimeDao = getRuntimeExceptionDao(Rider.class);
 		}
