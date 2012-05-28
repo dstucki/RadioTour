@@ -31,6 +31,7 @@ import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
 import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
 import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
 import ch.hsr.sa.radiotour.domain.Judgement;
+import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -57,7 +58,6 @@ public class RadioTourActivity extends Activity implements Observer,
 		OnClickListener {
 
 	protected Dialog mSplashDialog;
-
 	private final Set<Integer> checkedIntegers = new TreeSet<Integer>();
 	private final Set<TextView> checkedViews = new HashSet<TextView>();
 	private RaceFragment raceFragment;
@@ -316,14 +316,14 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "marchDialog");
 	}
 
-	public void showMaillotDialog(AdminFragment fragment) {
+	public void showMaillotDialog(AdminFragment fragment, Maillot maillot) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("maillotDialog");
 		if (prev != null) {
 			ft.remove(prev);
 		}
 		ft.addToBackStack(null);
-		MaillotDialog newFragment = new MaillotDialog(fragment);
+		MaillotDialog newFragment = new MaillotDialog(fragment, maillot);
 		newFragment.show(ft, "maillotDialog");
 	}
 

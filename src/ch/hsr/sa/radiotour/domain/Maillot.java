@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.domain;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable
 public class Maillot {
 
 	@DatabaseField(generatedId = true)
@@ -24,7 +26,6 @@ public class Maillot {
 	}
 
 	public Maillot() {
-
 	}
 
 	public int getId() {

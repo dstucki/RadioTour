@@ -23,18 +23,24 @@
 
     <TextView
         android:id="@+id/maillot_points"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/lb_emptyvalues" android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/maillot_time"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/lb_emptyvalues" android:textSize="15dp"/>
-
+ <TextView
+        android:id="@+id/maillot_rider"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/driver_name" android:textSize="15dp"/>
+    
     <Button
         android:id="@+id/maillot_delete"
         android:layout_width="wrap_content"

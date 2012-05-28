@@ -211,7 +211,7 @@ public class AdminFragment extends Fragment {
 	private class AddMaillotListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			activity.showMaillotDialog(AdminFragment.this);
+			activity.showMaillotDialog(AdminFragment.this, null);
 		}
 	};
 

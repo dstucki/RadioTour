@@ -60,6 +60,7 @@
     <string name="lb_min">Minuten</string>
     <string name="lb_sec">Sekunden</string>
     <string name="lb_numberofwinners">Anzahl Gewinner</string>
+    <string name="lb_maillotrider">Maillot Träger</string>
     <string name="hd_setdistance">Rennkilometer festlegen:</string>
     <string name="hd_getimportpath">Pfad für den Import auswählen:</string>
     <string name="hd_marchtable">Marschtabelle</string>
@@ -86,6 +87,7 @@
     <string name="lb_doubleassing">Mehrfachzuweisung, Speicherung abgebrochen</string>
     <string name="lb_newjudgement">Neue Wertung</string>
     <string name="lb_noconnection">Keine Verbindung</string>
+    <string name="lb_color">Farbe</string>
     <string name="land">Land</string>
     <string name="in_the_race">Im Rennen</string>
     <string name="not_started">Nicht gestartet</string>
@@ -98,7 +100,7 @@
     <string name="defect">Defekt</string>
     <string name="giveup">Aufgabe</string>
     <string name="clear_selection">Auswahl aufheben</string>
-    <string name="edit">bearbeiten</string>
+    <string name="edit">Bearbeiten</string>
     <string name="splashscreen">Bitte warten, Daten werden geladen</string>
     <string name="new_judgement_dialog_title">Wertung erstellen / bearbeiten</string>
     <string name="addmaillot">Maillot hinzufügen</string>

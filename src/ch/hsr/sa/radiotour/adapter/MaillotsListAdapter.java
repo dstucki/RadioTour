@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,11 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Maillot;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
+import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 	private ArrayList<Maillot> maillots;
+	private String maillotwearer = "";
 
 	public MaillotsListAdapter(Context context, ArrayList<Maillot> objects) {
 		super(context, R.layout.textview_ranking_special_ranking,
@@ -36,6 +42,20 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 		final Maillot maillot = maillots.get(position);
 
+		Stage currentStage = ((RadioTour) getContext().getApplicationContext())
+				.getActualSelectedStage();
+
+		Map map = new HashMap<String, Object>();
+		map.put("etappe", currentStage);
+		map.put("maillot", maillot);
+		List<MaillotStageConnection> maillotList = DatabaseHelper
+				.getHelper(getContext().getApplicationContext())
+				.getMaillotStageDao().queryForFieldValues(map);
+		if (maillotList.size() == 1) {
+			if (maillotList.get(0).getRider() != null)
+				maillotwearer = maillotList.get(0).getRider().toString();
+		}
+
 		TextView name = (TextView) v.findViewById(R.id.maillot_name);
 		name.setText(maillot.getMaillot());
 		TextView points = (TextView) v.findViewById(R.id.maillot_points);
@@ -46,6 +66,16 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 		ImageView image = (ImageView) v.findViewById(R.id.maillot_color);
 		image.setImageDrawable(getMailloColor(maillot.getColor()));
+
+		TextView rider = (TextView) v.findViewById(R.id.maillot_rider);
+		rider.setText(maillotwearer);
+		rider.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
 
 		Button delete = (Button) v.findViewById(R.id.maillot_delete);
 		delete.setOnClickListener(new OnClickListener() {
