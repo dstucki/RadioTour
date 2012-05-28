@@ -21,6 +21,7 @@ public class SpecialRankingListAdapter extends
 		super(context, R.layout.textview_ranking_special_ranking,
 				R.id.txtview_ridernr_special, objects);
 		pointHolder = objects;
+
 	}
 
 	@Override

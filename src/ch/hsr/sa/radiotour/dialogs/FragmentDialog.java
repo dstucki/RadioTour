@@ -107,7 +107,7 @@ public class FragmentDialog extends DialogFragment {
 			public void onClick(View v) {
 				int hour = useHour ? getHour() : 0;
 				selectedTableRow.setTime(new Date(0, 0, 0, hour, getMinutes(),
-						getSeconds()));
+						getSeconds()), true);
 				dismiss();
 			}
 		});

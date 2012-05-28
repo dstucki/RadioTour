@@ -34,10 +34,6 @@ public class DriverPickerFragment extends ListFragment implements
 
 	}
 
-	public void setOnClickListener(OnClickListener listener) {
-		adapter.setOnClickListener(listener);
-	}
-
 	public void setDragListener(GroupingDragListener listener) {
 		this.dragListener = listener;
 

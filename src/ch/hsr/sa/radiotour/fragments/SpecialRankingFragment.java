@@ -117,6 +117,7 @@ public class SpecialRankingFragment extends Fragment {
 		LinearLayout llparent = (LinearLayout) getView().findViewById(
 				R.id.llayout_driver_set);
 		Set<Integer> tempSet = new HashSet<Integer>();
+		Set<Integer> tempSetOld = new HashSet<Integer>();
 
 		List<SpecialPointHolder> listPointHolder = controller
 				.getPointHolder(getActualJudgement());
@@ -145,9 +146,13 @@ public class SpecialRankingFragment extends Fragment {
 				return;
 			}
 			tempSet.add(temp);
+			tempSetOld.add(holder.getRider() == null ? 0 : holder.getRider()
+					.getStartNr());
 			holder.setRider(getApp().getRider(temp));
 			controller.update(holder);
 		}
+		tempSet.addAll(tempSetOld);
+		controller.calculateBonis(tempSet);
 		setVirtualRanking();
 	}
 
