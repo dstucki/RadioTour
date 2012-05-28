@@ -11,18 +11,17 @@ import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
 public class RaceFragment extends Fragment {
 
-	private DriverPickerFragment driverPicker;
 	private DriverGroupFragment groupFragment;
-	private GroupingDragListener listener;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
-		driverPicker = new DriverPickerFragment();
+		DriverPickerFragment driverPicker = new DriverPickerFragment();
 		groupFragment = new DriverGroupFragment();
-		listener = new GroupingDragListener(getActivity(), driverPicker);
+		GroupingDragListener listener = new GroupingDragListener(getActivity(),
+				driverPicker);
 		driverPicker.setDragListener(listener);
 		groupFragment.setDragListener(listener);
 
@@ -37,10 +36,6 @@ public class RaceFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.race_layout, container, false);
 		return view;
-	}
-
-	public DriverPickerFragment getDriverPicker() {
-		return driverPicker;
 	}
 
 	public DriverGroupFragment getGroupFragment() {

@@ -65,9 +65,15 @@ public class AdminFragmentController {
 		riderStageDao.update(riderStage);
 	}
 
-	public void create(Stage stage) {
+	public void create(final Stage stage) {
 		stageDbDao.create(stage);
-		createRiderStageConnection(stage);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				createRiderStageConnection(stage);
+			}
+		}).start();
 	}
 
 	public List<Stage> getStages() {
@@ -125,7 +131,6 @@ public class AdminFragmentController {
 					bicycleRider);
 			app.add(conn);
 			create(conn);
-
 		}
 	}
 
@@ -171,25 +176,25 @@ public class AdminFragmentController {
 	}
 
 	private synchronized void createRiderStageConnection(final Stage stage) {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				RiderStageConnection conn;
-				for (Rider rider : app.getRiders()) {
-					conn = new RiderStageConnection(stage, rider);
-					create(conn);
-				}
-
-			}
-		}, "RiderStage Persistion").start();
-
+		for (Rider rider : app.getRiders()) {
+			create(new RiderStageConnection(stage, rider));
+		}
 	}
 
 	public void stageChanged(Stage actualStage) {
 		app.getRiderPerStage().clear();
+		List<RiderStageConnection> list = getRiderStages(actualStage);
+		if (list.size() == 0) {
+			createRiderStageConnection(actualStage);
+		}
 		for (RiderStageConnection conn : getRiderStages(actualStage)) {
 			app.add(conn);
 		}
+	}
+
+	public Stage createStage() {
+		Stage temp = new Stage("Start", "Ende", 150d);
+		create(temp);
+		return temp;
 	}
 }

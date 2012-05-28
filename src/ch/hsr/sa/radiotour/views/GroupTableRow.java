@@ -1,8 +1,10 @@
 package ch.hsr.sa.radiotour.views;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -10,7 +12,6 @@ import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -34,12 +35,13 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private TextView description;
 	private TextView time, lastTime;
 	private final SparseArray<LinearLayout> map = new SparseArray<LinearLayout>();
-	private final SparseArray<TextView> mapTextView = new SparseArray<TextView>();
+	private final Map<Integer, TextView> mapTextView = new HashMap<Integer, TextView>();
 	private LinearLayout odd, even;
 	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private Group group;
 	private final Context context;
 	private RadioTour app;
+	private boolean isdirty = false;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -95,11 +97,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 			@Override
 			public void onClick(View v) {
-				for (int i = 0; i < odd.getChildCount(); i++) {
-					odd.getChildAt(i).performClick();
-				}
-				for (int i = 0; i < even.getChildCount(); i++) {
-					even.getChildAt(i).performClick();
+				for (TextView t : mapTextView.values()) {
+					t.performClick();
 				}
 			}
 		});
@@ -110,19 +109,12 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	}
 
-	public LinearLayout.LayoutParams getTextViewMargins() {
-		LinearLayout.LayoutParams myParams = new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		myParams.setMargins(5, 5, 5, 5);
-		return myParams;
-	}
-
 	public void changeDescription(String description) {
 		this.description.setText(description);
 	}
 
 	public void rearrangeTextViews() {
-		if (group.isField()) {
+		if (group.isField() || !isdirty) {
 			return;
 		}
 		int count = 1;
@@ -133,6 +125,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			map.put(riderNr, temp);
 			count++;
 		}
+		isdirty = false;
 	}
 
 	public GroupTableRow(Context context) {
@@ -159,46 +152,38 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		group.getDriverNumbers().add(riderNr);
 		RiderStageConnection conn = app.getRiderStage(riderNr);
 		conn.setVirtualDeficit(group.getHandicapTime());
-		riderStageDao.createOrUpdate(conn);
 		if (!group.isField()) {
-			final TextView txtViewToAdd = new TextView(context);
-			txtViewToAdd.setId(riderNr);
-			txtViewToAdd.setText(conn.getRider().toString() + " ["
-					+ conn.getOfficialRank() + "]");
-			txtViewToAdd.setTextColor(Color.WHITE);
-			txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-			txtViewToAdd.setMinimumWidth(40);
-			txtViewToAdd.setGravity(Gravity.LEFT);
-			LayoutParams layoutParams = new LayoutParams(
-					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-			layoutParams.setMargins(3, 3, 3, 3);
-			txtViewToAdd.setLayoutParams(layoutParams);
-
-			LinearLayout temp = even.getChildCount() < odd.getChildCount() ? even
-					: odd;
-
-			txtViewToAdd.setSingleLine(true);
-
+			final TextView txtViewToAdd = createTxtViewToAdd(riderNr, conn);
+			final LinearLayout temp = even.getChildCount() < odd
+					.getChildCount() ? even : odd;
 			temp.addView(txtViewToAdd);
 			map.put(riderNr, temp);
 			mapTextView.put(riderNr, txtViewToAdd);
 			invalidate();
-			txtViewToAdd.setOnLongClickListener(new OnLongClickListener() {
 
-				@Override
-				public boolean onLongClick(View v) {
-					final TextView textView = (TextView) v;
-					ClipData data = ClipData.newPlainText(textView.getText(),
-							textView.getText());
-					SortedSet<Integer> localState = new TreeSet<Integer>();
-					localState.add(riderNr);
-					v.startDrag(data, new DragShadowBuilder(txtViewToAdd),
-							localState, 0);
-					return true;
-				}
-			});
-			txtViewToAdd.setOnClickListener((RadioTourActivity) context);
 		}
+		isdirty = true;
+	}
+
+	private TextView createTxtViewToAdd(final Integer riderNr,
+			RiderStageConnection conn) {
+		final TextView txtViewToAdd = new TextView(context);
+		txtViewToAdd.setId(riderNr);
+		txtViewToAdd.setText(conn.getRider().toString() + " ["
+				+ conn.getOfficialRank() + "]");
+		txtViewToAdd.setTextColor(Color.WHITE);
+		txtViewToAdd.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+		txtViewToAdd.setMinimumWidth(40);
+		txtViewToAdd.setGravity(Gravity.LEFT);
+		LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
+		layoutParams.setMargins(3, 3, 3, 3);
+		txtViewToAdd.setLayoutParams(layoutParams);
+		txtViewToAdd.setSingleLine(true);
+		txtViewToAdd.setOnClickListener((RadioTourActivity) context);
+		txtViewToAdd.setOnLongClickListener(new DriverViewLongClick(riderNr,
+				txtViewToAdd));
+		return txtViewToAdd;
 	}
 
 	private LinearLayout getParentLayout(Integer riderNr) {
@@ -214,22 +199,12 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 	public void removeRiderNr(Integer driverNr) {
 		group.removeDriverNumber(driverNr);
-		RiderStageConnection conn = app.getRiderStage(driverNr);
-		conn.setVirtualDeficit(new Date(0, 0, 0, 0, 0, 0));
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
-		riderStageDao.update(conn);
 		if (temp != null && !group.isField()) {
-			for (int i = 0; i < temp.getChildCount(); i++) {
-				final String textViewString = ((TextView) temp.getChildAt(i))
-						.getText().toString();
-				if (textViewString.equals(conn.getRider().toString() + " ["
-						+ conn.getOfficialRank() + "]")) {
-					temp.removeViewAt(i);
-				}
-			}
+			temp.removeView(mapTextView.get(driverNr));
 		}
-
+		isdirty = true;
 	}
 
 	@Override
@@ -262,22 +237,41 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
 	}
 
-	public List<RiderStageConnection> updateAndPersistDriver(Date date) {
+	private List<RiderStageConnection> updateAndPersistDriver(Date date) {
 		RiderStageConnection temp;
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getDriverNumbers()) {
 			temp = app.getRiderStage(i);
-
 			try {
 				temp.setVirtualDeficit(date);
 			} catch (NullPointerException e) {
-				Log.i(getClass().getSimpleName(), temp + "");
-				Log.i(getClass().getSimpleName(), i + "");
-				Log.i(getClass().getSimpleName(), date + "");
-				Log.e(getClass().getSimpleName(), e.getMessage());
 			}
 			modificationAvoider.add(temp);
 		}
 		return modificationAvoider;
+	}
+
+	/*
+	 * ClickListeners
+	 */
+	private class DriverViewLongClick implements OnLongClickListener {
+		private final int ridernr;
+		private final TextView view;
+
+		public DriverViewLongClick(int ridernr, TextView view) {
+			this.ridernr = ridernr;
+			this.view = view;
+		}
+
+		@Override
+		public boolean onLongClick(View v) {
+			final TextView textView = (TextView) v;
+			ClipData data = ClipData.newPlainText(textView.getText(),
+					textView.getText());
+			SortedSet<Integer> localState = new TreeSet<Integer>();
+			localState.add(ridernr);
+			v.startDrag(data, new DragShadowBuilder(view), localState, 0);
+			return true;
+		}
 	}
 }

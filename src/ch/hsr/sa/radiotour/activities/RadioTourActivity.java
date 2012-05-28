@@ -178,8 +178,10 @@ public class RadioTourActivity extends Activity implements Observer,
 			}
 			final RiderStageConnection conn = application
 					.getRiderStage(checkedID);
-			conn.setRiderState(RiderState.ACTIV);
-			databaseHelper.getRiderStageDao().update(conn);
+			if (conn.getRiderState() != RiderState.ACTIV) {
+				conn.setRiderState(RiderState.ACTIV);
+				databaseHelper.getRiderStageDao().update(conn);
+			}
 
 			if (checkedIntegers.contains(checkedID)) {
 				checkedIntegers.remove(checkedID);

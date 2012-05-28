@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.fragments;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import android.app.ListFragment;
@@ -29,26 +30,19 @@ public class VirtualRankingFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initializeResourceStrategyMap();
-
 		setSortableHeaderview();
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View arg1,
-					int position, long id) {
-				if (position > 0) {
-					((RadioTourActivity) getActivity()).showRiderDialog(
-							(RiderStageConnection) parent.getAdapter().getItem(
-									position), adapter);
-				}
-			}
-		});
-		adapter = new VirtualRankingAdapter(getActivity(),
-				R.layout.picklist_item, R.id.startNr1,
-				new ArrayList<RiderStageConnection>(((RadioTour) getActivity()
-						.getApplication()).getRiderPerStage().values()));
+		getListView().setOnItemClickListener(new RiderItemListener());
+		adapter = getAdapter();
 		setListAdapter(adapter);
 
+	}
+
+	private VirtualRankingAdapter getAdapter() {
+		Collection<RiderStageConnection> conns = ((RadioTour) getActivity()
+				.getApplication()).getRiderPerStage().values();
+
+		return new VirtualRankingAdapter(getActivity(), R.id.startNr1,
+				new ArrayList<RiderStageConnection>(conns));
 	}
 
 	private void initializeResourceStrategyMap() {
@@ -67,12 +61,13 @@ public class VirtualRankingFragment extends ListFragment {
 	}
 
 	private void setSortableHeaderview() {
-
 		View v = getActivity().getLayoutInflater().inflate(
 				R.layout.virtual_ranking_item, null);
+
 		latestSort = (TextView) v.findViewById(R.id.startnummer);
 		latestSort.setTypeface(Typeface.DEFAULT_BOLD);
-		OnClickListener listener = getClickListener();
+
+		final OnClickListener listener = new HeaderClickListener();
 
 		for (int i : map.keySet()) {
 			try {
@@ -83,31 +78,45 @@ public class VirtualRankingFragment extends ListFragment {
 			}
 		}
 
-		ImageView image = (ImageView) v.findViewById(R.id.land_image);
+		final ImageView image = (ImageView) v.findViewById(R.id.land_image);
 		image.setImageDrawable(null);
 		((TextView) v.findViewById(R.id.land_text)).setText(R.string.land);
 		getListView().addHeaderView(v);
-
 	}
 
-	private OnClickListener getClickListener() {
-		return new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				latestSort.setTypeface(Typeface.DEFAULT);
-				((TextView) v).setTypeface(Typeface.DEFAULT_BOLD);
-				latestSort = (TextView) v;
-				RiderSortStrategy strategy = map.get(v.getId());
-				try {
-					adapter.sort(strategy);
-				} catch (NullPointerException e) {
-					Log.e(getClass().getSimpleName(), e.getMessage()
-							+ " occured");
-				}
-				strategy.switchAscending();
-
+	/*
+	 * ClickListener
+	 */
+	private class HeaderClickListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			latestSort.setTypeface(Typeface.DEFAULT);
+			((TextView) v).setTypeface(Typeface.DEFAULT_BOLD);
+			latestSort = (TextView) v;
+			RiderSortStrategy strategy = map.get(v.getId());
+			try {
+				adapter.sort(strategy);
+			} catch (NullPointerException e) {
+				Log.e(getClass().getSimpleName(), e.getMessage() + " occured");
 			}
-		};
+			strategy.switchAscending();
+
+		}
 	}
+
+	/*
+	 * ItemListener
+	 */
+	private class RiderItemListener implements OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View arg1, int position,
+				long id) {
+			if (position > 0) {
+				((RadioTourActivity) getActivity()).showRiderDialog(
+						(RiderStageConnection) parent.getAdapter().getItem(
+								position), adapter);
+			}
+		}
+	}
+
 }

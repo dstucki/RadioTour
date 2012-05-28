@@ -2,12 +2,12 @@ package ch.hsr.sa.radiotour.fragments;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,46 +20,38 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Group;
-import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
+import ch.hsr.sa.radiotour.fragments.controller.DriverGroupController;
 import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendingQueue;
-import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-
 public class DriverGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
-	private LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
+	private final LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
 	private final SparseArray<GroupTableRow> driverTableRow = new SparseArray<GroupTableRow>();
 	private TableLayout.LayoutParams standardParams;
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
-	private RuntimeExceptionDao<Group, Integer> groupDatabaseDao;
-	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
-	private RadioTour app;
-	private RadioTourActivity activity;
-	private DatabaseHelper helper;
+	private DriverGroupController controller;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		tableRows.clear();
-		driverTableRow.clear();
-		helper = DatabaseHelper.getHelper(getActivity());
-		groupDatabaseDao = helper.getGroupDao();
-		riderStageDao = helper.getRiderStageDao();
-		activity = (RadioTourActivity) getActivity();
-		app = (RadioTour) activity.getApplication();
+		controller = new DriverGroupController(this);
 
+		clearOldInformation();
 		assignListener();
-
 		setOnClickListener();
 		initializeTableRows();
+	}
+
+	private void clearOldInformation() {
+		tableRows.clear();
+		driverTableRow.clear();
 	}
 
 	private void assignListener() {
@@ -72,17 +64,15 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	private void initializeDriverRowMap() {
-		for (Integer i : app.getRiderNumbers()) {
+		for (Integer i : controller.getRiderNumbers()) {
 			driverTableRow.put(i, field);
 		}
 
 	}
 
 	private void initializeTableRows() {
-
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup));
 		field = (GroupTableRow) getView().findViewById(R.id.tableRowField);
-
 		tableRows.add(field);
 		initializeDriverRowMap();
 		field.changeDescription(getString(R.string.field));
@@ -91,27 +81,16 @@ public class DriverGroupFragment extends Fragment {
 				.getLayoutParams();
 		standardRowParams = (TableRow.LayoutParams) tableRows.get(0)
 				.getChildAt(0).getLayoutParams();
-		if (app.getGroups().isEmpty()) {
-			Group gr = createFieldGroup();
-			field.setGroup(gr);
-			app.getSituation().add(gr);
+		if (controller.getGroups().isEmpty()) {
+			field.setGroup(controller.createFieldGroup());
 		} else {
 			alreadyGroupsHere();
 		}
 	}
 
-	public Group createFieldGroup() {
-		Group gr = new Group();
-		gr.setSituation(app.getSituation());
-		gr.setField(true);
-		gr.getDriverNumbers().addAll(app.getRiderNumbers());
-		gr.setOrderNumber(0);
-		return gr;
-	}
-
 	private void alreadyGroupsHere() {
 		int counter = 0;
-		for (Group g : app.getGroups()) {
+		for (Group g : controller.getGroups()) {
 			if (!g.isField()) {
 				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
@@ -125,6 +104,7 @@ public class DriverGroupFragment extends Fragment {
 			}
 			counter += 2;
 		}
+		controller.updateConns(null);
 	}
 
 	@Override
@@ -132,10 +112,6 @@ public class DriverGroupFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.group_fragment, container, false);
 		return view;
-	}
-
-	public GroupingDragListener getDragListener() {
-		return dragListener;
 	}
 
 	private void setOnClickListener() {
@@ -153,23 +129,7 @@ public class DriverGroupFragment extends Fragment {
 		dragListener = listener;
 	}
 
-	public TableRow getField() {
-		return field;
-	}
-
-	public void setField(GroupTableRow field) {
-		this.field = field;
-	}
-
-	public LinkedList<TableRow> getTableRows() {
-		return tableRows;
-	}
-
-	public void setTableRows(LinkedList<TableRow> tableRows) {
-		this.tableRows = tableRows;
-	}
-
-	public GroupTableRow createNewGroup(int indexOf) {
+	private GroupTableRow createNewGroup(int indexOf) {
 		TableLayout layout = (TableLayout) ((ScrollView) getView())
 				.findViewById(R.id.groupTableLayout);
 		GroupTableRow groupRow = createGroupRow();
@@ -207,13 +167,7 @@ public class DriverGroupFragment extends Fragment {
 
 	private void removeEmptyTableRows() {
 		GroupTableRow temp;
-		Log.i(getClass().getSimpleName(),
-				"removeEmptyTableRows #1 " + System.currentTimeMillis());
-
 		for (int i = 1; i < tableRows.size(); i += 2) {
-			Log.i(getClass().getSimpleName(), "removeEmptyTableRows #2 + id: "
-					+ i + "" + System.currentTimeMillis());
-
 			temp = (GroupTableRow) tableRows.get(i);
 			if (temp.getGroup().getDriverNumbers().isEmpty() && temp != field) {
 				final TableLayout tableLayout = (TableLayout) getView()
@@ -226,17 +180,8 @@ public class DriverGroupFragment extends Fragment {
 			}
 
 		}
-		Log.i(getClass().getSimpleName(),
-				"removeEmptyTableRows #3 " + System.currentTimeMillis());
-
 		assignNameToTableRow();
-		Log.i(getClass().getSimpleName(),
-				"removeEmptyTableRows #4 " + System.currentTimeMillis());
-
 		syncToDb();
-		Log.i(getClass().getSimpleName(),
-				"removeEmptyTableRows #5 " + System.currentTimeMillis());
-
 	}
 
 	private void assignNameToTableRow() {
@@ -275,36 +220,13 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	private void syncToDb() {
-		Log.i(getClass().getSimpleName(),
-				"synctoDB #1 " + System.currentTimeMillis());
-
-		RaceSituation situation = new RaceSituation(
-				HeaderFragment.mGPS.getDistanceInKm(),
-				app.getActualSelectedStage());
-
+		List<Group> groups = new LinkedList<Group>();
 		for (int i = 1; i < tableRows.size(); i += 2) {
-			Log.i(getClass().getSimpleName(), "synctoDB #2 id: " + i + " "
-					+ System.currentTimeMillis());
-
 			GroupTableRow groupTableRow = (GroupTableRow) tableRows.get(i);
 			groupTableRow.rearrangeTextViews();
-			Group gr = groupTableRow.getGroup();
-			gr.setSituation(situation);
-			situation.add(gr);
-			if ((i / 2) != gr.getOrderNumber()) {
-				gr.setOrderNumber(i / 2);
-			}
-			groupDatabaseDao.create(gr);
+			groups.add(groupTableRow.getGroup());
 		}
-		Log.i(getClass().getSimpleName(),
-				"synctoDB #3" + System.currentTimeMillis());
-
-		helper.getRaceSituationDao().create(situation);
-
-		app.setSituation(situation);
-
-		JsonSendingQueue.getInstance().addToQueue(situation);
-
+		controller.saveGroups(groups);
 	}
 
 	private boolean hasToCreateNewGroup(TableRow row) {
@@ -312,7 +234,6 @@ public class DriverGroupFragment extends Fragment {
 	}
 
 	public void moveDriverNr(View destination, Set<Integer> riderNumbers) {
-
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}
@@ -328,18 +249,16 @@ public class DriverGroupFragment extends Fragment {
 		TreeSet<Integer> modificationAvoider = new TreeSet<Integer>();
 		modificationAvoider.addAll(riderNumbers);
 		for (Integer i : modificationAvoider) {
-
 			if (groupTableRow == null) {
 				selectOnATextView((TextView) destination, i);
 			} else {
 				removeDriver(i);
 				groupTableRow.addRider(i);
 				driverTableRow.put(i, groupTableRow);
+
 			}
 		}
-		if (groupTableRow != null) {
-
-		}
+		controller.updateConns(modificationAvoider);
 		removeEmptyTableRows();
 
 	}
@@ -368,7 +287,7 @@ public class DriverGroupFragment extends Fragment {
 		RiderStageConnection riderStageConnection = ((RadioTour) getActivity()
 				.getApplication()).getRiderStage(i);
 		riderStageConnection.setRiderState(newState);
-		riderStageDao.update(riderStageConnection);
+		controller.update(riderStageConnection);
 		JsonSendingQueue.getInstance().addToQueue(riderStageConnection);
 	}
 

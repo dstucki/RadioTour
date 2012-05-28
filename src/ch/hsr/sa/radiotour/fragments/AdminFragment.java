@@ -35,57 +35,6 @@ public class AdminFragment extends Fragment {
 	private EditText start, destination, distance;
 	private Spinner stageSpinner;
 
-	private final OnClickListener saveListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			fillStageInformation(getStage());
-			loadInformation(getStage());
-			controller.update(getStage());
-		}
-	};
-	private final OnClickListener newListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			final Stage actualStage = new Stage("Start", "Ende", 150d);
-			controller.create(actualStage);
-			adapterForStageSpinner.add(actualStage);
-			stageSpinner.setSelection(
-					adapterForStageSpinner.getPosition(actualStage), true);
-			loadInformation(actualStage);
-		}
-	};
-
-	private final OnClickListener addMaillotListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			((RadioTourActivity) getActivity())
-					.showMaillotDialog(AdminFragment.this);
-		}
-	};
-	private final OnClickListener deleteListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Stage actualStage = (Stage) stageSpinner.getSelectedItem();
-			adapterForStageSpinner.remove(actualStage);
-			controller.delete(actualStage);
-		}
-	};
-
-	private final OnItemSelectedListener stageListener = new OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parentView,
-				View selectedItemView, int position, long id) {
-			final Stage actualStage = getStage();
-			activity.updateStage(actualStage);
-			controller.stageChanged(actualStage);
-			loadInformation(actualStage);
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	};
 	private final OnClickListener importListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -102,23 +51,29 @@ public class AdminFragment extends Fragment {
 		activity = (RadioTourActivity) getActivity();
 		app = (RadioTour) activity.getApplication();
 		controller = new AdminFragmentController(this);
-		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
-		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
-		destination = (EditText) view
-				.findViewById(R.id.edtxt_destination_stage);
-		distance = (EditText) view.findViewById(R.id.edtxt_distance_stage);
-
+		assignTextFields(view);
 		asssignListeners(view);
-		createAndFillSpinner();
-
-		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
-		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
-				(ArrayList<Maillot>) controller.getMaillots()));
+		createAndFillSpinner(view);
+		createAndFillMaillots(view);
 
 		return view;
 	}
 
-	private void createAndFillSpinner() {
+	private void createAndFillMaillots(View view) {
+		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
+		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
+				(ArrayList<Maillot>) controller.getMaillots()));
+	}
+
+	private void assignTextFields(View view) {
+		start = (EditText) view.findViewById(R.id.edtxt_start_stage);
+		destination = (EditText) view
+				.findViewById(R.id.edtxt_destination_stage);
+		distance = (EditText) view.findViewById(R.id.edtxt_distance_stage);
+	}
+
+	private void createAndFillSpinner(View view) {
+		stageSpinner = (Spinner) view.findViewById(R.id.spinner1);
 		adapterForStageSpinner = new ArrayAdapter<Stage>(getActivity(),
 				android.R.layout.simple_spinner_item);
 		adapterForStageSpinner
@@ -128,16 +83,18 @@ public class AdminFragment extends Fragment {
 		stageSpinner.setSelection(adapterForStageSpinner.getPosition(app
 				.getActualSelectedStage()));
 		loadInformation(getStage());
-		stageSpinner.setOnItemSelectedListener(stageListener);
+		stageSpinner.setOnItemSelectedListener(new StageSelectionListener());
 	}
 
 	private void asssignListeners(View view) {
-		view.findViewById(R.id.btn_new_stage).setOnClickListener(newListener);
-		view.findViewById(R.id.btn_save_stage).setOnClickListener(saveListener);
+		view.findViewById(R.id.btn_new_stage).setOnClickListener(
+				new NewStageListener());
+		view.findViewById(R.id.btn_save_stage).setOnClickListener(
+				new SaveStageListener());
 		view.findViewById(R.id.btn_addmaillot).setOnClickListener(
-				addMaillotListener);
+				new AddMaillotListener());
 		view.findViewById(R.id.btn_delete_stage).setOnClickListener(
-				deleteListener);
+				new DeleteListener());
 		view.findViewById(R.id.btn_import_stage).setOnClickListener(
 				importListener);
 		view.findViewById(R.id.btn_import_match_table).setOnClickListener(
@@ -166,7 +123,6 @@ public class AdminFragment extends Fragment {
 	public void setImportFile(final File file) {
 		switch (lastClickedImportId) {
 		case R.id.btn_import_stage:
-
 			importStages(file);
 			break;
 		case R.id.btn_import_driver:
@@ -227,5 +183,61 @@ public class AdminFragment extends Fragment {
 	public void newMaillotAdded(Maillot m) {
 		((MaillotsListAdapter) maillot_lv.getAdapter()).add(m);
 	}
+
+	/*
+	 * OnclickListeners
+	 */
+	private class SaveStageListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			fillStageInformation(getStage());
+			loadInformation(getStage());
+			controller.update(getStage());
+		}
+	};
+
+	private class NewStageListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			final Stage actualStage = controller.createStage();
+			adapterForStageSpinner.add(actualStage);
+			stageSpinner.setSelection(
+					adapterForStageSpinner.getPosition(actualStage), true);
+			loadInformation(actualStage);
+		}
+	};
+
+	private class AddMaillotListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			activity.showMaillotDialog(AdminFragment.this);
+		}
+	};
+
+	private class DeleteListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			controller.delete(getStage());
+			adapterForStageSpinner.remove(getStage());
+		}
+	};
+
+	/*
+	 * ItemSelectedListener
+	 */
+	private class StageSelectionListener implements OnItemSelectedListener {
+		@Override
+		public void onItemSelected(AdapterView<?> parentView,
+				View selectedItemView, int position, long id) {
+			activity.updateStage(getStage());
+			controller.stageChanged(getStage());
+			loadInformation(getStage());
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+		}
+	};
 
 }

@@ -26,9 +26,9 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 	private final Context context;
 	private final List<RiderStageConnection> copyForCalculateVirtualRank;
 
-	public VirtualRankingAdapter(Context context, int resource,
-			int textViewResourceId, ArrayList<RiderStageConnection> objects) {
-		super(context, resource, textViewResourceId, objects);
+	public VirtualRankingAdapter(Context context, int textViewResourceId,
+			ArrayList<RiderStageConnection> objects) {
+		super(context, textViewResourceId, objects);
 		connecters = objects;
 		copyForCalculateVirtualRank = new ArrayList<RiderStageConnection>();
 		copyForCalculateVirtualRank.addAll(connecters);
