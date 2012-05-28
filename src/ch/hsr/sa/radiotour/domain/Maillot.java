@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class Maillot {
+public class Maillot implements Comparable<Maillot> {
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -68,4 +68,11 @@ public class Maillot {
 		this.time = time;
 	}
 
+	@Override
+	public int compareTo(Maillot another) {
+		int re = -1;
+		if (maillot.equals(another.getMaillot()) && color == another.color)
+			re = 0;
+		return re;
+	}
 }

@@ -33,14 +33,16 @@ public class MaillotDialog extends DialogFragment {
 	private RadioGroup color;
 	private Stage actualStage;
 	private DatabaseHelper dbHelper;
+	private MaillotStageConnection maillotStage;
 
-	public MaillotDialog(AdminFragment fragment, Maillot oldMaillot) {
+	public MaillotDialog(AdminFragment fragment, Maillot maillot, Stage stage) {
 		this.fragment = fragment;
-		if (oldMaillot != null) {
-			maillot = oldMaillot;
-			fillFields(maillot);
+		if (maillot != null && stage != null) {
+			actualStage = stage;
+			this.maillot = maillot;
+		} else {
+			this.maillot = new Maillot("", 0, 0, 0);
 		}
-		maillot = new Maillot();
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class MaillotDialog extends DialogFragment {
 		time = (EditText) v.findViewById(R.id.edittxt_time);
 		rider = (EditText) v.findViewById(R.id.edittxt_rider);
 		color = (RadioGroup) v.findViewById(R.id.rg_color);
+		fillFields(maillot);
 
 		v.findViewById(R.id.btn_save).setOnClickListener(new OnClickListener() {
 
@@ -80,17 +83,16 @@ public class MaillotDialog extends DialogFragment {
 
 	private void fillFields(Maillot oldMaillot) {
 		maillotname.setText(oldMaillot.getMaillot());
-		points.setText(oldMaillot.getPoints());
+		points.setText(oldMaillot.getPoints() + "");
 		time.setText(oldMaillot.getTime() + "");
 		((RadioButton) v.findViewById(getButtonIDfromColor(oldMaillot
 				.getColor()))).setChecked(true);
 
 		List<MaillotStageConnection> list = dbHelper.getMaillotStageDao()
 				.queryForEq("etappe", actualStage);
-
-		for (MaillotStageConnection maillotStageConnection : list) {
-			if (maillotStageConnection.getMaillot().equals(oldMaillot)) {
-				rider.setText(maillotStageConnection.getRider().toString());
+		if (list.size() > 0) {
+			for (MaillotStageConnection maillotStageConnection : list) {
+				// TODO implement here
 			}
 		}
 	}
@@ -125,9 +127,28 @@ public class MaillotDialog extends DialogFragment {
 					Rider rider = ((RadioTour) getActivity()
 							.getApplicationContext()).getRider(Integer
 							.valueOf(ridernr));
-					dbHelper.getMaillotStageDao().create(
-							new MaillotStageConnection(maillot, actualStage,
-									rider));
+					if (maillotStage == null) {
+						maillotStage = new MaillotStageConnection(maillot,
+								actualStage, rider);
+						dbHelper.getMaillotStageDao().create(maillotStage);
+					} else {
+						maillotStage.setMaillot(maillot);
+						maillotStage.setStage(actualStage);
+						maillotStage.setRider(rider);
+						dbHelper.getMaillotStageDao().update(maillotStage);
+					}
+				} else {
+					Rider rider = new Rider();
+					if (maillotStage == null) {
+						maillotStage = new MaillotStageConnection(maillot,
+								actualStage, rider);
+						dbHelper.getMaillotStageDao().create(maillotStage);
+					} else {
+						maillotStage.setMaillot(maillot);
+						maillotStage.setStage(actualStage);
+						maillotStage.setRider(rider);
+						dbHelper.getMaillotStageDao().update(maillotStage);
+					}
 				}
 
 			}

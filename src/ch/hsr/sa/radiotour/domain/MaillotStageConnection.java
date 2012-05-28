@@ -5,6 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class MaillotStageConnection {
+	@DatabaseField(generatedId = true)
+	int id;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "maillot")
 	private Maillot maillot;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")

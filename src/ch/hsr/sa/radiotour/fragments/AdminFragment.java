@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -34,7 +35,6 @@ public class AdminFragment extends Fragment {
 	private RadioTourActivity activity;
 	private EditText start, destination, distance;
 	private Spinner stageSpinner;
-
 	private final OnClickListener importListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -55,7 +55,6 @@ public class AdminFragment extends Fragment {
 		asssignListeners(view);
 		createAndFillSpinner(view);
 		createAndFillMaillots(view);
-
 		return view;
 	}
 
@@ -63,6 +62,15 @@ public class AdminFragment extends Fragment {
 		maillot_lv = (ListView) view.findViewById(R.id.list_maillots);
 		maillot_lv.setAdapter(new MaillotsListAdapter(activity,
 				(ArrayList<Maillot>) controller.getMaillots()));
+		maillot_lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View arg1,
+					int position, long id) {
+				activity.editMaillotDialog(AdminFragment.this, controller
+						.getMaillots().get(position), app
+						.getActualSelectedStage());
+			}
+		});
 	}
 
 	private void assignTextFields(View view) {
@@ -211,7 +219,7 @@ public class AdminFragment extends Fragment {
 	private class AddMaillotListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			activity.showMaillotDialog(AdminFragment.this, null);
+			activity.showMaillotDialog(AdminFragment.this);
 		}
 	};
 

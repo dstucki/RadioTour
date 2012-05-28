@@ -25,7 +25,7 @@ import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 	private ArrayList<Maillot> maillots;
-	private String maillotwearer = "";
+	private String maillotwearer;
 
 	public MaillotsListAdapter(Context context, ArrayList<Maillot> objects) {
 		super(context, R.layout.textview_ranking_special_ranking,
@@ -39,18 +39,20 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 		v = vi.inflate(R.layout.maillot_item, null);
-
+		((ViewGroup) v)
+				.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 		final Maillot maillot = maillots.get(position);
 
 		Stage currentStage = ((RadioTour) getContext().getApplicationContext())
 				.getActualSelectedStage();
 
-		Map map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("etappe", currentStage);
 		map.put("maillot", maillot);
 		List<MaillotStageConnection> maillotList = DatabaseHelper
 				.getHelper(getContext().getApplicationContext())
 				.getMaillotStageDao().queryForFieldValues(map);
+		maillotwearer = "";
 		if (maillotList.size() == 1) {
 			if (maillotList.get(0).getRider() != null)
 				maillotwearer = maillotList.get(0).getRider().toString();
@@ -69,13 +71,6 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 		TextView rider = (TextView) v.findViewById(R.id.maillot_rider);
 		rider.setText(maillotwearer);
-		rider.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
 
 		Button delete = (Button) v.findViewById(R.id.maillot_delete);
 		delete.setOnClickListener(new OnClickListener() {
