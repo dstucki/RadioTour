@@ -70,19 +70,12 @@ public class DriverGroupController {
 		return gr;
 	}
 
-	public void updateConns(final Collection<Integer> ridernrs) {
-		new Thread(new Runnable() {
+	private void updateConns() {
+		Collection<Integer> riderNrs = app.getRiderNumbers();
+		for (int i : riderNrs) {
+			update(app.getRiderStage(i));
+		}
 
-			@Override
-			public void run() {
-				Collection<Integer> riderNrs = ridernrs == null ? app.getRiderNumbers()
-						: ridernrs;
-				for (int i : riderNrs) {
-					update(app.getRiderStage(i));
-				}
-
-			}
-		}, "DriverGroupController#updateConns").start();
 	}
 
 	private RaceSituation getNewSituation() {
@@ -91,14 +84,34 @@ public class DriverGroupController {
 	}
 
 	public void saveGroups(List<Group> groups) {
-		RaceSituation situation = getNewSituation();
+		runAsThread(new SaveGroups(groups), "saveGroups");
+	}
 
-		for (Group gr : groups) {
-			gr.setSituation(situation);
-			gr.setOrderNumber(groups.indexOf(gr));
-			situation.add(gr);
+	private void runAsThread(SaveGroups saveGroups, String name) {
+		new Thread(saveGroups, name).start();
+	}
+
+	private class SaveGroups implements Runnable {
+		private final List<Group> groups;
+
+		public SaveGroups(List<Group> groups) {
+			this.groups = groups;
 		}
-		create(situation);
+
+		@Override
+		public void run() {
+			RaceSituation situation = getNewSituation();
+
+			for (Group gr : groups) {
+				gr.setSituation(situation);
+				gr.setOrderNumber(groups.indexOf(gr));
+				situation.add(gr);
+			}
+			create(situation);
+			updateConns();
+
+		}
+
 	}
 
 }

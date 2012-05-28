@@ -104,7 +104,6 @@ public class DriverGroupFragment extends Fragment {
 			}
 			counter += 2;
 		}
-		controller.updateConns(null);
 	}
 
 	@Override
@@ -258,7 +257,6 @@ public class DriverGroupFragment extends Fragment {
 
 			}
 		}
-		controller.updateConns(modificationAvoider);
 		removeEmptyTableRows();
 
 	}
