@@ -1,18 +1,25 @@
 package ch.hsr.sa.radiotour.fragments.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import android.util.Log;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.SpecialRankingListAdapter;
+import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Rider;
+import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.SpecialPointHolder;
 import ch.hsr.sa.radiotour.domain.SpecialRanking;
 import ch.hsr.sa.radiotour.domain.Stage;
+import ch.hsr.sa.radiotour.domain.sorting.ArrayListSpecialHolderComparator;
 import ch.hsr.sa.radiotour.fragments.SpecialRankingFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
@@ -26,9 +33,11 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
  */
 public class SpecialRankingController {
 	private final SpecialRankingFragment fragment;
+	private final RadioTour app;
 	private RuntimeExceptionDao<SpecialRanking, Integer> specialRankingDao;
 	private RuntimeExceptionDao<Judgement, Integer> judgementDao;
 	private RuntimeExceptionDao<SpecialPointHolder, Integer> pointHolderDao;
+	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 
 	/**
 	 * Constructor
@@ -38,6 +47,7 @@ public class SpecialRankingController {
 	 */
 	public SpecialRankingController(SpecialRankingFragment fragment) {
 		this.fragment = fragment;
+		this.app = (RadioTour) fragment.getActivity().getApplication();
 		assignDaos(DatabaseHelper.getHelper(fragment.getActivity()));
 	}
 
@@ -48,6 +58,7 @@ public class SpecialRankingController {
 		specialRankingDao = helper.getSpecialRankingDao();
 		judgementDao = helper.getJudgementDao();
 		pointHolderDao = helper.getSpecialPointDao();
+		riderStageDao = helper.getRiderStageDao();
 	}
 
 	/**
@@ -68,7 +79,11 @@ public class SpecialRankingController {
 
 	/**
 	 * update an already persisted {@link SpecialPointHolder} object to database
+	 * and recalculate the perstage bonustime for the old and new rider that are
+	 * assigned to the given {@link SpecialPointHolder}
 	 * 
+	 * @param oldRider
+	 *            the oldRider that was holding this {@link SpecialPointHolder}
 	 * @param holder
 	 *            Object to be updated to database
 	 */
@@ -115,8 +130,14 @@ public class SpecialRankingController {
 	 *            that's wanted to be deleted in the Database
 	 */
 	public void delete(Judgement judgement) {
-		pointHolderDao.delete(getPointHolder(judgement));
+		List<SpecialPointHolder> pointHolder = getPointHolder(judgement);
+		Set<Integer> tempSet = new TreeSet<Integer>();
+		for (SpecialPointHolder holder : pointHolder) {
+			tempSet.add(holder.getRider().getStartNr());
+			pointHolderDao.delete(holder);
+		}
 		judgementDao.delete(judgement);
+		calculateBonis(tempSet);
 	}
 
 	/**
@@ -214,7 +235,22 @@ public class SpecialRankingController {
 				map.get(rider.getStartNr()).add(holder);
 			}
 		}
-		return new ArrayList<ArrayList<SpecialPointHolder>>(map.values());
+		ArrayList<ArrayList<SpecialPointHolder>> arrayList = new ArrayList<ArrayList<SpecialPointHolder>>(
+				map.values());
+		Collections.sort(arrayList, new ArrayListSpecialHolderComparator());
+		return arrayList;
+	}
+
+	/**
+	 * Calculate the Boniseconds and Bonitpoints for the ActualStage and the
+	 * drivers provided in the ridernrs Collection
+	 * 
+	 * @param ridernrs
+	 *            collection of the ridernrs that have changed
+	 */
+	public void calculateBonis(Collection<Integer> ridernrs) {
+		new Thread(new UpdateBoniRunnable(ridernrs), "UpdateBoni").start();
+
 	}
 
 	/**
@@ -232,6 +268,52 @@ public class SpecialRankingController {
 				actualSelectedStage);
 		temp.setRanking(specialRanking);
 		return temp;
+	}
+
+	/**
+	 * Runnable Class that calculates the bonus things
+	 * 
+	 * 
+	 */
+	private class UpdateBoniRunnable implements Runnable {
+		private final Collection<Integer> ridernrs;
+
+		public UpdateBoniRunnable(Collection<Integer> ridernrs) {
+			this.ridernrs = ridernrs;
+		}
+
+		@Override
+		public void run() {
+			for (int i : ridernrs) {
+				Log.i(getClass().getSimpleName(), i + "");
+
+				if (i == 0) {
+					continue;
+				}
+				RiderStageConnection conn = app.getRiderStage(i);
+				conn.setBonusPoints(0);
+				conn.setBonusTime(0);
+				int bonuspoints = 0, timeboni = 0;
+
+				for (Judgement jud : judgementDao.queryForEq("etappe",
+						app.getActualSelectedStage())) {
+					Map<String, Object> constraints = new HashMap<String, Object>();
+					constraints.put("judgement", jud);
+					constraints.put("rider", app.getRider(i));
+					for (SpecialPointHolder holder : pointHolderDao
+							.queryForFieldValues(constraints)) {
+						bonuspoints += holder.getPointBoni();
+						timeboni += holder.getTimeBoni();
+					}
+
+				}
+				conn.setBonusPoints(bonuspoints);
+				conn.setBonusTime(timeboni);
+				riderStageDao.update(conn);
+			}
+
+		}
+
 	}
 
 }

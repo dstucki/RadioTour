@@ -292,7 +292,7 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 	}
 
 	@Override
-	public void setTime(Date date) {
+	public void setTime(Date date, boolean fromDialog) {
 		((Chronometer) view.findViewById(R.id.chrono_racetime))
 				.setText(StringUtils.getTimeAsString(date));
 		racetimeTimer.setTime();

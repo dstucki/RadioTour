@@ -113,6 +113,7 @@ public class DriverGroupFragment extends Fragment {
 		field = (GroupTableRow) getView().findViewById(R.id.tableRowField);
 		tableRows.add(field);
 		field.changeDescription(getString(R.string.field));
+		field.setFragment(this);
 		tableRows.add((TableRow) getView().findViewById(R.id.tableRowGroup2));
 		standardParams = (TableLayout.LayoutParams) tableRows.get(0)
 				.getLayoutParams();
@@ -187,6 +188,7 @@ public class DriverGroupFragment extends Fragment {
 		row.setBackgroundResource(R.drawable.working_group);
 		row.setOnDragListener(dragListener);
 		row.setOnClickListener(clickListener);
+		row.setFragment(this);
 		return row;
 	}
 
@@ -243,13 +245,13 @@ public class DriverGroupFragment extends Fragment {
 		if (locationOfField > counter) {
 			temp = ((GroupTableRow) tableRows.get(counter));
 			temp.getGroup().setLeader(true);
-			temp.setTime(new Date(0, 0, 0, 0, 0, 0));
+			temp.setTime(new Date(0, 0, 0, 0, 0, 0), false);
 			temp.changeDescription(prefix);
 		}
 
 		if (locationOfField == counter) {
 			field.getGroup().setLeader(true);
-			field.setTime(new Date(0, 0, 0, 0, 0, 0));
+			field.setTime(new Date(0, 0, 0, 0, 0, 0), false);
 		} else {
 			field.getGroup().setLeader(false);
 		}
@@ -274,7 +276,7 @@ public class DriverGroupFragment extends Fragment {
 	/**
 	 * syncs the situation to the db
 	 */
-	private void syncToDb() {
+	public void syncToDb() {
 		List<Group> groups = new LinkedList<Group>();
 		for (int i = 1; i < tableRows.size(); i += 2) {
 			GroupTableRow groupTableRow = (GroupTableRow) tableRows.get(i);

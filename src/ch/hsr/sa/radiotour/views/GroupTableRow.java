@@ -25,11 +25,9 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
+import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
-import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.utils.StringUtils;
-
-import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class GroupTableRow extends TableRow implements TimePickerIF {
 	private TextView description;
@@ -37,11 +35,11 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private final SparseArray<LinearLayout> map = new SparseArray<LinearLayout>();
 	private final Map<Integer, TextView> mapTextView = new HashMap<Integer, TextView>();
 	private LinearLayout odd, even;
-	private RuntimeExceptionDao<RiderStageConnection, Integer> riderStageDao;
 	private Group group;
 	private final Context context;
 	private RadioTour app;
 	private boolean isdirty = false;
+	private DriverGroupFragment fragment;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -59,8 +57,6 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	}
 
 	private void createUI() {
-		DatabaseHelper helper = DatabaseHelper.getHelper(context);
-		riderStageDao = helper.getRiderStageDao();
 		app = (RadioTour) context.getApplicationContext();
 
 		LayoutInflater.from(context).inflate(
@@ -213,22 +209,13 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	}
 
 	@Override
-	public void setTime(final Date date) {
+	public void setTime(final Date date, boolean fromDialog) {
 		group.updateHandicapTime(date);
-
-		final List<RiderStageConnection> listToUpdate = updateAndPersistDriver(date);
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				for (RiderStageConnection conn : listToUpdate) {
-					riderStageDao.update(conn);
-				}
-			}
-		}, "WriteToDBThread").start();
-
+		updateAndPersistDriver(date);
 		setDeficits();
-
+		if (fromDialog) {
+			fragment.syncToDb();
+		}
 	}
 
 	private void setDeficits() {
@@ -249,6 +236,10 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			modificationAvoider.add(temp);
 		}
 		return modificationAvoider;
+	}
+
+	public void setFragment(DriverGroupFragment fragment) {
+		this.fragment = fragment;
 	}
 
 	/*
@@ -274,4 +265,5 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			return true;
 		}
 	}
+
 }

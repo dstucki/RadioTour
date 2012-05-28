@@ -32,6 +32,7 @@ public class VirtualRankingFragment extends ListFragment {
 		initializeResourceStrategyMap();
 		setSortableHeaderview();
 		getListView().setOnItemClickListener(new RiderItemListener());
+		Log.i(getClass().getSimpleName(), "im here");
 		adapter = getAdapter();
 		setListAdapter(adapter);
 
@@ -50,7 +51,7 @@ public class VirtualRankingFragment extends ListFragment {
 		map.put(R.id.fahrername, new RiderSortStrategy.SortByName());
 		map.put(R.id.team, new RiderSortStrategy.SortByTeam());
 		map.put(R.id.virtualRank, new RiderSortStrategy.SortByOfficialRank());
-		map.put(R.id.timeBoni, new RiderSortStrategy.SortByTimeBoni());
+		map.put(R.id.pointBoni, new RiderSortStrategy.SortByPointBoni());
 		map.put(R.id.timeOfficial, new RiderSortStrategy.SortByOfficialTime());
 		map.put(R.id.handicapOfficial,
 				new RiderSortStrategy.SortByOfficialHandicap());

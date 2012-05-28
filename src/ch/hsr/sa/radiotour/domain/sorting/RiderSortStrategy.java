@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.domain.sorting;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -7,6 +8,16 @@ import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 
 public abstract class RiderSortStrategy implements
 		Comparator<RiderStageConnection> {
+
+	public static class SortByPointBoni extends RiderSortStrategy {
+
+		@Override
+		public int compare(RiderStageConnection arg0, RiderStageConnection arg1) {
+			return arg0.getBonusPoints() - arg1.getBonusPoints();
+		}
+
+	}
+
 	public static class SortByVirtualDeficit extends RiderSortStrategy {
 
 		@Override
@@ -17,8 +28,13 @@ public abstract class RiderSortStrategy implements
 			if (arg1.getVirtualDeficit() == null) {
 				arg1.setVirtualDeficit(new Date(0, 0, 0, 0, 0, 0));
 			}
-
-			return arg0.getVirtualDeficit().compareTo(arg1.getVirtualDeficit());
+			Calendar cal0 = Calendar.getInstance();
+			cal0.setTime(arg0.getVirtualDeficit());
+			cal0.add(Calendar.SECOND, -arg0.getBonusTime());
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(arg1.getVirtualDeficit());
+			cal1.add(Calendar.SECOND, -arg1.getBonusTime());
+			return cal0.getTime().compareTo(cal1.getTime());
 		}
 
 	}

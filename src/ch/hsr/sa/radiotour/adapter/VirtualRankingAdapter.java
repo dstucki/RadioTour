@@ -1,8 +1,8 @@
 package ch.hsr.sa.radiotour.adapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -81,9 +81,10 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				temp.setText(conn.getOfficialRank() + "");
 				temp.setTextColor(state.getTextColor());
 
-				temp = (TextView) v.findViewById(R.id.timeBoni);
-				temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
-						0, conn.getBonusTime())));
+				temp = (TextView) v.findViewById(R.id.pointBoni);
+				// temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
+				// 0, conn.getBonusTime())));
+				temp.setText(conn.getBonusPoints() + "");
 				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.timeOfficial);
@@ -96,8 +97,11 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.virtualDeficit);
-				temp.setText(StringUtils.getTimeAsString(conn
-						.getVirtualDeficit()));
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(conn.getVirtualDeficit());
+				cal.add(Calendar.SECOND, -conn.getBonusTime());
+
+				temp.setText(StringUtils.getTimeAsString(cal.getTime()));
 				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.land_text);
