@@ -56,7 +56,7 @@
                 android:id="@+id/land_image"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/driver_country"
+                android:contentDescription="@string/rider_country"
                 android:gravity="left"
                 android:textSize="20dp" />
 
@@ -73,7 +73,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_column="6"
-            android:contentDescription="@string/driver_country"
+            android:contentDescription="@string/rider_country"
             android:gravity="center"
             android:textSize="20dp" />
 

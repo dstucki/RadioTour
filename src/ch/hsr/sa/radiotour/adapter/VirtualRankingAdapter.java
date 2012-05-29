@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.application.RadioTour;
-import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
@@ -63,8 +59,6 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 		final RiderStageConnection conn = connecters.get(position);
 
 		final Rider rider = conn.getRider();
-		final MaillotStageConnection maillotCon = ((RadioTour) getContext()
-				.getApplicationContext()).getMaillotStage(rider.getStartNr());
 		final RiderState state = conn.getRiderState();
 		if (rider != null) {
 			try {
@@ -78,12 +72,6 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 
 				temp = (TextView) v.findViewById(R.id.fahrername);
 				temp.setText(rider.getName());
-				if (maillotCon != null) {
-					Drawable draw = getMailloColor(maillotCon.getMaillot()
-							.getColor());
-					temp.setCompoundDrawablesWithIntrinsicBounds(draw, null,
-							null, null);
-				}
 
 				temp.setTextColor(state.getTextColor());
 
@@ -138,26 +126,4 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 		return v;
 	}
 
-	private Drawable getMailloColor(int color) {
-		switch (color) {
-		case Color.YELLOW:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_yellow);
-		case Color.GREEN:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_green);
-		case Color.RED:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_red);
-		case Color.BLACK:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_reddot);
-		case Color.MAGENTA:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_pink);
-		default:
-			return getContext().getResources().getDrawable(
-					R.drawable.maillot_white);
-		}
-	}
 }
