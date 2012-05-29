@@ -84,8 +84,6 @@ public class VirtualRankingAdapter extends ArrayAdapter<RiderStageConnection> {
 				temp.setTextColor(state.getTextColor());
 
 				temp = (TextView) v.findViewById(R.id.pointBoni);
-				// temp.setText(StringUtils.getTimeAsString(new Date(0, 0, 0, 0,
-				// 0, conn.getBonusTime())));
 				temp.setText(conn.getBonusPoints() + "");
 				temp.setTextColor(state.getTextColor());
 
