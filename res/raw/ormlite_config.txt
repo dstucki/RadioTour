@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/27 06:52:17
+# generated on 2012/05/29 01:04:11
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.Judgement
@@ -28,7 +28,7 @@ foreign=true
 foreignAutoRefresh=true
 # --field-end--
 # --field-start--
-fieldName=nrOfWinningDrivers
+fieldName=nrOfWinningRiders
 # --field-end--
 # --field-start--
 fieldName=timeBoni
@@ -72,6 +72,35 @@ fieldName=points
 # --field-end--
 # --field-start--
 fieldName=time
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ch.hsr.sa.radiotour.domain.MaillotStageConnection
+tableName=maillotstageconnection
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=maillot
+columnName=maillot
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=stage
+columnName=etappe
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=rider
+columnName=rider
+foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --table-fields-end--
 # --table-end--

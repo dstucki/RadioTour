@@ -19,7 +19,7 @@ public class Judgement {
 	private double distance;
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
-	@DatabaseField()
+	@DatabaseField
 	private int nrOfWinningRiders;
 	@DatabaseField(dataType = DataType.BOOLEAN)
 	private boolean timeBoni;

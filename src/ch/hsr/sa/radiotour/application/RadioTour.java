@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
+import android.util.SparseArray;
 import ch.hsr.sa.radiotour.domain.Group;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -22,6 +24,7 @@ public class RadioTour extends Application {
 	private final Map<Integer, RiderStageConnection> riderPerStage = new LinkedHashMap<Integer, RiderStageConnection>();
 	private final LinkedHashMap<String, Team> teams = new LinkedHashMap<String, Team>();
 	private final LinkedList<Group> groups = new LinkedList<Group>();
+	private final SparseArray<MaillotStageConnection> maillots = new SparseArray<MaillotStageConnection>();
 	private final static String THREAD_NAME = "serverthread";
 	private Stage actualSelectedStage;
 	private RaceSituation situation;
@@ -41,6 +44,21 @@ public class RadioTour extends Application {
 
 	public List<Rider> getRiders() {
 		return new ArrayList<Rider>(riders.values());
+	}
+
+	public void addMaillotStage(MaillotStageConnection conn) {
+		if (conn == null || conn.getRider() == null) {
+			return;
+		}
+		maillots.put(conn.getRider().getStartNr(), conn);
+	}
+
+	public MaillotStageConnection getMaillotStage(int riderNr) {
+		return maillots.get(riderNr);
+	}
+
+	public SparseArray<MaillotStageConnection> getMaillotStages() {
+		return maillots;
 	}
 
 	public List<Integer> getRiderNumbers() {
@@ -114,6 +132,7 @@ public class RadioTour extends Application {
 		teams.clear();
 		riderPerStage.clear();
 		groups.clear();
+		maillots.clear();
 	}
 
 	public void add(Team team) {

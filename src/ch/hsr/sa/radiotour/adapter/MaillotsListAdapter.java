@@ -51,14 +51,11 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 				.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 		final Maillot maillot = maillots.get(position);
 
-		Stage currentStage = ((RadioTour) getContext().getApplicationContext())
-				.getActualSelectedStage();
+		final Stage currentStage = ((RadioTour) getContext()
+				.getApplicationContext()).getActualSelectedStage();
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("etappe", currentStage);
-		map.put("maillot", maillot);
-		List<MaillotStageConnection> maillotList = maillotStageDao
-				.queryForFieldValues(map);
+		List<MaillotStageConnection> maillotList = getConnections(maillot,
+				currentStage);
 		maillotwearer = "";
 		if (maillotList.size() == 1) {
 			if (maillotList.get(0).getRider() != null)
@@ -85,14 +82,29 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 			@Override
 			public void onClick(View v) {
 				maillotDao.delete(maillot);
-				maillotStageDao.delete(maillotStageDao.queryForEq("maillot",
-						maillot));
+				for (MaillotStageConnection con : getConnections(maillot,
+						currentStage)) {
+					((RadioTour) getContext().getApplicationContext())
+							.getMaillotStages().delete(
+									con.getRider().getStartNr());
+					maillotStageDao.delete(con);
+				}
 				maillots.remove(maillot);
 				notifyDataSetChanged();
 			}
 		});
 
 		return v;
+	}
+
+	private List<MaillotStageConnection> getConnections(final Maillot maillot,
+			Stage currentStage) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("etappe", currentStage);
+		map.put("maillot", maillot);
+		List<MaillotStageConnection> maillotList = maillotStageDao
+				.queryForFieldValues(map);
+		return maillotList;
 	}
 
 	public void setMaillots(List<Maillot> maillots) {

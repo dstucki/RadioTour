@@ -23,6 +23,7 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.MaillotsListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Maillot;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.fragments.controller.AdminFragmentController;
 
@@ -192,6 +193,13 @@ public class AdminFragment extends Fragment {
 		((MaillotsListAdapter) maillot_lv.getAdapter()).clear();
 		((MaillotsListAdapter) maillot_lv.getAdapter()).addAll(controller
 				.getMaillots());
+
+		app.getMaillotStages().clear();
+		for (MaillotStageConnection con : controller
+				.getMaillotStages(getStage())) {
+			app.addMaillotStage(con);
+		}
+
 	}
 
 	/*

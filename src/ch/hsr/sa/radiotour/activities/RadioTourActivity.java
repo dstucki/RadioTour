@@ -32,6 +32,7 @@ import ch.hsr.sa.radiotour.dialogs.MarchTableDialog;
 import ch.hsr.sa.radiotour.dialogs.SpecialRankingDialog;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Maillot;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -159,6 +160,11 @@ public class RadioTourActivity extends Activity implements Observer,
 			for (RiderStageConnection conn : conns) {
 				application.add(conn);
 			}
+		}
+		List<MaillotStageConnection> connsMaillot = databaseHelper
+				.getMaillotStageDao().queryForEq("etappe", stage);
+		for (MaillotStageConnection con : connsMaillot) {
+			application.addMaillotStage(con);
 		}
 
 	}
