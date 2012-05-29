@@ -1,6 +1,8 @@
 package ch.hsr.sa.radiotour.dialogs;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -42,6 +44,7 @@ public class MaillotDialog extends DialogFragment {
 			this.maillot = maillot;
 		} else {
 			this.maillot = new Maillot("", 0, 0, 0);
+
 		}
 	}
 
@@ -88,12 +91,17 @@ public class MaillotDialog extends DialogFragment {
 		((RadioButton) v.findViewById(getButtonIDfromColor(oldMaillot
 				.getColor()))).setChecked(true);
 
+		Map<String, Object> constraints = new HashMap<String, Object>();
+		constraints.put("etappe", actualStage);
+		constraints.put("maillot", maillot);
+
 		List<MaillotStageConnection> list = dbHelper.getMaillotStageDao()
-				.queryForEq("etappe", actualStage);
-		if (list.size() > 0) {
-			for (MaillotStageConnection maillotStageConnection : list) {
-				// TODO implement here
-			}
+				.queryForFieldValues(constraints);
+		for (MaillotStageConnection maillotStageConnection : list) {
+			final Rider riderObject = maillotStageConnection.getRider();
+			rider.setText(riderObject == null ? "" : riderObject.getStartNr()
+					+ "");
+			this.maillotStage = maillotStageConnection;
 		}
 	}
 
@@ -120,8 +128,7 @@ public class MaillotDialog extends DialogFragment {
 				maillot.setColor(getColorFromButtonID(color
 						.getCheckedRadioButtonId()));
 
-				dbHelper.getMaillotRuntimeDao().create(maillot);
-				fragment.newMaillotAdded(maillot);
+				dbHelper.getMaillotRuntimeDao().createOrUpdate(maillot);
 
 				if (ridernr.length() != 0) {
 					Rider rider = ((RadioTour) getActivity()
@@ -150,6 +157,7 @@ public class MaillotDialog extends DialogFragment {
 						dbHelper.getMaillotStageDao().update(maillotStage);
 					}
 				}
+				fragment.newMaillotAdded(maillot);
 
 			}
 		} catch (NumberFormatException e) {

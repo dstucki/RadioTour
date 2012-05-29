@@ -1,14 +1,18 @@
 package ch.hsr.sa.radiotour.adapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,11 +20,13 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
+import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class DriverPickerAdapter extends ArrayAdapter<Team> {
 	private final Context context;
@@ -70,14 +76,21 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		Team team = teams.get(position);
 		int counter = 0;
 		RiderStageConnection conn;
+		Map<String, Object> constraints = new HashMap<String, Object>();
+		List<MaillotStageConnection> maillot;
 
 		for (Rider rider : team.getDriverNumbers()) {
 			conn = ((RadioTour) context.getApplicationContext())
 					.getRiderStage(rider.getStartNr());
+			constraints.put("etappe", conn.getStage());
+			constraints.put("rider", rider);
+			maillot = DatabaseHelper
+					.getHelper(getContext().getApplicationContext())
+					.getMaillotStageDao().queryForFieldValues(constraints);
 
 			if (conn != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
-
+				temp.setCompoundDrawables(null, null, null, null);
 				if (conn.getRiderState() == RiderState.GIVEUP
 						|| conn.getRiderState() == RiderState.NOT_STARTED) {
 					temp.setOnClickListener(null);
@@ -94,13 +107,36 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 				temp.setTextColor(conn.getRiderState().getTextColor());
 				temp.setBackgroundColor((conn.getRiderState()
 						.getBackgroundColor()));
+				for (MaillotStageConnection m : maillot) {
+					Log.i(getClass().getSimpleName(), "im here like a boss");
+					temp.setCompoundDrawablesWithIntrinsicBounds(null, null,
+							getMailloColor(m.getMaillot().getColor()), null);
+				}
 			}
 		}
 		return v;
 	}
 
-	public void setOnClickListener(OnClickListener listener) {
-		// TODO Auto-generated method stub
-
+	private Drawable getMailloColor(int color) {
+		switch (color) {
+		case Color.YELLOW:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_yellow);
+		case Color.GREEN:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_green);
+		case Color.RED:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_red);
+		case Color.BLACK:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_reddot);
+		case Color.MAGENTA:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_pink);
+		default:
+			return getContext().getResources().getDrawable(
+					R.drawable.maillot_white);
+		}
 	}
 }

@@ -23,14 +23,22 @@ import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 	private ArrayList<Maillot> maillots;
 	private String maillotwearer;
+	private final RuntimeExceptionDao<Maillot, Integer> maillotDao;
+	private final RuntimeExceptionDao<MaillotStageConnection, Integer> maillotStageDao;
 
 	public MaillotsListAdapter(Context context, ArrayList<Maillot> objects) {
 		super(context, R.layout.textview_ranking_special_ranking,
 				R.id.txtview_ridernr_special, objects);
 		maillots = objects;
+		DatabaseHelper helper = DatabaseHelper.getHelper(getContext()
+				.getApplicationContext());
+		maillotDao = helper.getMaillotRuntimeDao();
+		maillotStageDao = helper.getMaillotStageDao();
 	}
 
 	@Override
@@ -49,9 +57,8 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("etappe", currentStage);
 		map.put("maillot", maillot);
-		List<MaillotStageConnection> maillotList = DatabaseHelper
-				.getHelper(getContext().getApplicationContext())
-				.getMaillotStageDao().queryForFieldValues(map);
+		List<MaillotStageConnection> maillotList = maillotStageDao
+				.queryForFieldValues(map);
 		maillotwearer = "";
 		if (maillotList.size() == 1) {
 			if (maillotList.get(0).getRider() != null)
@@ -77,8 +84,9 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 
 			@Override
 			public void onClick(View v) {
-				DatabaseHelper.getHelper(getContext()).getMaillotRuntimeDao()
-						.delete(maillot);
+				maillotDao.delete(maillot);
+				maillotStageDao.delete(maillotStageDao.queryForEq("maillot",
+						maillot));
 				maillots.remove(maillot);
 				notifyDataSetChanged();
 			}

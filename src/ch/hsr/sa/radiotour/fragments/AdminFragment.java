@@ -189,7 +189,9 @@ public class AdminFragment extends Fragment {
 	}
 
 	public void newMaillotAdded(Maillot m) {
-		((MaillotsListAdapter) maillot_lv.getAdapter()).add(m);
+		((MaillotsListAdapter) maillot_lv.getAdapter()).clear();
+		((MaillotsListAdapter) maillot_lv.getAdapter()).addAll(controller
+				.getMaillots());
 	}
 
 	/*
@@ -238,9 +240,14 @@ public class AdminFragment extends Fragment {
 		@Override
 		public void onItemSelected(AdapterView<?> parentView,
 				View selectedItemView, int position, long id) {
-			activity.updateStage(getStage());
-			controller.stageChanged(getStage());
 			loadInformation(getStage());
+			if (!getStage().equals(app.getActualSelectedStage())) {
+				activity.updateStage(getStage());
+				((MaillotsListAdapter) maillot_lv.getAdapter())
+						.notifyDataSetChanged();
+				controller.stageChanged(getStage());
+			}
+
 		}
 
 		@Override
