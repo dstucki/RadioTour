@@ -6,7 +6,6 @@ import java.util.Set;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -114,6 +113,10 @@ public class SpecialRankingFragment extends Fragment {
 	 * 
 	 */
 	private void saveJudgement() {
+		if (getActualJudgement() == null) {
+			return;
+		}
+
 		LinearLayout llparent = (LinearLayout) getView().findViewById(
 				R.id.llayout_rider_set);
 		Set<Integer> tempSet = new HashSet<Integer>();
@@ -430,7 +433,6 @@ public class SpecialRankingFragment extends Fragment {
 	private class SaveJudgementListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Log.i(getClass().getSimpleName(), "hee");
 			saveJudgement();
 		}
 	}
