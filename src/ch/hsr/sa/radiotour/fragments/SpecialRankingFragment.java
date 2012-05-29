@@ -85,7 +85,7 @@ public class SpecialRankingFragment extends Fragment {
 			List<SpecialPointHolder> listPointHolder) {
 		LinearLayout ll;
 		for (int i = 0; i < getActualJudgement().getNrOfWinningDrivers(); i++) {
-			ll = (LinearLayout) inflate(R.layout.driverset_judgement);
+			ll = (LinearLayout) inflate(R.layout.riderset_judgement);
 			Rider rider = listPointHolder.get(i).getRider();
 			int startNr = rider == null ? 0 : rider.getStartNr();
 			((EditText) ll.findViewById(R.id.edtxt_for_number_insert))

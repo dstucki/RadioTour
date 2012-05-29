@@ -57,7 +57,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/driver_start_nr" />
+                android:text="@string/rider_start_nr" />
 
             <EditText
                 android:id="@+id/edittxt_rider"

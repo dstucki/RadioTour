@@ -18,7 +18,7 @@ public class Group extends Observable implements Comparable<Group> {
 	@DatabaseField(generatedId = true)
 	private int id;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private TreeSet<Integer> driverNumbers;
+	private TreeSet<Integer> riderNumbers;
 	@DatabaseField(dataType = DataType.BOOLEAN)
 	private boolean isField = false;
 	@DatabaseField(dataType = DataType.BOOLEAN)
@@ -33,19 +33,19 @@ public class Group extends Observable implements Comparable<Group> {
 	private int orderNumber;
 
 	public Group() {
-		this.driverNumbers = new TreeSet<Integer>();
+		this.riderNumbers = new TreeSet<Integer>();
 	}
 
-	public TreeSet<Integer> getDriverNumbers() {
-		return driverNumbers;
+	public TreeSet<Integer> getRiderNumbers() {
+		return riderNumbers;
 	}
 
-	public void setDriverNumbers(TreeSet<Integer> driverNumbers) {
-		this.driverNumbers = driverNumbers;
+	public void setRiderNumbers(TreeSet<Integer> riderNumbers) {
+		this.riderNumbers = riderNumbers;
 	}
 
-	public void removeDriverNumber(Integer driverNumber) {
-		driverNumbers.remove(driverNumber);
+	public void removeRiderNumber(Integer riderNumber) {
+		riderNumbers.remove(riderNumber);
 	}
 
 	public boolean isField() {
@@ -109,7 +109,7 @@ public class Group extends Observable implements Comparable<Group> {
 			json.put("isLeader", isLeader);
 			json.put("isField", isField);
 			if (!isField) {
-				json.put("drivernumber", new JSONArray(driverNumbers));
+				json.put("drivernumber", new JSONArray(riderNumbers));
 			}
 			json.put("handicaptime", getHandicapInMilliseconds());
 		} catch (JSONException e) {

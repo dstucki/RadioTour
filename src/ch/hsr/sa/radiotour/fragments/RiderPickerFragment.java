@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
-import ch.hsr.sa.radiotour.adapter.DriverPickerAdapter;
+import ch.hsr.sa.radiotour.adapter.RiderPickerAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
-public class DriverPickerFragment extends ListFragment implements
+public class RiderPickerFragment extends ListFragment implements
 		OnClickListener {
 
-	private DriverPickerAdapter adapter;
+	private RiderPickerAdapter adapter;
 	private View footerView;
 	private GroupingDragListener dragListener;
 	private final DriverGroupClickListener clickListener = new DriverGroupClickListener();
@@ -23,11 +23,11 @@ public class DriverPickerFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		adapter = new DriverPickerAdapter(getActivity(),
-				R.layout.picklist_item, R.id.startNr1,
+		adapter = new RiderPickerAdapter(getActivity(), R.layout.picklist_item,
+				R.id.startNr1,
 				((RadioTour) getActivity().getApplication()).getTeams(), this);
 		footerView = getActivity().getLayoutInflater().inflate(
-				R.layout.driverpicker_footer, null);
+				R.layout.riderpicker_footer, null);
 		getListView().addFooterView(footerView);
 		assignListener();
 		setListAdapter(adapter);
@@ -39,7 +39,7 @@ public class DriverPickerFragment extends ListFragment implements
 
 	}
 
-	public DriverPickerAdapter getAdapter() {
+	public RiderPickerAdapter getAdapter() {
 		return adapter;
 	}
 

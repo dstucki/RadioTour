@@ -25,12 +25,12 @@ import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
-import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
+import ch.hsr.sa.radiotour.fragments.RiderPickerFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
-public class DriverPickerAdapter extends ArrayAdapter<Team> {
+public class RiderPickerAdapter extends ArrayAdapter<Team> {
 	private final Context context;
-	private final DriverPickerFragment fragment;
+	private final RiderPickerFragment fragment;
 	private final List<Team> teams;
 	int[] ids = { R.id.startNr1, R.id.startNr2, R.id.startNr3, R.id.startNr4,
 			R.id.startNr5, R.id.startNr6, R.id.startNr7, R.id.startNr8, };
@@ -57,9 +57,9 @@ public class DriverPickerAdapter extends ArrayAdapter<Team> {
 		}
 	};
 
-	public DriverPickerAdapter(Context context, int resource,
+	public RiderPickerAdapter(Context context, int resource,
 			int textViewResourceId, List<Team> objects,
-			DriverPickerFragment fragment) {
+			RiderPickerFragment fragment) {
 		super(context, resource, textViewResourceId, objects);
 		this.context = context;
 		this.fragment = fragment;

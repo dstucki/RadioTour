@@ -20,7 +20,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RiderState;
-import ch.hsr.sa.radiotour.fragments.controller.DriverGroupController;
+import ch.hsr.sa.radiotour.fragments.controller.RiderGroupController;
 import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
@@ -30,7 +30,7 @@ import ch.hsr.sa.radiotour.views.GroupTableRow;
  * Class to display the area where the Riders are grouped
  * 
  */
-public class DriverGroupFragment extends Fragment {
+public class RiderGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
 	private DriverGroupClickListener clickListener;
 	private final LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
@@ -38,12 +38,12 @@ public class DriverGroupFragment extends Fragment {
 	private TableLayout.LayoutParams standardParams;
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
-	private DriverGroupController controller;
+	private RiderGroupController controller;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		controller = new DriverGroupController(this);
+		controller = new RiderGroupController(this);
 		clearOldInformation();
 		assignDragListener();
 		setOnClickListener();
@@ -136,7 +136,7 @@ public class DriverGroupFragment extends Fragment {
 			if (!g.isField()) {
 				GroupTableRow tempRow = createNewGroup(counter);
 				tempRow.setGroup(g);
-				for (int i : g.getDriverNumbers()) {
+				for (int i : g.getRiderNumbers()) {
 					removeAndAddRiderNr(tempRow, i);
 				}
 			} else {
@@ -219,7 +219,7 @@ public class DriverGroupFragment extends Fragment {
 		GroupTableRow temp;
 		for (int i = 1; i < tableRows.size(); i += 2) {
 			temp = (GroupTableRow) tableRows.get(i);
-			if (temp.getGroup().getDriverNumbers().isEmpty() && temp != field) {
+			if (temp.getGroup().getRiderNumbers().isEmpty() && temp != field) {
 				final TableLayout tableLayout = (TableLayout) getView()
 						.findViewById(R.id.groupTableLayout);
 				tableLayout.removeView(temp);
@@ -305,7 +305,7 @@ public class DriverGroupFragment extends Fragment {
 	 *            {@link View} that the ridernumbers will go to
 	 * @param riderNumbers
 	 */
-	public void moveDriverNr(View destination, Set<Integer> riderNumbers) {
+	public void moveRiderNr(View destination, Set<Integer> riderNumbers) {
 		if (riderNumbers == null || riderNumbers.isEmpty()) {
 			return;
 		}

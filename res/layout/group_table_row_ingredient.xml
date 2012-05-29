@@ -42,14 +42,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llayout_driver_odd"
+        android:id="@+id/llayout_rider_odd"
         android:layout_width="315dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:orientation="vertical" />
 
     <LinearLayout
-        android:id="@+id/llayout_driver_even"
+        android:id="@+id/llayout_rider_even"
         android:layout_width="315dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

@@ -11,15 +11,15 @@ import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
 public class RaceFragment extends Fragment {
 
-	private DriverGroupFragment groupFragment;
+	private RiderGroupFragment groupFragment;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
-		DriverPickerFragment driverPicker = new DriverPickerFragment();
-		groupFragment = new DriverGroupFragment();
+		RiderPickerFragment driverPicker = new RiderPickerFragment();
+		groupFragment = new RiderGroupFragment();
 		GroupingDragListener listener = new GroupingDragListener(getActivity(),
 				driverPicker);
 		driverPicker.setDragListener(listener);
@@ -38,7 +38,7 @@ public class RaceFragment extends Fragment {
 		return view;
 	}
 
-	public DriverGroupFragment getGroupFragment() {
+	public RiderGroupFragment getGroupFragment() {
 		return groupFragment;
 	}
 

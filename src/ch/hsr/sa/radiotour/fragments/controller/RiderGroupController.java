@@ -9,17 +9,17 @@ import ch.hsr.sa.radiotour.domain.RaceSituation;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Stage;
-import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
 import ch.hsr.sa.radiotour.fragments.HeaderFragment;
+import ch.hsr.sa.radiotour.fragments.RiderGroupFragment;
 import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendingQueue;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 /**
- * Class that acts as a Controller for {@link DriverGroupFragment}
+ * Class that acts as a Controller for {@link RiderGroupFragment}
  */
-public class DriverGroupController {
+public class RiderGroupController {
 	private final RadioTour app;
 	private RuntimeExceptionDao<Group, Integer> groupDao;
 	private RuntimeExceptionDao<RaceSituation, Long> situationDao;
@@ -31,7 +31,7 @@ public class DriverGroupController {
 	 * @param fragment
 	 *            to which this controller is assigned
 	 */
-	public DriverGroupController(DriverGroupFragment fragment) {
+	public RiderGroupController(RiderGroupFragment fragment) {
 		this.app = (RadioTour) fragment.getActivity().getApplication();
 		assignDaos(DatabaseHelper.getHelper(fragment.getActivity()));
 	}
@@ -129,7 +129,7 @@ public class DriverGroupController {
 		Group gr = new Group();
 		gr.setSituation(app.getSituation());
 		gr.setField(true);
-		gr.getDriverNumbers().addAll(getRiderNumbers());
+		gr.getRiderNumbers().addAll(getRiderNumbers());
 		gr.setOrderNumber(0);
 		return gr;
 	}

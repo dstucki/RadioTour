@@ -2,13 +2,13 @@
 <resources>
 
     <string name="app_name">RadioTour</string>
-    <string name="driver_name">Name</string>
-    <string name="driver_team">Team</string>
-    <string name="driver_team_short">Team Kurz</string>
-    <string name="driver_country">Land</string>
-    <string name="driver_start_nr">Startnummer</string>
-    <string name="driver_detail_name">Detail Fahrer</string>
-    <string name="driver_birthday">01.01.1990</string>
+    <string name="rider_name">Name</string>
+    <string name="rider_team">Team</string>
+    <string name="rider_team_short">Team Kurz</string>
+    <string name="rider_country">Land</string>
+    <string name="rider_start_nr">Startnummer</string>
+    <string name="rider_detail_name">Detail Fahrer</string>
+    <string name="rider_birthday">01.01.1990</string>
     <string name="lb_time">Zeit:</string>
     <string name="top">Spitze</string>
     <string name="new_group">Neu</string>

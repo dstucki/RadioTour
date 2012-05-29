@@ -213,13 +213,13 @@
                 android:text="@string/lb_importmtable" />
 
             <Button
-                android:id="@+id/btn_import_driver"
+                android:id="@+id/btn_import_rider"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lb_importrider" />
 
             <Button
-                android:id="@+id/btn_import_driver_time"
+                android:id="@+id/btn_import_rider_time"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lb_importridertime" />

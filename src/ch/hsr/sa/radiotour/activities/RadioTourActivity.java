@@ -200,7 +200,7 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void onRowLayoutClick(View tableRow, Set<Integer> dragObject) {
-		raceFragment.getGroupFragment().moveDriverNr(tableRow, dragObject);
+		raceFragment.getGroupFragment().moveRiderNr(tableRow, dragObject);
 		clearCheckedIntegers();
 	}
 

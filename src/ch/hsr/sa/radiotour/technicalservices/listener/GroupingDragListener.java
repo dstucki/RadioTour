@@ -10,15 +10,15 @@ import android.view.View.OnDragListener;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
-import ch.hsr.sa.radiotour.fragments.DriverPickerFragment;
+import ch.hsr.sa.radiotour.fragments.RiderPickerFragment;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
 public class GroupingDragListener implements OnDragListener {
 	private View actualLayout = null;
 	private final Context ctx;
-	private final DriverPickerFragment pickerFragment;
+	private final RiderPickerFragment pickerFragment;
 
-	public GroupingDragListener(Context ctx, DriverPickerFragment pickerFragment) {
+	public GroupingDragListener(Context ctx, RiderPickerFragment pickerFragment) {
 		this.ctx = ctx;
 		this.pickerFragment = pickerFragment;
 	}

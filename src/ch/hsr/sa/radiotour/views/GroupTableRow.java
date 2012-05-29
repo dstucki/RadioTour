@@ -25,7 +25,7 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
-import ch.hsr.sa.radiotour.fragments.DriverGroupFragment;
+import ch.hsr.sa.radiotour.fragments.RiderGroupFragment;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 import ch.hsr.sa.radiotour.utils.StringUtils;
 
@@ -39,7 +39,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private final Context context;
 	private RadioTour app;
 	private boolean isdirty = false;
-	private DriverGroupFragment fragment;
+	private RiderGroupFragment fragment;
 
 	public GroupTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -61,8 +61,8 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 
 		LayoutInflater.from(context).inflate(
 				R.layout.group_table_row_ingredient, this);
-		odd = (LinearLayout) findViewById(R.id.llayout_driver_odd);
-		even = (LinearLayout) findViewById(R.id.llayout_driver_even);
+		odd = (LinearLayout) findViewById(R.id.llayout_rider_odd);
+		even = (LinearLayout) findViewById(R.id.llayout_rider_even);
 		description = (TextView) findViewById(R.id.txt_description);
 		time = (TextView) findViewById(R.id.txt_group_time);
 		lastTime = (TextView) findViewById(R.id.txt_group_last_time);
@@ -86,7 +86,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 				ClipData data = ClipData.newPlainText(description.getText(),
 						description.getText());
 				return v.startDrag(data, new DragShadowBuilder(
-						GroupTableRow.this), group.getDriverNumbers(), 0);
+						GroupTableRow.this), group.getRiderNumbers(), 0);
 			}
 		});
 		description.setOnClickListener(new OnClickListener() {
@@ -114,7 +114,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 			return;
 		}
 		int count = 1;
-		for (Integer riderNr : group.getDriverNumbers()) {
+		for (Integer riderNr : group.getRiderNumbers()) {
 			map.get(riderNr).removeView(mapTextView.get(riderNr));
 			LinearLayout temp = count % 2 == 0 ? even : odd;
 			temp.addView(mapTextView.get(riderNr));
@@ -145,7 +145,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	}
 
 	public void addRider(final Integer riderNr) {
-		group.getDriverNumbers().add(riderNr);
+		group.getRiderNumbers().add(riderNr);
 		RiderStageConnection conn = app.getRiderStage(riderNr);
 		conn.setVirtualDeficit(group.getHandicapTime());
 		if (!group.isField()) {
@@ -189,12 +189,12 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	@Override
 	public void removeView(View view) {
 		super.removeView(view);
-		group.getDriverNumbers().remove(
+		group.getRiderNumbers().remove(
 				Integer.valueOf(((TextView) view).getText().toString()));
 	}
 
 	public void removeRiderNr(Integer driverNr) {
-		group.removeDriverNumber(driverNr);
+		group.removeRiderNumber(driverNr);
 		LinearLayout temp = getParentLayout(driverNr);
 		map.remove(driverNr);
 		if (temp != null && !group.isField()) {
@@ -227,7 +227,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	private List<RiderStageConnection> updateAndPersistDriver(Date date) {
 		RiderStageConnection temp;
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
-		for (int i : group.getDriverNumbers()) {
+		for (int i : group.getRiderNumbers()) {
 			temp = app.getRiderStage(i);
 			try {
 				temp.setVirtualDeficit(date);
@@ -238,7 +238,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		return modificationAvoider;
 	}
 
-	public void setFragment(DriverGroupFragment fragment) {
+	public void setFragment(RiderGroupFragment fragment) {
 		this.fragment = fragment;
 	}
 

@@ -107,9 +107,9 @@ public class AdminFragment extends Fragment {
 				importListener);
 		view.findViewById(R.id.btn_import_match_table).setOnClickListener(
 				importListener);
-		view.findViewById(R.id.btn_import_driver).setOnClickListener(
+		view.findViewById(R.id.btn_import_rider).setOnClickListener(
 				importListener);
-		view.findViewById(R.id.btn_import_driver_time).setOnClickListener(
+		view.findViewById(R.id.btn_import_rider_time).setOnClickListener(
 				importListener);
 	}
 
@@ -133,7 +133,7 @@ public class AdminFragment extends Fragment {
 		case R.id.btn_import_stage:
 			importStages(file);
 			break;
-		case R.id.btn_import_driver:
+		case R.id.btn_import_rider:
 			new Thread(new Runnable() {
 
 				@Override
@@ -143,9 +143,9 @@ public class AdminFragment extends Fragment {
 					} catch (FileNotFoundException e) {
 					}
 				}
-			}, "ImportDriver").start();
+			}, "ImportRider").start();
 			break;
-		case R.id.btn_import_driver_time:
+		case R.id.btn_import_rider_time:
 			new Thread(new Runnable() {
 
 				@Override
