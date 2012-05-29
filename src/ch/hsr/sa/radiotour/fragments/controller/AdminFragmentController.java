@@ -19,7 +19,7 @@ import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
-import ch.hsr.sa.radiotour.utils.DriverImport;
+import ch.hsr.sa.radiotour.utils.RiderImport;
 import ch.hsr.sa.radiotour.utils.MarchTableImport;
 import ch.hsr.sa.radiotour.utils.RiderStageImport;
 import ch.hsr.sa.radiotour.utils.StageImport;
@@ -122,7 +122,7 @@ public class AdminFragmentController {
 			throws FileNotFoundException {
 		dropAndCreateTable(Rider.class, RiderStageConnection.class);
 		Rider bicycleRider;
-		DriverImport importUtil = new DriverImport(app);
+		RiderImport importUtil = new RiderImport(app);
 		for (String[] riderAsString : readCSV(file)) {
 			bicycleRider = importUtil.convertTo(riderAsString);
 			create(bicycleRider);

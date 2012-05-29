@@ -203,6 +203,7 @@ public class AdminFragment extends Fragment {
 		public void onClick(View v) {
 			fillStageInformation(getStage());
 			loadInformation(getStage());
+			activity.updateStage(getStage());
 			controller.update(getStage());
 		}
 	};
@@ -241,8 +242,8 @@ public class AdminFragment extends Fragment {
 		public void onItemSelected(AdapterView<?> parentView,
 				View selectedItemView, int position, long id) {
 			loadInformation(getStage());
+			activity.updateStage(getStage());
 			if (!getStage().equals(app.getActualSelectedStage())) {
-				activity.updateStage(getStage());
 				((MaillotsListAdapter) maillot_lv.getAdapter())
 						.notifyDataSetChanged();
 				controller.stageChanged(getStage());

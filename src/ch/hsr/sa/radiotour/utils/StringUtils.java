@@ -52,6 +52,61 @@ public class StringUtils {
 		if ("SUI".equalsIgnoreCase(olympicCountryCode)) {
 			isoCode = "ch";
 		}
+
+		if ("AUS".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "au";
+		}
+		if ("RUS".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ru";
+		}
+		if ("SLO".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "si";
+		}
+		if ("SWE".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "se";
+		}
+		if ("CRO".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "hr";
+		}
+		if ("KAZ".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "kz";
+		}
+		if ("EST".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ee";
+		}
+		if ("NED".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "nl";
+		}
+		if ("ESP".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "es";
+		}
+		if ("VEN".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ve";
+		}
+		if ("FIN".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "fi";
+		}
+		if ("BRA".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "br";
+		}
+		if ("USA".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "us";
+		}
+		if ("AUT".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "at";
+		}
+		if ("POL".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "pl";
+		}
+		if ("LTU".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "lt";
+		}
+		if ("LIE".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "li";
+		}
+		if ("UZB".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "uz";
+		}
 		if ("GER".equalsIgnoreCase(olympicCountryCode)) {
 			isoCode = "de";
 		}
@@ -87,6 +142,12 @@ public class StringUtils {
 		}
 		if ("BEL".equalsIgnoreCase(olympicCountryCode)) {
 			isoCode = "be";
+		}
+		if ("IRL".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "ir";
+		}
+		if ("LET".equalsIgnoreCase(olympicCountryCode)) {
+			isoCode = "lv";
 		}
 
 		return "country_" + isoCode;

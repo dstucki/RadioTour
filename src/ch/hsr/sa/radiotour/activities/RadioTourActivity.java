@@ -394,20 +394,20 @@ public class RadioTourActivity extends Activity implements Observer,
 	}
 
 	public void updateStage(Stage actualStage) {
-		if (newSelectionEqualsOldSelection(actualStage)) {
-			return;
-		}
-		application.setActualSelectedStage(actualStage);
-		try {
-			application.setSituation(getNewestRaceSituation(actualStage));
-		} catch (SQLException e) {
-			Log.e(getClass().getSimpleName(), e.getMessage());
-		}
 		HeaderFragment h = ((HeaderFragment) getFragmentManager()
 				.findFragmentById(R.id.headerFragment));
 		if (h != null) {
 			h.updateStage(actualStage);
 		}
+		if (!newSelectionEqualsOldSelection(actualStage)) {
+			try {
+				application.setSituation(getNewestRaceSituation(actualStage));
+			} catch (SQLException e) {
+				Log.e(getClass().getSimpleName(), e.getMessage());
+			}
+		}
+		application.setActualSelectedStage(actualStage);
+
 	}
 
 	private boolean newSelectionEqualsOldSelection(Stage actualStage) {
