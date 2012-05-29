@@ -10,6 +10,7 @@ import java.util.List;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Judgement;
 import ch.hsr.sa.radiotour.domain.Maillot;
+import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.PointOfRace;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -40,6 +41,7 @@ public class AdminFragmentController {
 	private RuntimeExceptionDao<Maillot, Integer> maillotDao;
 	private RuntimeExceptionDao<Team, String> teamDao;
 	private RuntimeExceptionDao<PointOfRace, Integer> pointOfRaceDao;
+	private RuntimeExceptionDao<MaillotStageConnection, Integer> maillotStageDao;
 	private final RadioTour app;
 
 	public AdminFragmentController(AdminFragment fragment) {
@@ -55,6 +57,7 @@ public class AdminFragmentController {
 		maillotDao = helper.getMaillotRuntimeDao();
 		pointOfRaceDao = helper.getPointOfRaceDao();
 		teamDao = helper.getTeamDao();
+		maillotStageDao = helper.getMaillotStageDao();
 	}
 
 	public void update(Stage stage) {
@@ -183,6 +186,12 @@ public class AdminFragmentController {
 
 	public void stageChanged(Stage actualStage) {
 		app.getRiderPerStage().clear();
+		app.getMaillotStages().clear();
+
+		for (MaillotStageConnection con : getMaillotStages(actualStage)) {
+			app.addMaillotStage(con);
+		}
+
 		List<RiderStageConnection> list = getRiderStages(actualStage);
 		if (list.size() == 0) {
 			createRiderStageConnection(actualStage);
@@ -190,6 +199,11 @@ public class AdminFragmentController {
 		for (RiderStageConnection conn : getRiderStages(actualStage)) {
 			app.add(conn);
 		}
+
+	}
+
+	public List<MaillotStageConnection> getMaillotStages(Stage actualStage) {
+		return maillotStageDao.queryForEq("etappe", actualStage);
 	}
 
 	public Stage createStage() {

@@ -1,15 +1,12 @@
 package ch.hsr.sa.radiotour.adapter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -26,7 +23,6 @@ import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.RiderPickerFragment;
-import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 public class RiderPickerAdapter extends ArrayAdapter<Team> {
 	private final Context context;
@@ -41,12 +37,10 @@ public class RiderPickerAdapter extends ArrayAdapter<Team> {
 		public boolean onLongClick(View v) {
 			final TextView textView = (TextView) v;
 			final int riderNr = Integer.valueOf(textView.getText().toString());
-
 			if (!((RadioTourActivity) fragment.getActivity())
 					.getCheckedIntegers().contains(riderNr)) {
 				v.performClick();
 			}
-
 			ClipData data = ClipData.newPlainText(textView.getText(),
 					textView.getText());
 			v.startDrag(data, new DragShadowBuilder(v),
@@ -76,17 +70,10 @@ public class RiderPickerAdapter extends ArrayAdapter<Team> {
 		Team team = teams.get(position);
 		int counter = 0;
 		RiderStageConnection conn;
-		Map<String, Object> constraints = new HashMap<String, Object>();
-		List<MaillotStageConnection> maillot;
-
+		MaillotStageConnection maillotCon;
 		for (Rider rider : team.getDriverNumbers()) {
 			conn = ((RadioTour) context.getApplicationContext())
 					.getRiderStage(rider.getStartNr());
-			constraints.put("etappe", conn.getStage());
-			constraints.put("rider", rider);
-			maillot = DatabaseHelper
-					.getHelper(getContext().getApplicationContext())
-					.getMaillotStageDao().queryForFieldValues(constraints);
 
 			if (conn != null) {
 				TextView temp = (TextView) v.findViewById(ids[counter++]);
@@ -107,10 +94,14 @@ public class RiderPickerAdapter extends ArrayAdapter<Team> {
 				temp.setTextColor(conn.getRiderState().getTextColor());
 				temp.setBackgroundColor((conn.getRiderState()
 						.getBackgroundColor()));
-				for (MaillotStageConnection m : maillot) {
-					Log.i(getClass().getSimpleName(), "im here like a boss");
+
+				maillotCon = ((RadioTour) context.getApplicationContext())
+						.getMaillotStage(rider.getStartNr());
+				if (maillotCon != null) {
+					Drawable draw = getMailloColor(maillotCon.getMaillot()
+							.getColor());
 					temp.setCompoundDrawablesWithIntrinsicBounds(null, null,
-							getMailloColor(m.getMaillot().getColor()), null);
+							draw, null);
 				}
 			}
 		}

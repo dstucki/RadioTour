@@ -9,8 +9,8 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.RiderPickerAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.RiderState;
-import ch.hsr.sa.radiotour.technicalservices.listener.RiderGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
+import ch.hsr.sa.radiotour.technicalservices.listener.RiderGroupClickListener;
 
 public class RiderPickerFragment extends ListFragment implements
 		OnClickListener {

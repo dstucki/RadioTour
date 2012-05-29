@@ -414,9 +414,11 @@ public class SpecialRankingFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			final Judgement temp = getActualJudgement();
-			judgementAdapter.remove(getActualJudgement());
-			controller.delete(temp);
-			fillJudgements();
+			if (temp != null) {
+				judgementAdapter.remove(getActualJudgement());
+				controller.delete(temp);
+				fillJudgements();
+			}
 		}
 
 	}
@@ -467,10 +469,12 @@ public class SpecialRankingFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			final SpecialRanking temp = getSpecialRanking();
-			judgementAdapter.clear();
-			specialAdapter.remove(temp);
-			controller.delete(temp);
-			setVirtualRanking();
+			if (temp != null) {
+				judgementAdapter.clear();
+				specialAdapter.remove(temp);
+				controller.delete(temp);
+				setVirtualRanking();
+			}
 		}
 	}
 
