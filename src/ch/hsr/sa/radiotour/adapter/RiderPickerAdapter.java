@@ -17,6 +17,7 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.application.RadioTour;
+import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Rider;
 import ch.hsr.sa.radiotour.domain.RiderStageConnection;
@@ -107,6 +108,14 @@ public class RiderPickerAdapter extends ArrayAdapter<Team> {
 		}
 		return v;
 	}
+
+	/**
+	 * Converts the Drawable of a Maillot to the given color representation
+	 * 
+	 * @param color
+	 *            from {@link Maillot#getColor()}
+	 * @return {@link Drawable} object represent the Maillot
+	 */
 
 	private Drawable getMailloColor(int color) {
 		switch (color) {

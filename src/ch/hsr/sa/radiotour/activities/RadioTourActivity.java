@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.adapter.RiderPickerAdapter;
 import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.dialogs.EditRiderDialog;
@@ -55,6 +56,11 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
+/**
+ * The Class RadioTourActivity. It's the only {@link Activity} in this Project
+ * and acts as the starting point at the application startup
+ * 
+ */
 public class RadioTourActivity extends Activity implements Observer,
 		OnClickListener {
 
@@ -79,6 +85,10 @@ public class RadioTourActivity extends Activity implements Observer,
 		new AsyncSetUpTask().execute(this);
 	}
 
+	/**
+	 * Shows the {@link RaceFragment} after the SplashScreen disappears. This
+	 * Method should only be called once
+	 */
 	public void showRaceFragment() {
 		setContentView(R.layout.base_activity);
 		raceFragment = new RaceFragment();
@@ -98,6 +108,9 @@ public class RadioTourActivity extends Activity implements Observer,
 		return data;
 	}
 
+	/**
+	 * Removes the splash screen.
+	 */
 	public void removeSplashScreen() {
 		if (mSplashDialog != null) {
 			mSplashDialog.dismiss();
@@ -105,6 +118,9 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	/**
+	 * Shows splash screen.
+	 */
 	protected void showSplashScreen() {
 		mSplashDialog = new Dialog(this, R.style.SplashScreen);
 		mSplashDialog.setContentView(R.layout.splash_screen);
@@ -120,6 +136,10 @@ public class RadioTourActivity extends Activity implements Observer,
 		}, 2000);
 	}
 
+	/**
+	 * Sets the up domain objects. Loads the Objects from the Database into
+	 * memory and keeps it at the {@link RadioTour} class
+	 */
 	public void setUpDomainObjects() {
 		application = (RadioTour) getApplication();
 		application.clearInfos();
@@ -205,15 +225,34 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	/**
+	 * On row layout click.
+	 * 
+	 * @param tableRow
+	 *            the table row
+	 * @param dragObject
+	 *            the drag object
+	 */
 	public void onRowLayoutClick(View tableRow, Set<Integer> dragObject) {
 		raceFragment.getGroupFragment().moveRiderNr(tableRow, dragObject);
 		clearCheckedIntegers();
 	}
 
+	/**
+	 * Clear checked integers onclick.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	public void clearCheckedIntegersOnclick(View v) {
 		clearCheckedIntegers();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -223,6 +262,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	/**
+	 * On race button click.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	public void onRaceButtonClick(View v) {
 		if (!raceFragment.isAdded()) {
 			FragmentTransaction fragmentTransaction = getFragmentManager()
@@ -232,6 +277,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	/**
+	 * On ranking button click.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	public void onRankingButtonClick(View v) {
 		clearCheckedIntegers();
 		rankingFragment = rankingFragment == null ? new VirtualRankingFragment()
@@ -245,6 +296,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 	}
 
+	/**
+	 * On admin button click.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	public void onAdminButtonClick(View v) {
 		adminFragment = new AdminFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
@@ -253,6 +310,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		fragmentTransaction.commit();
 	}
 
+	/**
+	 * On special button click.
+	 * 
+	 * @param v
+	 *            the v
+	 */
 	public void onSpecialButtonClick(View v) {
 		specialRankingFragment = new SpecialRankingFragment();
 		FragmentTransaction fragmentTransaction = getFragmentManager()
@@ -262,6 +325,9 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	}
 
+	/**
+	 * Clears the selection at the {@link RiderPickerAdapter}
+	 */
 	private void clearCheckedIntegers() {
 		checkedIntegers.clear();
 		for (TextView v : checkedViews) {
@@ -271,6 +337,15 @@ public class RadioTourActivity extends Activity implements Observer,
 		checkedViews.clear();
 	}
 
+	/**
+	 * Show time dialog.
+	 * 
+	 * @param timePickerIF
+	 *            an instance of timePickerIF that the new time will be sent to
+	 * @param useHour
+	 *            boolean that indicates if the Dialog should only show
+	 *            seconds&minutes or additionally hours
+	 */
 	public void showTimeDialog(TimePickerIF timePickerIF, boolean useHour) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
@@ -283,6 +358,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "dialog");
 	}
 
+	/**
+	 * Shows km dialog that updates the {@link GPSLocationListener} distance.
+	 * 
+	 * @param gps
+	 *            Object where you want to update the amount of km
+	 */
 	public void showKmDialog(GPSLocationListener gps) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
@@ -296,6 +377,17 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	}
 
+	/**
+	 * Show rider dialog to lookup further information to the rider or edit
+	 * some. Because showing a {@link Dialog} is asynchronous, the adapter has
+	 * to be given as an argument too
+	 * 
+	 * @param conn
+	 *            {@link RiderStageConnection} Object that you want it's
+	 *            assosciated {@link Rider}
+	 * @param adapter
+	 *            adapter to notify that the dataset has changed
+	 */
 	public void showRiderDialog(RiderStageConnection conn,
 			VirtualRankingAdapter adapter) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -309,6 +401,9 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "riderDialog");
 	}
 
+	/**
+	 * Shows the marchTable of the actual selected {@link Stage}
+	 */
 	public void showMarchTableDialog() {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("marchDialog");
@@ -322,6 +417,13 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "marchDialog");
 	}
 
+	/**
+	 * Shows the dialog to create a new Maillot.Because showing a {@link Dialog}
+	 * is asynchronous, the fragment has to be given as an argument too
+	 * 
+	 * @param fragment
+	 *            the fragment object from where you are calling this dialog
+	 */
 	public void showMaillotDialog(AdminFragment fragment) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag("maillotDialog");
@@ -333,6 +435,18 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "maillotDialog");
 	}
 
+	/**
+	 * Dialog to Edit a Maillot or set the winning Driver.Because showing a
+	 * {@link Dialog} is asynchronous, the fragment has to be given as an
+	 * argument too
+	 * 
+	 * @param fragment
+	 *            the fragment from where you are calling this method
+	 * @param maillot
+	 *            the maillot that you want to edit
+	 * @param stage
+	 *            the stage where you want to set the driver for
+	 */
 	public void editMaillotDialog(AdminFragment fragment, Maillot maillot,
 			Stage stage) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -350,6 +464,16 @@ public class RadioTourActivity extends Activity implements Observer,
 		onRowLayoutClick((View) data, checkedIntegers);
 	}
 
+	/**
+	 * Because showing a {@link Dialog} is asynchronous, the fragment has to be
+	 * given as an argument too
+	 * 
+	 * @param fragment
+	 *            the fragment where this method is called from
+	 * @param selectedItem
+	 *            the selected item to be edited, <code>null</code> if a new
+	 *            {@link SpecialRanking} should be created
+	 */
 	public void showSpecialRankingDialog(SpecialRankingFragment fragment,
 			SpecialRanking selectedItem) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -365,6 +489,16 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "textViewDialog");
 	}
 
+	/**
+	 * Show a {@link Dialog} to to edit an {@link Judgement}.Because showing a
+	 * {@link Dialog} is asynchronous, the fragment has to be given as an
+	 * argument too;
+	 * 
+	 * @param fragment
+	 *            the fragment that the method is called from
+	 * @param judgement
+	 *            the judgement that is wanted to be edited
+	 */
 	public void showTextViewDialog(SpecialRankingFragment fragment,
 			Judgement judgement) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -379,6 +513,14 @@ public class RadioTourActivity extends Activity implements Observer,
 		newFragment.show(ft, "textViewDialog");
 	}
 
+	/**
+	 * Show file explorer dialog to choose an csv file to import data into the
+	 * application. Because showing a {@link Dialog} is asynchronous, the
+	 * fragment has to be given as an argument too
+	 * 
+	 * @param fragment
+	 *            the fragment where this method is called from;
+	 */
 	public void showFileExplorerDialog(AdminFragment fragment) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment prev = getFragmentManager().findFragmentByTag(
@@ -399,6 +541,14 @@ public class RadioTourActivity extends Activity implements Observer,
 		HeaderFragment.saveRaceTime();
 	}
 
+	/**
+	 * Call this method when the actualStage changes to set the actual
+	 * {@link RaceSituation} and other {@link Stage} assigned infos right in the
+	 * {@link RadioTour} class
+	 * 
+	 * @param actualStage
+	 *            the new actual stage
+	 */
 	public void updateStage(Stage actualStage) {
 		HeaderFragment h = ((HeaderFragment) getFragmentManager()
 				.findFragmentById(R.id.headerFragment));
@@ -416,12 +566,27 @@ public class RadioTourActivity extends Activity implements Observer,
 
 	}
 
+	/**
+	 * helper method that checks whether the given stage is the same as the
+	 * actual stage
+	 * 
+	 */
 	private boolean newSelectionEqualsOldSelection(Stage actualStage) {
 		return application.getActualSelectedStage() != null
 				&& actualStage.getId() == application.getActualSelectedStage()
 						.getId();
 	}
 
+	/**
+	 * Gets the latest race situation assigned to the given Stage
+	 * 
+	 * @param stage
+	 *            the {@link Stage} to what you want the latest
+	 *            {@link RaceSituation}
+	 * @return the latest {@link RaceSituation} for the actual {@link Stage}
+	 * @throws SQLException
+	 * 
+	 */
 	private RaceSituation getNewestRaceSituation(Stage stage)
 			throws SQLException {
 		RuntimeExceptionDao<RaceSituation, Long> raceSituationDao = databaseHelper

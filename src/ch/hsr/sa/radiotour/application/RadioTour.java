@@ -19,6 +19,10 @@ import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.technicalservices.connection.JsonSendingQueue;
 import ch.hsr.sa.radiotour.technicalservices.sharedpreferences.SharedPreferencesHelper;
 
+/**
+ * Class extending {@link Application} where the domain-objects are stored for
+ * better performance then always looking them up in the database
+ */
 public class RadioTour extends Application {
 	private final LinkedHashMap<Integer, Rider> riders = new LinkedHashMap<Integer, Rider>();
 	private final Map<Integer, RiderStageConnection> riderPerStage = new LinkedHashMap<Integer, RiderStageConnection>();
@@ -29,6 +33,9 @@ public class RadioTour extends Application {
 	private Stage actualSelectedStage;
 	private RaceSituation situation;
 
+	/**
+	 * Non-Args Constructor that starts the {@link JsonSendingQueue} in a thread
+	 */
 	public RadioTour() {
 		super();
 		Thread thread = new Thread(new Runnable() {
@@ -127,6 +134,9 @@ public class RadioTour extends Application {
 		this.situation = situation;
 	}
 
+	/**
+	 * clears all the Information holded here in memory
+	 */
 	public void clearInfos() {
 		riders.clear();
 		teams.clear();

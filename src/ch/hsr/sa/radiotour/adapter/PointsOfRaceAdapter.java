@@ -22,7 +22,6 @@ import ch.hsr.sa.radiotour.utils.StringUtils;
 public class PointsOfRaceAdapter extends ArrayAdapter<PointOfRace> implements
 		Observer {
 	private final List<PointOfRace> points;
-	private PointOfRace actualPoint;
 
 	public PointsOfRaceAdapter(Context context, int resource,
 			int textViewResourceId, List<PointOfRace> objects) {
@@ -44,7 +43,6 @@ public class PointsOfRaceAdapter extends ArrayAdapter<PointOfRace> implements
 			point.setAlreadypassed(!point.isAlreadypassed());
 			DatabaseHelper.getHelper(getContext()).getPointOfRaceDao()
 					.update(point);
-			setActualPoint(point);
 		}
 
 		HeaderFragment.mGPS.getDistanceInKm();
@@ -82,14 +80,6 @@ public class PointsOfRaceAdapter extends ArrayAdapter<PointOfRace> implements
 			notifyDataSetChanged();
 		}
 
-	}
-
-	public PointOfRace getActualPoint() {
-		return actualPoint;
-	}
-
-	public void setActualPoint(PointOfRace actualPoint) {
-		this.actualPoint = actualPoint;
 	}
 
 }

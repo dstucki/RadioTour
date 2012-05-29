@@ -21,6 +21,9 @@ import ch.hsr.sa.radiotour.domain.RiderStageConnection;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
+/**
+ * The Class EditRiderDialog.
+ */
 public class EditRiderDialog extends DialogFragment {
 
 	private static final String BIRTHDAY_TEMPLATE = "dd.MM.yyyy";
@@ -29,12 +32,51 @@ public class EditRiderDialog extends DialogFragment {
 	private final VirtualRankingAdapter adapter;
 	private View v;
 
+	/**
+	 * Instantiates a new Dialog to edit a Rider.
+	 * 
+	 * @param connecter
+	 *            the connecter that is assigned to the rider that is wanted to
+	 *            be edited
+	 * @param adapter
+	 *            the adapter that has to been updated when the dialog is
+	 *            dismissed
+	 */
 	public EditRiderDialog(RiderStageConnection connecter,
 			VirtualRankingAdapter adapter) {
 		super();
 		this.connecter = connecter;
 		rider = connecter.getRider();
 		this.adapter = adapter;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		getDialog().setTitle(getString(R.string.edit_rider_dialog_title));
+		v = inflater.inflate(R.layout.edit_rider_dialog, container, false);
+
+		v.findViewById(R.id.btn_abort).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dismiss();
+
+					}
+				});
+
+		v.findViewById(R.id.btn_save).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				save();
+				adapter.notifyDataSetChanged();
+				dismiss();
+			}
+		});
+		fillRiderInformation();
+		return v;
 	}
 
 	private void fillRiderInformation() {
@@ -111,41 +153,11 @@ public class EditRiderDialog extends DialogFragment {
 		} catch (ParseException e) {
 			Log.e(getClass().getSimpleName(), e.getMessage());
 		}
-		DatabaseHelper.getHelper(getActivity()).getRiderDao()
-				.update(rider);
+		DatabaseHelper.getHelper(getActivity()).getRiderDao().update(rider);
 		DatabaseHelper.getHelper(getActivity()).getRiderStageDao()
 				.update(connecter);
 		DatabaseHelper.getHelper(getActivity()).getTeamDao()
 				.update(rider.getTeam());
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		getDialog().setTitle(getString(R.string.edit_rider_dialog_title));
-		v = inflater.inflate(R.layout.edit_rider_dialog, container, false);
-
-		v.findViewById(R.id.btn_abort).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						dismiss();
-
-					}
-				});
-
-		v.findViewById(R.id.btn_save).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				save();
-				adapter.notifyDataSetChanged();
-				dismiss();
-			}
-		});
-		fillRiderInformation();
-		return v;
 	}
 
 }

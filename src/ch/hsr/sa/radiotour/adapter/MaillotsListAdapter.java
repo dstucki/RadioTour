@@ -21,12 +21,19 @@ import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.Maillot;
 import ch.hsr.sa.radiotour.domain.MaillotStageConnection;
 import ch.hsr.sa.radiotour.domain.Stage;
+import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+/**
+ * Class that serves the Data for the ListView of Maillots in the
+ * {@link AdminFragment}
+ * 
+ */
+
 public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
-	private ArrayList<Maillot> maillots;
+	private final ArrayList<Maillot> maillots;
 	private String maillotwearer;
 	private final RuntimeExceptionDao<Maillot, Integer> maillotDao;
 	private final RuntimeExceptionDao<MaillotStageConnection, Integer> maillotStageDao;
@@ -105,11 +112,6 @@ public class MaillotsListAdapter extends ArrayAdapter<Maillot> {
 		List<MaillotStageConnection> maillotList = maillotStageDao
 				.queryForFieldValues(map);
 		return maillotList;
-	}
-
-	public void setMaillots(List<Maillot> maillots) {
-		this.maillots = (ArrayList<Maillot>) maillots;
-		notifyDataSetChanged();
 	}
 
 	private Drawable getMailloColor(int color) {

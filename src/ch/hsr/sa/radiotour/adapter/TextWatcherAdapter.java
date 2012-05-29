@@ -3,6 +3,11 @@ package ch.hsr.sa.radiotour.adapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+/**
+ * Class to avoid implementing always all three of the methods provided by the
+ * {@link TextWatcher} interface
+ * 
+ */
 public class TextWatcherAdapter implements TextWatcher {
 
 	@Override

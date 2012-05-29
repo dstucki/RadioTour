@@ -18,10 +18,15 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 
+/**
+ * The Class FileExplorerDialog that is used to browse file content on the
+ * tablet
+ */
 public class FileExplorerDialog extends DialogFragment {
 
 	private List<String> item = null;
 	private List<String> path = null;
+
 	private final String root = "/";
 	private TextView breadCrumb;
 	private final AdminFragment fragment;
@@ -44,7 +49,6 @@ public class FileExplorerDialog extends DialogFragment {
 				dismiss();
 			}
 		}
-
 	};
 
 	public FileExplorerDialog(AdminFragment fragment) {

@@ -67,6 +67,7 @@
     <string name="hd_setdistance">Rennkilometer festlegen:</string>
     <string name="hd_getimportpath">Pfad für den Import auswählen:</string>
     <string name="hd_marchtable">Marschtabelle</string>
+    <string name="hd_specialranking">Spezialklassement erstellen / bearbeiten</string>
     <string name="lb_save">Speichern</string>
     <string name="lb_cancel">Abbrechen</string>
     <string name="lb_spezialkl">Spezialklassement</string>

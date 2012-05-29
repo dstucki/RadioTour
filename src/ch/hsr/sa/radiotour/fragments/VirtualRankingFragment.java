@@ -32,7 +32,6 @@ public class VirtualRankingFragment extends ListFragment {
 		initializeResourceStrategyMap();
 		setSortableHeaderview();
 		getListView().setOnItemClickListener(new RiderItemListener());
-		Log.i(getClass().getSimpleName(), "im here");
 		adapter = getAdapter();
 		setListAdapter(adapter);
 
@@ -41,7 +40,6 @@ public class VirtualRankingFragment extends ListFragment {
 	private VirtualRankingAdapter getAdapter() {
 		Collection<RiderStageConnection> conns = ((RadioTour) getActivity()
 				.getApplication()).getRiderPerStage().values();
-
 		return new VirtualRankingAdapter(getActivity(), R.id.startNr1,
 				new ArrayList<RiderStageConnection>(conns));
 	}
