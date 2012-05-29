@@ -9,7 +9,7 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.adapter.RiderPickerAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.domain.RiderState;
-import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
+import ch.hsr.sa.radiotour.technicalservices.listener.RiderGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 
 public class RiderPickerFragment extends ListFragment implements
@@ -18,7 +18,7 @@ public class RiderPickerFragment extends ListFragment implements
 	private RiderPickerAdapter adapter;
 	private View footerView;
 	private GroupingDragListener dragListener;
-	private final DriverGroupClickListener clickListener = new DriverGroupClickListener();
+	private final RiderGroupClickListener clickListener = new RiderGroupClickListener();
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

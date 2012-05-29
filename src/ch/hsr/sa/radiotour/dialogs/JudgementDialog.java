@@ -79,7 +79,7 @@ public class JudgementDialog extends DialogFragment {
 
 		name.setText(judgement.getName());
 		distance.setText(String.valueOf(judgement.getDistance()));
-		nrOfWinners.setText(String.valueOf(judgement.getNrOfWinningDrivers()));
+		nrOfWinners.setText(String.valueOf(judgement.getNrOfWinningRiders()));
 		time.setChecked(judgement.isTimeBoni());
 		point.setChecked(judgement.isPointBoni());
 		time.setOnClickListener(chbxk_clickListener);
@@ -172,23 +172,23 @@ public class JudgementDialog extends DialogFragment {
 
 		setEnablingOfTextViews();
 
-		if (tableHolder.getChildCount() == judgement.getNrOfWinningDrivers()) {
+		if (tableHolder.getChildCount() == judgement.getNrOfWinningRiders()) {
 			return;
 		}
 
-		if (tableHolder.getChildCount() > judgement.getNrOfWinningDrivers()) {
+		if (tableHolder.getChildCount() > judgement.getNrOfWinningRiders()) {
 
 			while (tableHolder.getChildCount() > judgement
-					.getNrOfWinningDrivers()) {
+					.getNrOfWinningRiders()) {
 				LinearLayout ll = (LinearLayout) tableHolder
-						.getChildAt(judgement.getNrOfWinningDrivers());
+						.getChildAt(judgement.getNrOfWinningRiders());
 				tableHolder.removeView(ll);
 				tableHolder.invalidate();
 			}
 			return;
 		}
 		for (int i = tableHolder.getChildCount(); i < judgement
-				.getNrOfWinningDrivers(); i++) {
+				.getNrOfWinningRiders(); i++) {
 			ViewGroup v = (ViewGroup) getActivity().getLayoutInflater()
 					.inflate(R.layout.textview_table_special_ranking, null);
 			EditText editText = (EditText) v

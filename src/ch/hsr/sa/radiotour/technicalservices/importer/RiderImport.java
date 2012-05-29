@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.utils;
+package ch.hsr.sa.radiotour.technicalservices.importer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

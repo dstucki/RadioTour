@@ -177,7 +177,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 		txtViewToAdd.setLayoutParams(layoutParams);
 		txtViewToAdd.setSingleLine(true);
 		txtViewToAdd.setOnClickListener((RadioTourActivity) context);
-		txtViewToAdd.setOnLongClickListener(new DriverViewLongClick(riderNr,
+		txtViewToAdd.setOnLongClickListener(new RiderViewLongClick(riderNr,
 				txtViewToAdd));
 		return txtViewToAdd;
 	}
@@ -193,12 +193,12 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 				Integer.valueOf(((TextView) view).getText().toString()));
 	}
 
-	public void removeRiderNr(Integer driverNr) {
-		group.removeRiderNumber(driverNr);
-		LinearLayout temp = getParentLayout(driverNr);
-		map.remove(driverNr);
+	public void removeRiderNr(Integer riderNr) {
+		group.removeRiderNumber(riderNr);
+		LinearLayout temp = getParentLayout(riderNr);
+		map.remove(riderNr);
 		if (temp != null && !group.isField()) {
-			temp.removeView(mapTextView.get(driverNr));
+			temp.removeView(mapTextView.get(riderNr));
 		}
 		isdirty = true;
 	}
@@ -211,7 +211,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	@Override
 	public void setTime(final Date date, boolean fromDialog) {
 		group.updateHandicapTime(date);
-		updateAndPersistDriver(date);
+		updateAndPersistRider(date);
 		setDeficits();
 		if (fromDialog) {
 			fragment.syncToDb();
@@ -224,7 +224,7 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 				+ StringUtils.getTimeAsString(group.getLastHandiCap()) + ")");
 	}
 
-	private List<RiderStageConnection> updateAndPersistDriver(Date date) {
+	private List<RiderStageConnection> updateAndPersistRider(Date date) {
 		RiderStageConnection temp;
 		List<RiderStageConnection> modificationAvoider = new LinkedList<RiderStageConnection>();
 		for (int i : group.getRiderNumbers()) {
@@ -245,11 +245,11 @@ public class GroupTableRow extends TableRow implements TimePickerIF {
 	/*
 	 * ClickListeners
 	 */
-	private class DriverViewLongClick implements OnLongClickListener {
+	private class RiderViewLongClick implements OnLongClickListener {
 		private final int ridernr;
 		private final TextView view;
 
-		public DriverViewLongClick(int ridernr, TextView view) {
+		public RiderViewLongClick(int ridernr, TextView view) {
 			this.ridernr = ridernr;
 			this.view = view;
 		}

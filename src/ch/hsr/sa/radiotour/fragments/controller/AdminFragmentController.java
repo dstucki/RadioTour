@@ -19,10 +19,10 @@ import ch.hsr.sa.radiotour.domain.Team;
 import ch.hsr.sa.radiotour.fragments.AdminFragment;
 import ch.hsr.sa.radiotour.technicalservices.database.DatabaseHelper;
 import ch.hsr.sa.radiotour.technicalservices.importer.CSVReader;
-import ch.hsr.sa.radiotour.utils.RiderImport;
-import ch.hsr.sa.radiotour.utils.MarchTableImport;
-import ch.hsr.sa.radiotour.utils.RiderStageImport;
-import ch.hsr.sa.radiotour.utils.StageImport;
+import ch.hsr.sa.radiotour.technicalservices.importer.MarchTableImport;
+import ch.hsr.sa.radiotour.technicalservices.importer.RiderImport;
+import ch.hsr.sa.radiotour.technicalservices.importer.RiderStageImport;
+import ch.hsr.sa.radiotour.technicalservices.importer.StageImport;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;

@@ -23,6 +23,7 @@ public class GroupingDragListener implements OnDragListener {
 		this.pickerFragment = pickerFragment;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onDrag(View v, DragEvent event) {
 		switch (event.getAction()) {

@@ -18,14 +18,14 @@ public class RaceFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
-		RiderPickerFragment driverPicker = new RiderPickerFragment();
+		RiderPickerFragment riderPicker = new RiderPickerFragment();
 		groupFragment = new RiderGroupFragment();
 		GroupingDragListener listener = new GroupingDragListener(getActivity(),
-				driverPicker);
-		driverPicker.setDragListener(listener);
+				riderPicker);
+		riderPicker.setDragListener(listener);
 		groupFragment.setDragListener(listener);
 
-		transaction.replace(R.id.pickerFragmentHolder, driverPicker);
+		transaction.replace(R.id.pickerFragmentHolder, riderPicker);
 		transaction.replace(R.id.groupFragmentHolder, groupFragment);
 		transaction.commit();
 

@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.utils;
+package ch.hsr.sa.radiotour.technicalservices.importer;
 
 import ch.hsr.sa.radiotour.domain.Stage;
 

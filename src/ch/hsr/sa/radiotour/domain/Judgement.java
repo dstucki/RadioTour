@@ -20,7 +20,7 @@ public class Judgement {
 	@DatabaseField(foreignAutoRefresh = true, foreign = true, columnName = "etappe")
 	private Stage stage;
 	@DatabaseField()
-	private int nrOfWinningDrivers;
+	private int nrOfWinningRiders;
 	@DatabaseField(dataType = DataType.BOOLEAN)
 	private boolean timeBoni;
 	@DatabaseField(dataType = DataType.BOOLEAN)
@@ -85,25 +85,25 @@ public class Judgement {
 		this.stage = stage;
 	}
 
-	public int getNrOfWinningDrivers() {
-		return nrOfWinningDrivers;
+	public int getNrOfWinningRiders() {
+		return nrOfWinningRiders;
 	}
 
-	public void setNrOfWinningDrivers(int nrOfWinningDrivers) {
-		this.nrOfWinningDrivers = nrOfWinningDrivers;
+	public void setNrOfWinningDrivers(int nrOfWinningRiders) {
+		this.nrOfWinningRiders = nrOfWinningRiders;
 		int oldSize = pointBonis.size();
-		if (oldSize == nrOfWinningDrivers) {
+		if (oldSize == nrOfWinningRiders) {
 			return;
 		}
-		if (oldSize < nrOfWinningDrivers) {
-			while (pointBonis.size() < nrOfWinningDrivers) {
+		if (oldSize < nrOfWinningRiders) {
+			while (pointBonis.size() < nrOfWinningRiders) {
 				pointBonis.add(0);
 				timeBonis.add(0);
 				winningRiders.add(0);
 			}
 			return;
 		} else {
-			while (pointBonis.size() > nrOfWinningDrivers) {
+			while (pointBonis.size() > nrOfWinningRiders) {
 				pointBonis.remove(pointBonis.size() - 1);
 				timeBonis.remove(timeBonis.size() - 1);
 				winningRiders.remove(winningRiders.size() - 1);

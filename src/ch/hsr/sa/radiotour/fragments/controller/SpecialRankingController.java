@@ -161,7 +161,7 @@ public class SpecialRankingController {
 	 *            the judgement that doesn't have {@link SpecialPointHolder}
 	 */
 	private void createHolderObjects(Judgement judgement) {
-		for (int i = 0; i < judgement.getNrOfWinningDrivers(); i++) {
+		for (int i = 0; i < judgement.getNrOfWinningRiders(); i++) {
 			SpecialPointHolder temp = new SpecialPointHolder();
 			temp.setRank(i);
 			temp.setJudgement(judgement);

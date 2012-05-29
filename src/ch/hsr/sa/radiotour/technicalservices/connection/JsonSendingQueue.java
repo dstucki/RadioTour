@@ -37,20 +37,17 @@ public class JsonSendingQueue {
 					try {
 						if (makeRequest(current.toJSON())) {
 							queue.poll();
-							Log.d(getClass().getSimpleName(), "Json sent");
 						}
 					} catch (IOException e) {
-						// Connection failed, wait for next timeslot
-						Thread.currentThread().sleep(10000);
-						Log.e(getClass().getSimpleName(), e.getMessage());
+						Thread.sleep(10000);
 					}
 				} else {
-					Thread.currentThread().sleep(10000);
+					Thread.sleep(10000);
 				}
 			} catch (JSONException e) {
 				Log.e(getClass().getSimpleName(), e.getMessage());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.e(getClass().getSimpleName(), e.getMessage());
 			}
 		}
 

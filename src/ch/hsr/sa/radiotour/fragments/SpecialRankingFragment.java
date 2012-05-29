@@ -54,7 +54,7 @@ public class SpecialRankingFragment extends Fragment {
 	 */
 	private LinearLayout clearTextViews() {
 		LinearLayout llparent = (LinearLayout) getView().findViewById(
-				R.id.llayout_driver_set);
+				R.id.llayout_rider_set);
 		llparent.removeAllViews();
 		return llparent;
 	}
@@ -84,7 +84,7 @@ public class SpecialRankingFragment extends Fragment {
 	private void addTextViews(LinearLayout llparent,
 			List<SpecialPointHolder> listPointHolder) {
 		LinearLayout ll;
-		for (int i = 0; i < getActualJudgement().getNrOfWinningDrivers(); i++) {
+		for (int i = 0; i < getActualJudgement().getNrOfWinningRiders(); i++) {
 			ll = (LinearLayout) inflate(R.layout.riderset_judgement);
 			Rider rider = listPointHolder.get(i).getRider();
 			int startNr = rider == null ? 0 : rider.getStartNr();
@@ -115,7 +115,7 @@ public class SpecialRankingFragment extends Fragment {
 	 */
 	private void saveJudgement() {
 		LinearLayout llparent = (LinearLayout) getView().findViewById(
-				R.id.llayout_driver_set);
+				R.id.llayout_rider_set);
 		Set<Integer> tempSet = new HashSet<Integer>();
 		Set<Integer> tempSetOld = new HashSet<Integer>();
 
@@ -125,7 +125,7 @@ public class SpecialRankingFragment extends Fragment {
 		SpecialPointHolder holder;
 		LinearLayout ll;
 		TextView error;
-		for (int i = 0; i < getActualJudgement().getNrOfWinningDrivers(); i++) {
+		for (int i = 0; i < getActualJudgement().getNrOfWinningRiders(); i++) {
 			ll = (LinearLayout) llparent.getChildAt(i);
 			error = ((TextView) ll.findViewById(R.id.txt_rank_error_show));
 			error.setText("");

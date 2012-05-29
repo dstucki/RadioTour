@@ -21,7 +21,7 @@ import ch.hsr.sa.radiotour.activities.RadioTourActivity;
 import ch.hsr.sa.radiotour.domain.Group;
 import ch.hsr.sa.radiotour.domain.RiderState;
 import ch.hsr.sa.radiotour.fragments.controller.RiderGroupController;
-import ch.hsr.sa.radiotour.technicalservices.listener.DriverGroupClickListener;
+import ch.hsr.sa.radiotour.technicalservices.listener.RiderGroupClickListener;
 import ch.hsr.sa.radiotour.technicalservices.listener.GroupingDragListener;
 import ch.hsr.sa.radiotour.views.GroupTableRow;
 
@@ -32,9 +32,9 @@ import ch.hsr.sa.radiotour.views.GroupTableRow;
  */
 public class RiderGroupFragment extends Fragment {
 	private GroupingDragListener dragListener;
-	private DriverGroupClickListener clickListener;
+	private RiderGroupClickListener clickListener;
 	private final LinkedList<TableRow> tableRows = new LinkedList<TableRow>();
-	private final SparseArray<GroupTableRow> driverTableRow = new SparseArray<GroupTableRow>();
+	private final SparseArray<GroupTableRow> riderTableRow = new SparseArray<GroupTableRow>();
 	private TableLayout.LayoutParams standardParams;
 	private TableRow.LayoutParams standardRowParams;
 	private GroupTableRow field;
@@ -62,7 +62,7 @@ public class RiderGroupFragment extends Fragment {
 	 */
 	private void clearOldInformation() {
 		tableRows.clear();
-		driverTableRow.clear();
+		riderTableRow.clear();
 	}
 
 	/**
@@ -80,11 +80,11 @@ public class RiderGroupFragment extends Fragment {
 	}
 
 	/**
-	 * Assign the {@link DriverGroupClickListener} object to the three
+	 * Assign the {@link RiderGroupClickListener} object to the three
 	 * predefined {@link TableRow} objects in the layout
 	 */
 	private void setOnClickListener() {
-		clickListener = new DriverGroupClickListener();
+		clickListener = new RiderGroupClickListener();
 		getView().findViewById(R.id.tableRowGroup).setOnClickListener(
 				clickListener);
 		getView().findViewById(R.id.tableRowField).setOnClickListener(
@@ -95,12 +95,12 @@ public class RiderGroupFragment extends Fragment {
 	}
 
 	/**
-	 * Initial fill the driverTableRow {@link SparseArray} with the value of the
+	 * Initial fill the riderTableRow {@link SparseArray} with the value of the
 	 * field
 	 */
-	private void initializeDriverRowMap() {
+	private void initializeRiderRowMap() {
 		for (Integer i : controller.getRiderNumbers()) {
-			driverTableRow.put(i, field);
+			riderTableRow.put(i, field);
 		}
 
 	}
@@ -119,7 +119,7 @@ public class RiderGroupFragment extends Fragment {
 				.getLayoutParams();
 		standardRowParams = (TableRow.LayoutParams) tableRows.get(0)
 				.getChildAt(0).getLayoutParams();
-		initializeDriverRowMap();
+		initializeRiderRowMap();
 		if (controller.getGroups().isEmpty()) {
 			field.setGroup(controller.createFieldGroup());
 		} else {
@@ -343,9 +343,9 @@ public class RiderGroupFragment extends Fragment {
 	 */
 	private void removeAndAddRiderNr(GroupTableRow groupTableRow,
 			Integer ridernr) {
-		driverTableRow.get(ridernr).removeRiderNr(ridernr);
+		riderTableRow.get(ridernr).removeRiderNr(ridernr);
 		groupTableRow.addRider(ridernr);
-		driverTableRow.put(ridernr, groupTableRow);
+		riderTableRow.put(ridernr, groupTableRow);
 	}
 
 	/**
@@ -372,11 +372,11 @@ public class RiderGroupFragment extends Fragment {
 			break;
 		case R.id.aufgabe:
 			newState = RiderState.GIVEUP;
-			driverTableRow.get(riderNr).removeRiderNr(riderNr);
+			riderTableRow.get(riderNr).removeRiderNr(riderNr);
 			break;
 		case R.id.not_started:
 			newState = RiderState.NOT_STARTED;
-			driverTableRow.get(riderNr).removeRiderNr(riderNr);
+			riderTableRow.get(riderNr).removeRiderNr(riderNr);
 			break;
 		}
 		controller.setRiderState(riderNr, newState);
