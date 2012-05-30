@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import android.util.Log;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.adapter.SpecialRankingListAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
@@ -285,8 +284,6 @@ public class SpecialRankingController {
 		@Override
 		public void run() {
 			for (int i : ridernrs) {
-				Log.i(getClass().getSimpleName(), i + "");
-
 				if (i == 0) {
 					continue;
 				}

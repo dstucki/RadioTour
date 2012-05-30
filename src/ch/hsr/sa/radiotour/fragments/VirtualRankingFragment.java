@@ -96,7 +96,7 @@ public class VirtualRankingFragment extends ListFragment {
 			try {
 				adapter.sort(strategy);
 			} catch (NullPointerException e) {
-				Log.e(getClass().getSimpleName(), e.getMessage() + " occured");
+				Log.e(getClass().getSimpleName(), e.getMessage());
 			}
 			strategy.switchAscending();
 

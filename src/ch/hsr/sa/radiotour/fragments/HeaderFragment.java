@@ -7,7 +7,6 @@ import java.util.Observer;
 import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -135,8 +134,6 @@ public class HeaderFragment extends Fragment implements Observer, TimePickerIF {
 				((Button) view.findViewById(R.id.tab_vir))
 						.setBackgroundColor(0xFF434343);
 				return;
-			default:
-				Log.e(getClass().getSimpleName(), "I'm default case");
 			}
 		}
 	};
