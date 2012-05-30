@@ -25,7 +25,7 @@ import ch.hsr.sa.radiotour.adapter.VirtualRankingAdapter;
 import ch.hsr.sa.radiotour.application.RadioTour;
 import ch.hsr.sa.radiotour.dialogs.EditRiderDialog;
 import ch.hsr.sa.radiotour.dialogs.FileExplorerDialog;
-import ch.hsr.sa.radiotour.dialogs.FragmentDialog;
+import ch.hsr.sa.radiotour.dialogs.TimePickerDialog;
 import ch.hsr.sa.radiotour.dialogs.JudgementDialog;
 import ch.hsr.sa.radiotour.dialogs.KmPickerDialog;
 import ch.hsr.sa.radiotour.dialogs.MaillotDialog;
@@ -354,7 +354,7 @@ public class RadioTourActivity extends Activity implements Observer,
 		}
 		ft.addToBackStack(null);
 
-		FragmentDialog newFragment = new FragmentDialog(timePickerIF, useHour);
+		TimePickerDialog newFragment = new TimePickerDialog(timePickerIF, useHour);
 		newFragment.show(ft, "dialog");
 	}
 

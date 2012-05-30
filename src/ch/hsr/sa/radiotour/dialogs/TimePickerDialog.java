@@ -15,11 +15,10 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.fragments.interfaces.TimePickerIF;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FragmentDialog that is used to pick a time.
  */
-public class FragmentDialog extends DialogFragment {
+public class TimePickerDialog extends DialogFragment {
 	private final TimePickerIF selectedTableRow;
 	private LinearLayout hourLayout, minuteLayout, seconLayout;
 	private TextView selectedHour, selectedMinute, selectedSecond;
@@ -33,7 +32,7 @@ public class FragmentDialog extends DialogFragment {
 	 *            <code>false</code>
 	 * 
 	 */
-	public FragmentDialog(TimePickerIF txtView, boolean useHour) {
+	public TimePickerDialog(TimePickerIF txtView, boolean useHour) {
 		super();
 		selectedTableRow = txtView;
 		this.useHour = useHour;
