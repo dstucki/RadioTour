@@ -248,7 +248,32 @@ public class SpecialRankingController {
 	 *            collection of the ridernrs that have changed
 	 */
 	public void calculateBonis(Collection<Integer> ridernrs) {
-		new Thread(new UpdateBoniRunnable(ridernrs), "UpdateBoni").start();
+
+		for (int i : ridernrs) {
+			if (i == 0) {
+				continue;
+			}
+			RiderStageConnection conn = app.getRiderStage(i);
+			conn.setBonusPoints(0);
+			conn.setBonusTime(0);
+			int bonuspoints = 0, timeboni = 0;
+
+			for (Judgement jud : judgementDao.queryForEq("etappe",
+					app.getActualSelectedStage())) {
+				Map<String, Object> constraints = new HashMap<String, Object>();
+				constraints.put("judgement", jud);
+				constraints.put("rider", app.getRider(i));
+				for (SpecialPointHolder holder : pointHolderDao
+						.queryForFieldValues(constraints)) {
+					bonuspoints += holder.getPointBoni();
+					timeboni += holder.getTimeBoni();
+				}
+
+			}
+			conn.setBonusPoints(bonuspoints);
+			conn.setBonusTime(timeboni);
+			riderStageDao.update(conn);
+		}
 
 	}
 
@@ -267,50 +292,6 @@ public class SpecialRankingController {
 				actualSelectedStage);
 		temp.setRanking(specialRanking);
 		return temp;
-	}
-
-	/**
-	 * Runnable Class that calculates the bonus things
-	 * 
-	 * 
-	 */
-	private class UpdateBoniRunnable implements Runnable {
-		private final Collection<Integer> ridernrs;
-
-		public UpdateBoniRunnable(Collection<Integer> ridernrs) {
-			this.ridernrs = ridernrs;
-		}
-
-		@Override
-		public void run() {
-			for (int i : ridernrs) {
-				if (i == 0) {
-					continue;
-				}
-				RiderStageConnection conn = app.getRiderStage(i);
-				conn.setBonusPoints(0);
-				conn.setBonusTime(0);
-				int bonuspoints = 0, timeboni = 0;
-
-				for (Judgement jud : judgementDao.queryForEq("etappe",
-						app.getActualSelectedStage())) {
-					Map<String, Object> constraints = new HashMap<String, Object>();
-					constraints.put("judgement", jud);
-					constraints.put("rider", app.getRider(i));
-					for (SpecialPointHolder holder : pointHolderDao
-							.queryForFieldValues(constraints)) {
-						bonuspoints += holder.getPointBoni();
-						timeboni += holder.getTimeBoni();
-					}
-
-				}
-				conn.setBonusPoints(bonuspoints);
-				conn.setBonusTime(timeboni);
-				riderStageDao.update(conn);
-			}
-
-		}
-
 	}
 
 }
