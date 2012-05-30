@@ -1,5 +1,5 @@
 #
-# generated on 2012/05/29 01:04:11
+# generated on 2012/05/30 09:01:20
 #
 # --table-start--
 dataClass=ch.hsr.sa.radiotour.domain.Judgement
@@ -44,10 +44,6 @@ dataPersister=SERIALIZABLE
 # --field-end--
 # --field-start--
 fieldName=timeBonis
-dataPersister=SERIALIZABLE
-# --field-end--
-# --field-start--
-fieldName=winningRiders
 dataPersister=SERIALIZABLE
 # --field-end--
 # --table-fields-end--

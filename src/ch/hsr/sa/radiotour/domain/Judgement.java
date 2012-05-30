@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.domain;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -29,8 +28,6 @@ public class Judgement {
 	private ArrayList<Integer> pointBonis;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private ArrayList<Integer> timeBonis;
-	@DatabaseField(dataType = DataType.SERIALIZABLE)
-	private ArrayList<Integer> winningRiders;
 
 	public Judgement(String name, double distance, Stage stage) {
 		this();
@@ -42,7 +39,6 @@ public class Judgement {
 	public Judgement() {
 		pointBonis = new ArrayList<Integer>();
 		timeBonis = new ArrayList<Integer>();
-		winningRiders = new ArrayList<Integer>();
 	};
 
 	public int getId() {
@@ -99,14 +95,12 @@ public class Judgement {
 			while (pointBonis.size() < nrOfWinningRiders) {
 				pointBonis.add(0);
 				timeBonis.add(0);
-				winningRiders.add(0);
 			}
 			return;
 		} else {
 			while (pointBonis.size() > nrOfWinningRiders) {
 				pointBonis.remove(pointBonis.size() - 1);
 				timeBonis.remove(timeBonis.size() - 1);
-				winningRiders.remove(winningRiders.size() - 1);
 			}
 		}
 	}
@@ -146,17 +140,6 @@ public class Judgement {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public void setWinningRiders(ArrayList<Integer> tempArray) {
-		if (tempArray == null) {
-			return;
-		}
-		this.winningRiders = tempArray;
-	}
-
-	public List<Integer> getWinningRiders() {
-		return winningRiders;
 	}
 
 }

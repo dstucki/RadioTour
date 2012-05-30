@@ -604,4 +604,12 @@ public class RadioTourActivity extends Activity implements Observer,
 		return rs;
 	}
 
+	/**
+	 * Helper Method used for Testing only
+	 */
+	public void dropAndCreateTables() {
+		DatabaseHelper helper = new DatabaseHelper(this);
+		helper.onUpgrade(null, helper.getConnectionSource(), 0, 1);
+	}
+
 }
